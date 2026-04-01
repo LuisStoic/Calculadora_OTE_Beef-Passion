@@ -1,0 +1,2036 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BeefPassion · OTE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0D1838;--navy2:#1F2D3D;--navy3:#1F4E79;
+  --gold:#DCC697;--gold2:#C9A96E;
+  --cream:#F7F4EE;--smoke:#F0EDE6;
+  --red:#C0392B;--green:#1A6B3C;--orange:#D4620A;
+  --muted:#8A8A8A;--border:#D8D3C8;--w:#FFFFFF;
+  --sh:0 2px 16px rgba(13,24,56,.09);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--navy);min-height:100vh}
+
+/* HEADER */
+header{background:var(--navy);height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;position:sticky;top:0;z-index:200;box-shadow:0 2px 18px rgba(0,0,0,.28)}
+.logo{display:flex;align-items:center;gap:13px}
+.logo-gem{width:34px;height:34px;background:var(--gold);clip-path:polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%)}
+.logo-name{font-family:'Bebas Neue',sans-serif;font-size:21px;color:var(--gold);letter-spacing:2px}
+.logo-sub{font-size:10px;color:rgba(255,255,255,.45);letter-spacing:3px;text-transform:uppercase}
+.hdr-tag{font-family:'DM Mono',monospace;font-size:10px;color:rgba(220,198,151,.55);border:1px solid rgba(220,198,151,.18);padding:3px 9px;border-radius:4px}
+
+/* NAV TABS */
+nav{background:var(--navy2);display:flex;padding:0 40px;overflow-x:auto}
+.ntab{display:flex;align-items:center;gap:9px;padding:13px 18px;cursor:pointer;border-bottom:3px solid transparent;color:rgba(255,255,255,.4);font-size:13px;font-weight:500;white-space:nowrap;transition:all .18s}
+.ntab:hover:not(.active){color:rgba(255,255,255,.7)}
+.ntab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.ntab.done{color:rgba(255,255,255,.55)}
+.ntab-n{width:21px;height:21px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px}
+.ntab.active .ntab-n{background:var(--gold);color:var(--navy)}
+.ntab.done .ntab-n{background:var(--green);color:#fff}
+
+/* MAIN */
+main{max-width:1060px;margin:0 auto;padding:34px 22px 80px}
+.panel{display:none;animation:fi .2s ease}
+.panel.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.ptitle{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;margin-bottom:3px}
+.psub{font-size:13px;color:var(--muted);margin-bottom:26px;line-height:1.6}
+
+/* CARD */
+.card{background:var(--w);border:1px solid var(--border);border-radius:10px;padding:22px;margin-bottom:16px;box-shadow:var(--sh)}
+.ctitle{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.ctitle::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* VENDEDOR */
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-bottom:18px}
+.vcard{border:2px solid var(--border);border-radius:9px;padding:15px;cursor:pointer;text-align:center;transition:all .14s}
+.vcard:hover{border-color:var(--gold2)}
+.vcard.sel{border-color:var(--navy);background:var(--navy);color:#fff}
+.vcard.sel .vrole{color:var(--gold)}
+.vname{font-size:15px;font-weight:600;margin-bottom:3px}
+.vrole{font-size:11px;color:var(--muted)}
+
+/* FORMS */
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:13px}
+.frow.t3{grid-template-columns:1fr 1fr 1fr}
+.fg{display:flex;flex-direction:column;gap:5px}
+label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--navy2)}
+input,select{padding:8px 11px;border:1.5px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--navy);outline:none;transition:border-color .13s}
+input:focus,select:focus{border-color:var(--navy3)}
+input[type=number]{font-family:'DM Mono',monospace}
+
+/* OTE BOX */
+.ote-box{background:var(--navy);border-radius:8px;padding:16px;margin-top:10px}
+.ote-params{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.op-lbl{font-size:9px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:2px}
+.op-val{font-family:'Bebas Neue',sans-serif;font-size:24px;line-height:1;color:#fff}
+
+/* UPLOAD */
+.upzone{border:2px dashed var(--border);border-radius:10px;padding:34px;text-align:center;cursor:pointer;background:var(--smoke);position:relative;transition:all .18s}
+.upzone:hover,.upzone.over{border-color:var(--gold2);background:#FBF8F2}
+.upzone.done{border-color:var(--green);border-style:solid;background:#EFF9F3}
+.upzone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.up-icon{font-size:30px;margin-bottom:9px}
+.up-title{font-size:13px;font-weight:600;margin-bottom:4px}
+.up-sub{font-size:12px;color:var(--muted)}
+
+/* PROGRESS */
+.progw{background:var(--smoke);border-radius:6px;height:5px;overflow:hidden;margin:9px 0}
+.progb{height:100%;background:var(--gold);border-radius:6px;transition:width .25s}
+.progl{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)}
+
+/* BTNS */
+.btn{padding:10px 22px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .13s;display:inline-flex;align-items:center;gap:7px}
+.btn-p{background:var(--navy);color:var(--gold)}.btn-p:hover{background:var(--navy2);transform:translateY(-1px)}
+.btn-g{background:var(--gold);color:var(--navy)}.btn-g:hover{background:var(--gold2)}
+.btn-o{background:transparent;color:var(--navy);border:1.5px solid var(--border)}.btn-o:hover{border-color:var(--navy)}
+.btn-sm{padding:5px 13px;font-size:11px}
+.brow{display:flex;gap:9px;align-items:center;margin-top:18px;flex-wrap:wrap}
+
+/* ALERTS */
+.al{padding:10px 15px;border-radius:6px;font-size:12px;margin-bottom:12px;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.al-w{background:#FEF9EC;border:1px solid #F5C842;color:#7A5C00}
+.al-i{background:#EEF3FF;border:1px solid #4A7EC7;color:#1B3E7A}
+.al-o{background:#E8F5EE;border:1px solid #48BB78;color:#1A4A2C}
+.al-e{background:#FDECEA;border:1px solid #E57373;color:#B71C1C}
+
+/* RESULT */
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.rc{border-radius:9px;padding:18px;text-align:center}
+.rc-d{background:var(--navy);color:var(--gold)}.rc-g{background:var(--gold);color:var(--navy)}.rc-gr{background:var(--green);color:#fff}.rc-l{background:var(--smoke);border:1px solid var(--border)}
+.rv{font-family:'Bebas Neue',sans-serif;font-size:30px;line-height:1;margin-bottom:4px}
+.rl{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;opacity:.8}
+.rs{font-size:10px;opacity:.6;margin-top:2px}
+
+/* FAIXAS */
+.fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:16px}
+.fx{border-radius:8px;padding:13px;border:1px solid var(--border);background:var(--w)}
+.fx1{border-top:3px solid var(--red)}.fx2{border-top:3px solid var(--orange)}.fx3{border-top:3px solid var(--navy3)}.fx4{border-top:3px solid var(--green)}
+.fxl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:7px}
+.fx1 .fxl{color:var(--red)}.fx2 .fxl{color:var(--orange)}.fx3 .fxl{color:var(--navy3)}.fx4 .fxl{color:var(--green)}
+.fxv{font-family:'Bebas Neue',sans-serif;font-size:20px;line-height:1}
+.fxs{font-size:10px;color:var(--muted);margin-top:2px}
+.fxvar{font-size:11px;font-weight:600;margin-top:6px}
+
+/* TABLE */
+.twrap{overflow:auto;max-height:420px;border:1px solid var(--border);border-radius:8px}
+.dt{width:100%;border-collapse:collapse;font-size:11.5px}
+.dt th{background:var(--navy2);color:rgba(255,255,255,.85);padding:8px 11px;text-align:left;font-size:10px;letter-spacing:.5px;text-transform:uppercase;position:sticky;top:0;z-index:1}
+.dt td{padding:7px 11px;border-bottom:1px solid var(--border);vertical-align:middle}
+.dt tr:nth-child(even) td{background:var(--smoke)}
+.dt tr:hover td{background:#F0EBE0}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
+.b1{background:#FDECEA;color:var(--red)}.b2{background:#FEF3E8;color:var(--orange)}
+.b3{background:#E8F0FE;color:var(--navy3)}.b4{background:#E8F5EE;color:var(--green)}
+.b0{background:var(--smoke);color:var(--muted)}
+.mono{font-family:'DM Mono',monospace;font-size:11px}
+.tr{text-align:right}
+.cr{color:var(--red)}.cg{color:var(--green)}.co{color:var(--orange)}.cn{color:var(--navy3)}
+
+/* PRICE TABLE */
+.ptwrap{overflow:auto;max-height:380px;border:1px solid var(--border);border-radius:8px}
+.pt{width:100%;border-collapse:collapse;font-size:12px}
+.pt th{background:var(--navy);color:var(--gold);padding:8px 11px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;position:sticky;top:0;z-index:1}
+.pt td{padding:6px 11px;border-bottom:1px solid var(--border);vertical-align:middle}
+.pt tr:nth-child(even) td{background:var(--smoke)}
+.pinp{padding:5px 8px;border:1.5px solid var(--border);border-radius:5px;font-family:'DM Mono',monospace;font-size:12px;width:95px;text-align:right;color:#0000CC;font-weight:500}
+.pinp:focus{border-color:var(--navy3);outline:none}
+.pinp.ok{border-color:var(--green);background:#F3FBF7}
+.cod{font-family:'DM Mono',monospace;font-size:10px;background:var(--navy);color:var(--gold);padding:2px 6px;border-radius:3px}
+
+/* CFG TABS */
+.ctabs{display:flex;border-bottom:2px solid var(--border);margin-bottom:18px}
+.ctab{padding:8px 16px;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--muted);transition:all .13s}
+.ctab.active{color:var(--navy);border-bottom-color:var(--navy);font-weight:600}
+
+/* SEARCH */
+.srch{position:relative;margin-bottom:12px}
+.srch input{width:100%;padding-left:32px}
+.si{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}
+
+/* TOAST */
+#toast{position:fixed;bottom:22px;right:22px;z-index:9999;background:var(--navy);color:var(--gold);padding:8px 16px;border-radius:6px;font-size:12px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none}
+
+/* SPINNER */
+.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:var(--gold);border-radius:50%;animation:sp .6s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+@media print{header,nav,.brow,.no-print{display:none!important}body{background:#fff}main{padding:0;max-width:100%}.card{box-shadow:none;page-break-inside:avoid}}
+@media(max-width:768px){.vgrid,.fgrid,.rgrid{grid-template-columns:1fr 1fr}.frow.t3,.frow{grid-template-columns:1fr}nav,header{padding:0 14px}main{padding:20px 12px 60px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-gem"></div>
+    <div><div class="logo-name">BeefPassion</div><div class="logo-sub">Calculadora OTE</div></div>
+  </div>
+  <div class="hdr-tag">v1.0 · Stoic Capital</div>
+</header>
+
+<nav>
+  <div class="ntab active" id="tn1" onclick="goTab(1)"><div class="ntab-n">1</div>Vendedor & Período</div>
+  <div class="ntab" id="tn2" onclick="goTab(2)"><div class="ntab-n">2</div>Relatório de Vendas</div>
+  <div class="ntab" id="tn3" onclick="goTab(3)"><div class="ntab-n">3</div>Revisão de Itens</div>
+  <div class="ntab" id="tn4" onclick="goTab(4)"><div class="ntab-n">4</div>Resultado</div>
+  <div class="ntab" id="tn5" onclick="goTab(5)"><div class="ntab-n">⚙</div>Configurações</div>
+</nav>
+
+<main>
+
+<!-- ══ TAB 1 ══ -->
+<div id="p1" class="panel active">
+  <div class="ptitle">Vendedor & Período</div>
+  <div class="psub">Selecione o vendedor, nível OTE vigente e o período de competência antes de carregar o relatório de vendas.</div>
+
+  <div class="card">
+    <div class="ctitle">Selecionar Vendedor</div>
+    <div class="vgrid" id="vgrid"></div>
+  </div>
+
+  <div class="card">
+    <div class="ctitle">Configuração OTE</div>
+    <div class="frow t3">
+      <div class="fg">
+        <label>Nível OTE</label>
+        <select id="sel-nivel" onchange="updateOTEBox()"></select>
+        <span style="font-size:10px;color:var(--muted);margin-top:3px">Definido pela gestão para o período</span>
+      </div>
+      <div class="fg">
+        <label>Mês de Competência</label>
+        <select id="sel-mes">
+          <option value="1">Janeiro</option><option value="2">Fevereiro</option>
+          <option value="3">Março</option><option value="4">Abril</option>
+          <option value="5">Maio</option><option value="6">Junho</option>
+          <option value="7">Julho</option><option value="8">Agosto</option>
+          <option value="9">Setembro</option><option value="10">Outubro</option>
+          <option value="11">Novembro</option><option value="12">Dezembro</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Ano</label>
+        <input type="number" id="inp-ano" value="2026" min="2024" max="2035">
+      </div>
+    </div>
+    <div class="ote-box">
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px">Parâmetros do Nível Selecionado</div>
+      <div class="ote-params" id="ote-params">
+        <div><div class="op-lbl">OTE</div><div class="op-val" id="op-ote">—</div></div>
+        <div><div class="op-lbl">Fixo</div><div class="op-val" id="op-fixo">—</div></div>
+        <div><div class="op-lbl">Variável</div><div class="op-val" id="op-var">—</div></div>
+        <div><div class="op-lbl">Meta</div><div class="op-val" id="op-meta">—</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brow">
+    <button class="btn btn-p" onclick="goTab(2)">Próximo: Carregar Vendas →</button>
+    <button class="btn btn-o btn-sm" onclick="goTab(5)">⚙ Configurações</button>
+  </div>
+</div>
+
+<!-- ══ TAB 2 ══ -->
+<div id="p2" class="panel">
+  <div class="ptitle">Relatório de Vendas</div>
+  <div class="psub">Faça upload do PDF de faturamento exportado do ERP. O servidor extrai os itens via <strong>pdfplumber</strong> com leitura posicional — preciso e rápido mesmo em arquivos grandes.</div>
+
+  <div class="al al-i"><span>ℹ</span><span>Formato esperado: <strong>Relatório de Faturamento Diário BeefPassion</strong> (FastReport). O processamento ocorre no servidor Python, não no navegador.</span></div>
+
+  <div class="card">
+    <div class="ctitle">Upload do PDF</div>
+    <div class="upzone" id="upzone" ondragover="ev.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')">
+      <input type="file" id="finput" accept=".pdf" onchange="uploadPDF(this)">
+      <div class="up-icon">📄</div>
+      <div class="up-title">Arraste o PDF aqui ou clique para selecionar</div>
+      <div class="up-sub">Relatório de Faturamento Diário · formato .pdf · até 50 MB</div>
+      <div id="up-status" style="margin-top:10px"></div>
+    </div>
+  </div>
+
+  <div id="prog-card" class="card" style="display:none">
+    <div class="ctitle">Processando no servidor</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+      <div class="spin"></div>
+      <span id="prog-txt" style="font-size:13px;color:var(--muted)">Enviando arquivo...</span>
+    </div>
+    <div class="progw"><div class="progb" id="progb" style="width:30%"></div></div>
+  </div>
+
+  <div id="ext-card" class="card" style="display:none">
+    <div class="ctitle">Itens Extraídos — <span id="ext-n">0</span> registros</div>
+    <div id="ext-alert" class="al al-o" style="margin-bottom:12px"></div>
+    <div class="twrap" style="max-height:260px">
+      <table class="dt">
+        <thead><tr>
+          <th>Pág.</th><th>Data</th><th>Pedido</th><th>Cliente</th><th>Cód.</th>
+          <th>Produto</th><th class="tr">Peso</th><th class="tr">Preço</th><th class="tr">Total</th>
+        </tr></thead>
+        <tbody id="ext-tbody"></tbody>
+      </table>
+    </div>
+    <div id="ext-avisos" style="margin-top:10px"></div>
+  </div>
+
+  <div class="brow">
+    <button class="btn btn-o" onclick="goTab(1)">← Voltar</button>
+    <button class="btn btn-p" id="btn-revisar" onclick="abrirRevisao()" disabled>Revisar Itens →</button>
+  </div>
+</div>
+
+<!-- ══ TAB 3: REVISÃO ══ -->
+<div id="p3" class="panel">
+  <div class="ptitle">Revisão de Itens</div>
+  <div class="psub">Confirme os lançamentos antes de calcular. Itens sem referência de preço precisam de ação antes de prosseguir.</div>
+
+  <!-- Contador geral -->
+  <div id="rev-counter" class="card" style="padding:16px 22px">
+    <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:center">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:10px;height:10px;border-radius:50%;background:var(--green)"></div>
+        <span style="font-size:12px"><strong id="rc-ok">0</strong> reconhecidos</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:10px;height:10px;border-radius:50%;background:var(--red)"></div>
+        <span style="font-size:12px"><strong id="rc-pend">0</strong> pendentes</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:10px;height:10px;border-radius:50%;background:#aaa"></div>
+        <span style="font-size:12px"><strong id="rc-fora">0</strong> fora da competência</span>
+      </div>
+      <div style="margin-left:auto">
+        <button class="btn btn-o btn-sm" onclick="confirmarTodosA()">✓ Confirmar Todos Reconhecidos</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRUPO A: reconhecidos -->
+  <div class="card" id="rev-ga-card">
+    <div class="ctitle">Grupo A — Reconhecidos automaticamente <span id="ga-badge" style="margin-left:6px;background:var(--green);color:#fff;border-radius:8px;padding:1px 8px;font-size:10px;font-weight:700"></span></div>
+    <div class="twrap" style="max-height:340px">
+      <table class="dt" id="rev-ga-table">
+        <thead><tr>
+          <th style="width:32px"><input type="checkbox" id="chk-all-a" onchange="toggleAllA(this)" title="Marcar todos"></th>
+          <th>Data</th><th>Pedido</th><th>NF</th>
+          <th>Cliente</th><th>Cód.</th><th>Descrição PDF</th>
+          <th>Categoria</th><th>Match Tabela</th>
+          <th class="tr">Ref. R$/kg</th><th class="tr">Praticado</th><th class="tr">Total</th>
+          <th>Confirmado</th>
+        </tr></thead>
+        <tbody id="rev-ga-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- GRUPO B: pendentes -->
+  <div class="card" id="rev-gb-card" style="display:none">
+    <div class="ctitle">Grupo B — Pendentes <span style="margin-left:6px;background:var(--red);color:#fff;border-radius:8px;padding:1px 8px;font-size:10px;font-weight:700" id="gb-badge"></span> <span style="font-size:10px;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">— todos precisam de uma ação antes de prosseguir</span></div>
+    <div class="twrap" style="max-height:340px">
+      <table class="dt" id="rev-gb-table">
+        <thead><tr>
+          <th>Data</th><th>Pedido</th><th>NF</th><th>Cliente</th>
+          <th>Cód.</th><th>Descrição PDF</th>
+          <th>Ação</th><th>Vincular a produto / Preço avulso</th>
+          <th class="tr">Praticado</th><th class="tr">Total</th>
+        </tr></thead>
+        <tbody id="rev-gb-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- GRUPO C: fora da competência -->
+  <div class="card" id="rev-gc-card" style="display:none">
+    <div class="ctitle" style="color:var(--muted)">Fora da Competência <span id="gc-badge" style="margin-left:6px;background:#aaa;color:#fff;border-radius:8px;padding:1px 8px;font-size:10px;font-weight:700"></span> <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0">— visíveis para conferência, não entram no cálculo</span></div>
+    <div class="twrap" style="max-height:220px">
+      <table class="dt" id="rev-gc-table">
+        <thead><tr>
+          <th>Data</th><th>Pedido</th><th>NF</th><th>Cliente</th>
+          <th>Cód.</th><th>Descrição PDF</th>
+          <th class="tr">Praticado</th><th class="tr">Total</th><th>Motivo</th>
+        </tr></thead>
+        <tbody id="rev-gc-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="brow">
+    <button class="btn btn-o" onclick="goTab(2)">← Voltar</button>
+    <button class="btn btn-p" id="btn-calc" onclick="calcular()" disabled>Calcular OTE →</button>
+  </div>
+</div>
+
+<!-- ══ TAB 5 ══ -->
+<div id="p4" class="panel">
+  <div id="resultado-wrap">
+    <div style="text-align:center;padding:60px;color:var(--muted)">
+      <div style="font-size:38px;margin-bottom:10px">📊</div>
+      <p>Execute o cálculo no passo anterior para ver o resultado.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TAB 4: CONFIGURAÇÕES ══ -->
+<div id="p5" class="panel">
+  <div class="ptitle">Configurações</div>
+  <div class="psub">Dados salvos automaticamente em arquivo <code>config.json</code> na pasta da aplicação.</div>
+
+  <div class="ctabs">
+    <div class="ctab active" onclick="showCfg('precos')">Tabela de Preços</div>
+    <div class="ctab" onclick="showCfg('ote')">Parâmetros OTE</div>
+    <div class="ctab" onclick="showCfg('mult')">Multiplicadores</div>
+    <div class="ctab" onclick="showCfg('vendedores')">Vendedores</div>
+    <div class="ctab" onclick="showCfg('seguranca')">Segurança</div>
+  </div>
+
+  <!-- PREÇOS -->
+  <div id="cfg-precos">
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+        <div class="ctitle" style="margin:0">Preços de Referência — <span id="pc-n">0</span> / <span id="pc-tot">105</span> preenchidos</div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:11px;color:var(--muted)" id="preco-lock-status">🔒 Bloqueado para edição</span>
+          <button class="btn btn-o btn-sm" onclick="solicitarSenha('precos', buildPriceTable)">Desbloquear</button>
+        </div>
+      </div>
+      <div class="al al-w"><span>⚠</span><span>Preencha com a tabela de precificação vigente da BeefPassion. Produtos sem preço serão classificados como <strong>Sem Referência</strong> e excluídos do cálculo do variável.</span></div>
+      <div style="display:flex;gap:9px;margin-bottom:12px;flex-wrap:wrap;align-items:center">
+        <div class="srch" style="flex:1;min-width:180px;margin:0"><span class="si">🔍</span><input type="text" placeholder="Buscar produto..." oninput="filterP(this.value)"></div>
+        <select id="cat-filter" onchange="filterCat(this.value)" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;background:#fff">
+          <option value="">Todas as categorias</option>
+          <option value="CLASSICO">Clássico</option>
+          <option value="RESERVA">Reserva</option>
+          <option value="SUPREME">Supreme</option>
+        </select>
+        <button class="btn btn-o btn-sm" onclick="fillRef()">Preencher com Tabela 2026</button>
+        <button class="btn btn-o btn-sm" onclick="clearPrecos()">Limpar tudo</button>
+      </div>
+      <div class="progw"><div class="progb" id="pc-prog" style="width:0%"></div></div>
+      <div class="progl" id="pc-lbl">0 preços preenchidos</div>
+      <div class="ptwrap" style="margin-top:12px">
+        <table class="pt">
+          <thead><tr><th>Descrição</th><th>Categoria</th><th>Ref. Tabela 2026</th><th>Preço Vigente (R$/kg) ✏</th></tr></thead>
+          <tbody id="pc-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- OTE -->
+  <div id="cfg-ote" style="display:none">
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+        <div class="ctitle" style="margin:0">Parâmetros OTE por Cargo</div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:11px;color:var(--muted)" id="ote-lock-status">🔒 Bloqueado para edição</span>
+          <button class="btn btn-o btn-sm" onclick="solicitarSenha('ote', buildOTECfg)">Desbloquear</button>
+        </div>
+      </div>
+      <div class="al al-i"><span>ℹ</span><span>Fonte: <em>_Beef__Metas_OTE.pdf · Stoic Capital · Luís Fernando · 26/12/2025 · Base G4 Educação</em>. Altere apenas mediante revisão formal.</span></div>
+      <div id="ote-cfg-wrap"></div>
+    </div>
+  </div>
+
+  <!-- VENDEDORES -->
+  <div id="cfg-vend" style="display:none">
+    <div class="card">
+      <div class="ctitle">Cadastro de Vendedores</div>
+      <div id="vend-wrap"></div>
+    </div>
+  </div>
+
+  <!-- MULTIPLICADORES -->
+  <div id="cfg-mult" style="display:none">
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+        <div class="ctitle" style="margin:0">Tabela de Multiplicadores por Faixa de Preço</div>
+        <div id="mult-lock-bar" style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:11px;color:var(--muted)" id="mult-lock-status">🔒 Bloqueado para edição</span>
+          <button class="btn btn-o btn-sm" onclick="solicitarSenha('mult')">Desbloquear</button>
+        </div>
+      </div>
+      <div class="al al-i" style="margin-bottom:12px"><span>ℹ</span>
+        <span>Fonte: <em>_Beef__Metas_OTE.pdf · Stoic Capital · Luís Fernando · 26/12/2025</em>.
+        Mult. negativo na faixa Abaixo 10% penaliza o variável total. Zero = corte (sem variável).</span>
+      </div>
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:11px;min-width:520px" id="mult-table-el">
+          <thead><tr style="background:var(--navy)">
+            <th style="padding:7px 12px;color:var(--gold);font-size:9px;letter-spacing:1px;text-transform:uppercase;text-align:center">Atingimento %</th>
+            <th style="padding:7px 12px;color:#F5A0A0;font-size:9px;letter-spacing:1px;text-transform:uppercase;text-align:center">⬇ Abaixo 10%</th>
+            <th style="padding:7px 12px;color:#FCD59A;font-size:9px;letter-spacing:1px;text-transform:uppercase;text-align:center">↘ 3–10% Desc.</th>
+            <th style="padding:7px 12px;color:#A8C8F8;font-size:9px;letter-spacing:1px;text-transform:uppercase;text-align:center">✓ Tabela Ideal</th>
+            <th style="padding:7px 12px;color:#A8F0C0;font-size:9px;letter-spacing:1px;text-transform:uppercase;text-align:center">⬆ Acima Tabela</th>
+          </tr></thead>
+          <tbody id="mult-tbody"></tbody>
+        </table>
+      </div>
+      <div style="margin-top:10px;font-size:10px;color:var(--muted);font-style:italic" id="mult-edit-hint">
+        Desbloqueie para editar os multiplicadores. Alterações são salvas junto com as demais configurações.
+      </div>
+    </div>
+  </div>
+
+  <!-- VENDEDORES -->
+  <div id="cfg-vend" style="display:none">
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+        <div class="ctitle" style="margin:0">Cadastro de Vendedores</div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:11px;color:var(--muted)" id="vend-lock-status">🔒 Bloqueado para edição</span>
+          <button class="btn btn-o btn-sm" onclick="solicitarSenha('vendedores')">Desbloquear</button>
+        </div>
+      </div>
+      <div id="vend-wrap"></div>
+      <div id="vend-add-row" style="display:none;margin-top:12px">
+        <button class="btn btn-o btn-sm" onclick="adicionarVendedor()">+ Adicionar Vendedor</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEGURANÇA -->
+  <div id="cfg-seguranca" style="display:none">
+    <div class="card">
+      <div class="ctitle">Segurança — Senha de Configurações</div>
+      <div class="al al-w" style="margin-bottom:16px"><span>⚠</span>
+        <span>Senha protege: Multiplicadores, Parâmetros OTE, Tabela de Preços e Gestão de Vendedores.
+        Armazenada em <code>config.json</code> sem criptografia — controle o acesso ao arquivo.</span>
+      </div>
+      <div class="frow" style="max-width:420px">
+        <div class="fg">
+          <label>Senha Atual</label>
+          <input type="password" id="senha-atual" placeholder="Senha atual">
+        </div>
+        <div class="fg">
+          <label>Nova Senha</label>
+          <input type="password" id="senha-nova" placeholder="Nova senha">
+        </div>
+        <div class="fg">
+          <label>Confirmar Nova Senha</label>
+          <input type="password" id="senha-conf" placeholder="Repita a nova senha">
+        </div>
+      </div>
+      <div id="senha-troca-msg" style="font-size:11px;min-height:16px;margin-top:6px"></div>
+      <div style="margin-top:14px">
+        <button class="btn btn-p btn-sm" onclick="trocarSenha()">Alterar Senha</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="brow no-print">
+    <button class="btn btn-p" onclick="saveAllCfg()">✓ Salvar Configurações</button>
+    <button class="btn btn-o" onclick="goTab(1)">← Voltar ao Início</button>
+  </div>
+</div>
+
+</main>
+<div id="toast">✓ Salvo</div>
+
+<!-- ══ MODAL SENHA ══ -->
+<div id="senha-overlay" style="display:none;position:fixed;inset:0;background:rgba(13,24,56,.65);z-index:900;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:14px;padding:32px 36px;width:340px;box-shadow:0 8px 40px rgba(0,0,0,.3);position:relative">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--navy);margin-bottom:4px">Acesso Restrito</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:20px" id="senha-descricao">Digite a senha para editar este parâmetro.</div>
+    <input type="password" id="senha-input" placeholder="Senha"
+      style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:7px;font-size:14px;margin-bottom:8px"
+      onkeydown="if(event.key==='Enter')confirmarSenha()">
+    <div id="senha-erro" style="color:var(--red);font-size:11px;min-height:16px;margin-bottom:10px"></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-p" style="flex:1" onclick="confirmarSenha()">Confirmar</button>
+      <button class="btn btn-o" style="flex:1" onclick="fecharModalSenha()">Cancelar</button>
+    </div>
+    <div style="margin-top:14px;font-size:10px;color:var(--muted);border-top:1px solid var(--border);padding-top:10px">
+      Senha padrão inicial: <code>beefpassion</code> · Altere em Configurações → Segurança
+    </div>
+  </div>
+</div>
+
+<script>
+// ══ ESTADO ══════════════════════════════════════════════════════════════════
+const MESES=['','Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+             'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+let CFG = {};
+let ITENS = [];
+let VEND_ATIVO = null;
+let RESULTADO = null;
+
+const PRODUTOS=[
+  {key:"ACEM PESCOCO PECA|CLASSICO",desc:"ACEM PESCOCO PECA",cat:"CLASSICO",ref:35.00},
+  {key:"ALCATRA PECA|CLASSICO",desc:"ALCATRA PECA",cat:"CLASSICO",ref:89.00},
+  {key:"ANCHO STEAK|CLASSICO",desc:"ANCHO STEAK",cat:"CLASSICO",ref:189.00},
+  {key:"ASSADO DE TIRA DIANTEIRO|CLASSICO",desc:"ASSADO DE TIRA DIANTEIRO",cat:"CLASSICO",ref:161.00},
+  {key:"ASSADO DE TIRA TRASEIRO|CLASSICO",desc:"ASSADO DE TIRA TRASEIRO",cat:"CLASSICO",ref:110.00},
+  {key:"BABY BEEF STEAK|CLASSICO",desc:"BABY BEEF STEAK",cat:"CLASSICO",ref:89.00},
+  {key:"BANANINHA|CLASSICO",desc:"BANANINHA",cat:"CLASSICO",ref:132.00},
+  {key:"BEEF STEAK|CLASSICO",desc:"BEEF STEAK",cat:"CLASSICO",ref:89.00},
+  {key:"BIFE DO VAZIO|CLASSICO",desc:"BIFE DO VAZIO",cat:"CLASSICO",ref:120.00},
+  {key:"BISTECA FIORENTINA|CLASSICO",desc:"BISTECA FIORENTINA",cat:"CLASSICO",ref:280.00},
+  {key:"BISTECA SHORT RIB|CLASSICO",desc:"BISTECA SHORT RIB",cat:"CLASSICO",ref:194.00},
+  {key:"BOCHECHA|CLASSICO",desc:"BOCHECHA",cat:"CLASSICO",ref:69.00},
+  {key:"BOMBOM DA ALCATRA|CLASSICO",desc:"BOMBOM DA ALCATRA",cat:"CLASSICO",ref:131.00},
+  {key:"BUCHO|CLASSICO",desc:"BUCHO",cat:"CLASSICO",ref:45.00},
+  {key:"CAPA DE FILE|CLASSICO",desc:"CAPA DE FILE",cat:"CLASSICO",ref:115.00},
+  {key:"CAPA DA PALETA|CLASSICO",desc:"CAPA DA PALETA",cat:"CLASSICO",ref:55.00},
+  {key:"CAPA DE FILE STEAK|CLASSICO",desc:"CAPA DE FILE STEAK",cat:"CLASSICO",ref:125.00},
+  {key:"CHORIZO|CLASSICO",desc:"CHORIZO",cat:"CLASSICO",ref:169.00},
+  {key:"CONTRAFILE|CLASSICO",desc:"CONTRAFILE",cat:"CLASSICO",ref:160.00},
+  {key:"COSTELA DO DIANTEIRO|CLASSICO",desc:"COSTELA DO DIANTEIRO",cat:"CLASSICO",ref:120.00},
+  {key:"COSTELA DO DIANTEIRO C/OSSO|CLASSICO",desc:"COSTELA DO DIANTEIRO C/OSSO",cat:"CLASSICO",ref:135.00},
+  {key:"COSTELA DE JANELA|CLASSICO",desc:"COSTELA DE JANELA",cat:"CLASSICO",ref:145.00},
+  {key:"COSTELA MINGA|CLASSICO",desc:"COSTELA MINGA",cat:"CLASSICO",ref:30.00},
+  {key:"COXAO DURO PECA|CLASSICO",desc:"COXAO DURO PECA",cat:"CLASSICO",ref:56.00},
+  {key:"COXAO MOLE PECA|CLASSICO",desc:"COXAO MOLE PECA",cat:"CLASSICO",ref:65.00},
+  {key:"DENVER PASSION|CLASSICO",desc:"DENVER PASSION",cat:"CLASSICO",ref:390.00},
+  {key:"ENTRANHA PASSION|CLASSICO",desc:"ENTRANHA PASSION",cat:"CLASSICO",ref:140.00},
+  {key:"FILE DE COSTELA|CLASSICO",desc:"FILE DE COSTELA",cat:"CLASSICO",ref:179.00},
+  {key:"FILE MIGNON MEDALHAO|CLASSICO",desc:"FILE MIGNON MEDALHAO",cat:"CLASSICO",ref:253.00},
+  {key:"FILE MIGNON PECA|CLASSICO",desc:"FILE MIGNON PECA",cat:"CLASSICO",ref:241.00},
+  {key:"FLAT IRON PASSION|CLASSICO",desc:"FLAT IRON PASSION",cat:"CLASSICO",ref:224.00},
+  {key:"FRALDA INTERNA|CLASSICO",desc:"FRALDA INTERNA",cat:"CLASSICO",ref:89.00},
+  {key:"FRALDINHA PASSION|CLASSICO",desc:"FRALDINHA PASSION",cat:"CLASSICO",ref:212.00},
+  {key:"FRALDINHA PASSION STEAK|CLASSICO",desc:"FRALDINHA PASSION STEAK",cat:"CLASSICO",ref:218.00},
+  {key:"KNUCKLE PASSION STEAK|CLASSICO",desc:"KNUCKLE PASSION STEAK",cat:"CLASSICO",ref:69.00},
+  {key:"LAGARTO|CLASSICO",desc:"LAGARTO",cat:"CLASSICO",ref:60.00},
+  {key:"LINGUA|CLASSICO",desc:"LINGUA",cat:"CLASSICO",ref:60.00},
+  {key:"OSSOBUCO|CLASSICO",desc:"OSSOBUCO",cat:"CLASSICO",ref:42.00},
+  {key:"MAMINHA|CLASSICO",desc:"MAMINHA",cat:"CLASSICO",ref:170.00},
+  {key:"MOIDA BLEND|CLASSICO",desc:"MOIDA BLEND",cat:"CLASSICO",ref:40.00},
+  {key:"MOIDA PATINHO|CLASSICO",desc:"MOIDA PATINHO",cat:"CLASSICO",ref:65.00},
+  {key:"MUSCULO PECA|CLASSICO",desc:"MUSCULO PECA",cat:"CLASSICO",ref:30.00},
+  {key:"PATINHO PECA|CLASSICO",desc:"PATINHO PECA",cat:"CLASSICO",ref:57.00},
+  {key:"PALETA PECA|CLASSICO",desc:"PALETA PECA",cat:"CLASSICO",ref:89.00},
+  {key:"PEITO BRISKET|CLASSICO",desc:"PEITO BRISKET",cat:"CLASSICO",ref:59.00},
+  {key:"PEIXINHO|CLASSICO",desc:"PEIXINHO",cat:"CLASSICO",ref:59.00},
+  {key:"PICANHA PASSION|CLASSICO",desc:"PICANHA PASSION",cat:"CLASSICO",ref:289.00},
+  {key:"RABADA|CLASSICO",desc:"RABADA",cat:"CLASSICO",ref:55.00},
+  {key:"RECORTE|CLASSICO",desc:"RECORTE",cat:"CLASSICO",ref:35.00},
+  {key:"SHOULDER STEAK|CLASSICO",desc:"SHOULDER STEAK",cat:"CLASSICO",ref:99.00},
+  {key:"STEAK DA CASA|CLASSICO",desc:"STEAK DA CASA",cat:"CLASSICO",ref:75.00},
+  {key:"STEAK DO ACEM COWBOY|CLASSICO",desc:"STEAK DO ACEM COWBOY",cat:"CLASSICO",ref:99.00},
+  {key:"STEAK PASSION|CLASSICO",desc:"STEAK PASSION",cat:"CLASSICO",ref:65.00},
+  {key:"TBONE|CLASSICO",desc:"TBONE",cat:"CLASSICO",ref:210.00},
+  {key:"TOMAHAWK|CLASSICO",desc:"TOMAHAWK",cat:"CLASSICO",ref:210.00},
+  {key:"BIFITOS|CLASSICO",desc:"BIFITOS",cat:"CLASSICO",ref:69.00},
+  {key:"CUBITOS|CLASSICO",desc:"CUBITOS",cat:"CLASSICO",ref:59.00},
+  {key:"ISCAS MIGNON|CLASSICO",desc:"ISCAS MIGNON",cat:"CLASSICO",ref:115.00},
+  {key:"ISCAS PASSION|CLASSICO",desc:"ISCAS PASSION",cat:"CLASSICO",ref:60.00},
+  {key:"MUSCULO EM CUBOS|CLASSICO",desc:"MUSCULO EM CUBOS",cat:"CLASSICO",ref:35.00},
+  {key:"PASSIONITOS|CLASSICO",desc:"PASSIONITOS",cat:"CLASSICO",ref:69.00},
+  {key:"ACEM PESCOCO PECA|RESERVA",desc:"ACEM PESCOCO PECA",cat:"RESERVA",ref:55.00},
+  {key:"ALCATRA PECA|RESERVA",desc:"ALCATRA PECA",cat:"RESERVA",ref:95.00},
+  {key:"ANCHO STEAK|RESERVA",desc:"ANCHO STEAK",cat:"RESERVA",ref:380.00},
+  {key:"ARANHA DA ALCATRA|RESERVA",desc:"ARANHA DA ALCATRA",cat:"RESERVA",ref:75.00},
+  {key:"ASSADO DE TIRA DIANTEIRO|RESERVA",desc:"ASSADO DE TIRA DIANTEIRO",cat:"RESERVA",ref:218.00},
+  {key:"ASSADO DE TIRA TRASEIRO|RESERVA",desc:"ASSADO DE TIRA TRASEIRO",cat:"RESERVA",ref:145.00},
+  {key:"BABY BEEF STEAK|RESERVA",desc:"BABY BEEF STEAK",cat:"RESERVA",ref:142.00},
+  {key:"BANANINHA|RESERVA",desc:"BANANINHA",cat:"RESERVA",ref:150.00},
+  {key:"BEEF STEAK|RESERVA",desc:"BEEF STEAK",cat:"RESERVA",ref:125.00},
+  {key:"BIFE DO VAZIO|RESERVA",desc:"BIFE DO VAZIO",cat:"RESERVA",ref:172.00},
+  {key:"BISTECA FIORENTINA|RESERVA",desc:"BISTECA FIORENTINA",cat:"RESERVA",ref:437.00},
+  {key:"BISTECA SHORT RIB|RESERVA",desc:"BISTECA SHORT RIB",cat:"RESERVA",ref:253.00},
+  {key:"BOCHECHA|RESERVA",desc:"BOCHECHA",cat:"RESERVA",ref:80.00},
+  {key:"BOMBOM DA ALCATRA|RESERVA",desc:"BOMBOM DA ALCATRA",cat:"RESERVA",ref:207.00},
+  {key:"BUCHO|RESERVA",desc:"BUCHO",cat:"RESERVA",ref:69.00},
+  {key:"CAPA DE FILE|RESERVA",desc:"CAPA DE FILE",cat:"RESERVA",ref:140.00},
+  {key:"CAPA DA PALETA|RESERVA",desc:"CAPA DA PALETA",cat:"RESERVA",ref:70.00},
+  {key:"CAPA DE FILE STEAK|RESERVA",desc:"CAPA DE FILE STEAK",cat:"RESERVA",ref:155.00},
+  {key:"CHORIZO|RESERVA",desc:"CHORIZO",cat:"RESERVA",ref:380.00},
+  {key:"CONTRAFILE|RESERVA",desc:"CONTRAFILE",cat:"RESERVA",ref:350.00},
+  {key:"CORACAO|RESERVA",desc:"CORACAO",cat:"RESERVA",ref:55.00},
+  {key:"COSTELA DO DIANTEIRO|RESERVA",desc:"COSTELA DO DIANTEIRO",cat:"RESERVA",ref:178.00},
+  {key:"COSTELA DE JANELA|RESERVA",desc:"COSTELA DE JANELA",cat:"RESERVA",ref:182.00},
+  {key:"COSTELA MINGA|RESERVA",desc:"COSTELA MINGA",cat:"RESERVA",ref:45.00},
+  {key:"COXAO DURO PECA|RESERVA",desc:"COXAO DURO PECA",cat:"RESERVA",ref:110.00},
+  {key:"COXAO MOLE PECA|RESERVA",desc:"COXAO MOLE PECA",cat:"RESERVA",ref:80.00},
+  {key:"DENVER PASSION|RESERVA",desc:"DENVER PASSION",cat:"RESERVA",ref:530.00},
+  {key:"ENTRANHA PASSION|RESERVA",desc:"ENTRANHA PASSION",cat:"RESERVA",ref:166.00},
+  {key:"FIGADO|RESERVA",desc:"FIGADO",cat:"RESERVA",ref:79.00},
+  {key:"FILE DE COSTELA|RESERVA",desc:"FILE DE COSTELA",cat:"RESERVA",ref:380.00},
+  {key:"FILE MIGNON MEDALHAO|RESERVA",desc:"FILE MIGNON MEDALHAO",cat:"RESERVA",ref:360.00},
+  {key:"FILE MIGNON PECA|RESERVA",desc:"FILE MIGNON PECA",cat:"RESERVA",ref:322.00},
+  {key:"FLAT IRON PASSION|RESERVA",desc:"FLAT IRON PASSION",cat:"RESERVA",ref:264.00},
+  {key:"FRALDA INTERNA|RESERVA",desc:"FRALDA INTERNA",cat:"RESERVA",ref:159.00},
+  {key:"FRALDINHA PASSION|RESERVA",desc:"FRALDINHA PASSION",cat:"RESERVA",ref:286.00},
+  {key:"FRALDINHA PASSION STEAK|RESERVA",desc:"FRALDINHA PASSION STEAK",cat:"RESERVA",ref:593.00},
+  {key:"GORDURA PECA|RESERVA",desc:"GORDURA PECA",cat:"RESERVA",ref:20.00},
+  {key:"KNUCKLE PASSION STEAK|RESERVA",desc:"KNUCKLE PASSION STEAK",cat:"RESERVA",ref:113.00},
+  {key:"LAGARTO|RESERVA",desc:"LAGARTO",cat:"RESERVA",ref:89.00},
+  {key:"LINGUA|RESERVA",desc:"LINGUA",cat:"RESERVA",ref:90.00},
+  {key:"OSSOBUCO|RESERVA",desc:"OSSOBUCO",cat:"RESERVA",ref:59.00},
+  {key:"OSSO MOCOTO|RESERVA",desc:"OSSO MOCOTO",cat:"RESERVA",ref:18.00},
+  {key:"MAMINHA|RESERVA",desc:"MAMINHA",cat:"RESERVA",ref:253.00},
+  {key:"MOIDA BLEND|RESERVA",desc:"MOIDA BLEND",cat:"RESERVA",ref:60.00},
+  {key:"MOIDA PATINHO|RESERVA",desc:"MOIDA PATINHO",cat:"RESERVA",ref:74.00},
+  {key:"MUSCULO PECA|RESERVA",desc:"MUSCULO PECA",cat:"RESERVA",ref:44.00},
+  {key:"PATINHO PECA|RESERVA",desc:"PATINHO PECA",cat:"RESERVA",ref:99.00},
+  {key:"PALETA PECA|RESERVA",desc:"PALETA PECA",cat:"RESERVA",ref:128.00},
+  {key:"PEITO BRISKET|RESERVA",desc:"PEITO BRISKET",cat:"RESERVA",ref:89.00},
+  {key:"PEIXINHO|RESERVA",desc:"PEIXINHO",cat:"RESERVA",ref:70.00},
+  {key:"PICANHA PASSION|RESERVA",desc:"PICANHA PASSION",cat:"RESERVA",ref:499.00},
+  {key:"RABADA|RESERVA",desc:"RABADA",cat:"RESERVA",ref:79.00},
+  {key:"RECORTE|RESERVA",desc:"RECORTE",cat:"RESERVA",ref:45.00},
+  {key:"SHOULDER STEAK|RESERVA",desc:"SHOULDER STEAK",cat:"RESERVA",ref:135.00},
+  {key:"STEAK DA CASA|RESERVA",desc:"STEAK DA CASA",cat:"RESERVA",ref:95.00},
+  {key:"STEAK DO ACEM COWBOY|RESERVA",desc:"STEAK DO ACEM COWBOY",cat:"RESERVA",ref:149.00},
+  {key:"STEAK PASSION|RESERVA",desc:"STEAK PASSION",cat:"RESERVA",ref:119.00},
+  {key:"TBONE|RESERVA",desc:"TBONE",cat:"RESERVA",ref:437.00},
+  {key:"TOMAHAWK|RESERVA",desc:"TOMAHAWK",cat:"RESERVA",ref:417.00},
+  {key:"BIFITOS|RESERVA",desc:"BIFITOS",cat:"RESERVA",ref:80.00},
+  {key:"CUBITOS|RESERVA",desc:"CUBITOS",cat:"RESERVA",ref:79.00},
+  {key:"ISCAS MIGNON|RESERVA",desc:"ISCAS MIGNON",cat:"RESERVA",ref:132.00},
+  {key:"ISCAS PASSION|RESERVA",desc:"ISCAS PASSION",cat:"RESERVA",ref:74.00},
+  {key:"MUSCULO EM CUBOS|RESERVA",desc:"MUSCULO EM CUBOS",cat:"RESERVA",ref:55.00},
+  {key:"PASSIONITOS|RESERVA",desc:"PASSIONITOS",cat:"RESERVA",ref:80.00},
+  {key:"BEEF TALLOW 1.5KG|RESERVA",desc:"BEEF TALLOW 1.5KG",cat:"RESERVA",ref:170.00},
+  {key:"BEEF TALLOW 250G|RESERVA",desc:"BEEF TALLOW 250G",cat:"RESERVA",ref:30.00},
+  {key:"CALDO DE OSSO 100ML|RESERVA",desc:"CALDO DE OSSO 100ML",cat:"RESERVA",ref:20.00},
+  {key:"CECINA BRESAOLA|RESERVA",desc:"CECINA BRESAOLA",cat:"RESERVA",ref:60.00},
+  {key:"BOICON BOVINO FATIADO|RESERVA",desc:"BOICON BOVINO FATIADO",cat:"RESERVA",ref:80.00},
+  {key:"HAMBURGUER 180G|RESERVA",desc:"HAMBURGUER 180G",cat:"RESERVA",ref:49.00},
+  {key:"HAMBURGUER DE COSTELA 180G|RESERVA",desc:"HAMBURGUER DE COSTELA 180G",cat:"RESERVA",ref:40.00},
+  {key:"HAMBURGUER SMASH 50G|RESERVA",desc:"HAMBURGUER SMASH 50G",cat:"RESERVA",ref:45.00},
+  {key:"LINGUICA BOVINA|RESERVA",desc:"LINGUICA BOVINA",cat:"RESERVA",ref:50.00},
+  {key:"SALSICHA BOVINA|RESERVA",desc:"SALSICHA BOVINA",cat:"RESERVA",ref:60.00},
+  {key:"ANCHO STEAK|SUPREME",desc:"ANCHO STEAK",cat:"SUPREME",ref:930.00},
+  {key:"BISTECA SHORT RIB|SUPREME",desc:"BISTECA SHORT RIB",cat:"SUPREME",ref:830.00},
+  {key:"CHORIZO|SUPREME",desc:"CHORIZO",cat:"SUPREME",ref:930.00},
+  {key:"DENVER PASSION|SUPREME",desc:"DENVER PASSION",cat:"SUPREME",ref:930.00},
+  {key:"FLAT IRON PASSION|SUPREME",desc:"FLAT IRON PASSION",cat:"SUPREME",ref:830.00},
+  {key:"STEAK PASSION|SUPREME",desc:"STEAK PASSION",cat:"SUPREME",ref:320.00},
+  {key:"MAMINHA|SUPREME",desc:"MAMINHA",cat:"SUPREME",ref:700.00},
+  {key:"PICANHA PASSION|SUPREME",desc:"PICANHA PASSION",cat:"SUPREME",ref:930.00}
+];
+
+// ══ HELPERS ══════════════════════════════════════════════════════════════════
+const R = v => 'R$ ' + v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+const P = v => (v*100).toFixed(1)+'%';
+const N = (v,d=2) => v.toFixed(d).replace('.',',');
+
+function toast(msg='✓ Salvo'){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.style.opacity='1';
+  clearTimeout(t._t); t._t=setTimeout(()=>t.style.opacity='0',2200);
+}
+
+// ══ NAV ══════════════════════════════════════════════════════════════════════
+function goTab(n){
+  [1,2,3,4,5].forEach(i=>{
+    document.getElementById('p'+i).classList.remove('active');
+    const t=document.getElementById('tn'+i);
+    if(!t) return;
+    t.classList.remove('active','done');
+    if(i<n) t.classList.add('done');
+  });
+  document.getElementById('p'+n).classList.add('active');
+  document.getElementById('tn'+n).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ══ INIT ══════════════════════════════════════════════════════════════════════
+async function init(){
+  try {
+    const r = await fetch('/api/config');
+    CFG = await r.json();
+  } catch(e) {
+    console.error('Erro ao carregar config:', e);
+    CFG = {precos:{}, vendedores:[], ote:{}};
+  }
+  buildVGrid();
+  buildPriceTable();
+  document.getElementById('sel-mes').value = new Date().getMonth()+1 || 2;
+  document.getElementById('pc-tot').textContent = PRODUTOS.length;
+}
+
+// ══ TAB 1 ════════════════════════════════════════════════════════════════════
+function buildVGrid(){
+  const el = document.getElementById('vgrid');
+  const vends = CFG.vendedores || [];
+  el.innerHTML = vends.map(v=>`
+    <div class="vcard ${VEND_ATIVO&&VEND_ATIVO.nome===v.nome?'sel':''}" id="vc-${v.nome}" onclick="selV('${v.nome}')">
+      <div class="vname">${v.nome}</div>
+      <div class="vrole">${v.cargo}</div>
+    </div>`).join('');
+  if(!VEND_ATIVO && vends.length) selV(vends[0].nome);
+}
+
+function selV(nome){
+  VEND_ATIVO = (CFG.vendedores||[]).find(v=>v.nome===nome);
+  document.querySelectorAll('.vcard').forEach(c=>c.classList.remove('sel'));
+  const el=document.getElementById('vc-'+nome);
+  if(el) el.classList.add('sel');
+  buildNivelSel();
+}
+
+function buildNivelSel(){
+  if(!VEND_ATIVO) return;
+  const tabela = (CFG.ote||{})[VEND_ATIVO.canal]||[];
+  const sel = document.getElementById('sel-nivel');
+  sel.innerHTML = tabela.map(r=>
+    `<option value="${r.n}" ${r.n===VEND_ATIVO.nivel_padrao?'selected':''}>${r.n===VEND_ATIVO.nivel_padrao?'Nível '+r.n+' (padrão)':'Nível '+r.n}</option>`
+  ).join('');
+  updateOTEBox();
+}
+
+function updateOTEBox(){
+  if(!VEND_ATIVO) return;
+  const nivel = parseInt(document.getElementById('sel-nivel').value);
+  const row = ((CFG.ote||{})[VEND_ATIVO.canal]||[]).find(r=>r.n===nivel);
+  if(!row) return;
+  document.getElementById('op-ote').textContent  = R(row.ote);
+  document.getElementById('op-fixo').textContent = R(row.fixo);
+  document.getElementById('op-var').textContent  = R(row.var);
+  document.getElementById('op-meta').textContent = R(row.meta);
+}
+
+// ══ TAB 2: UPLOAD ════════════════════════════════════════════════════════════
+async function uploadPDF(input){
+  const file = input.files[0];
+  if(!file) return;
+
+  const zone = document.getElementById('upzone');
+  zone.classList.add('done');
+  document.getElementById('up-status').innerHTML =
+    `<div style="display:inline-flex;align-items:center;gap:6px;background:var(--green);color:#fff;padding:4px 11px;border-radius:12px;font-size:11px;font-weight:600">✓ ${file.name}</div>`;
+
+  document.getElementById('prog-card').style.display='block';
+  document.getElementById('ext-card').style.display='none';
+  document.getElementById('btn-calc').disabled=true;
+  document.getElementById('prog-txt').textContent='Enviando arquivo para o servidor...';
+  document.getElementById('progb').style.width='20%';
+
+  const fd = new FormData();
+  fd.append('pdf', file);
+
+  try {
+    document.getElementById('prog-txt').textContent='Extraindo itens com pdfplumber...';
+    document.getElementById('progb').style.width='60%';
+
+    const resp = await fetch('/api/extrair', {method:'POST', body:fd});
+    const data = await resp.json();
+
+    document.getElementById('progb').style.width='100%';
+
+    if(data.erro){
+      document.getElementById('prog-txt').textContent='Erro: '+data.erro;
+      document.getElementById('prog-card').style.display='none';
+      return;
+    }
+
+    ITENS = data.itens || [];
+    document.getElementById('prog-card').style.display='none';
+    renderExtPreview(data);
+    document.getElementById('ext-card').style.display='block';
+    document.getElementById('btn-revisar').disabled = ITENS.length===0;
+
+  } catch(e) {
+    document.getElementById('prog-txt').textContent='Erro de conexão com o servidor.';
+    console.error(e);
+  }
+}
+
+function renderExtPreview(data){
+  const n = data.total_itens || 0;
+  document.getElementById('ext-n').textContent = n;
+  document.getElementById('ext-alert').innerHTML =
+    `✓ <strong>${n} itens</strong> extraídos de <strong>${data.total_paginas} páginas</strong> — ${data.paginas_com_itens} págs. com dados, ${data.paginas_sem_item} sem.`;
+
+  const tbody = document.getElementById('ext-tbody');
+  tbody.innerHTML = (ITENS.slice(0,80)).map(it=>`
+    <tr>
+      <td class="mono">${it.pag||''}</td>
+      <td class="mono">${it.data}</td>
+      <td class="mono">${it.pedido}</td>
+      <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px">${it.cliente}</td>
+      <td><span class="cod">${it.cod}</span></td>
+      <td style="font-size:11px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${it.desc}</td>
+      <td class="mono tr">${N(it.peso,3)} kg</td>
+      <td class="mono tr">${R(it.preco)}</td>
+      <td class="mono tr"><strong>${R(it.total)}</strong></td>
+    </tr>`).join('')+(n>80?`<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:8px;font-size:10px">... e mais ${n-80} itens</td></tr>`:'');
+
+  if(data.avisos&&data.avisos.length){
+    document.getElementById('ext-avisos').innerHTML =
+      `<div class="al al-w"><span>⚠</span><span>${data.avisos.slice(0,5).join('<br>')}</span></div>`;
+  }
+}
+
+// ══ REVISÃO DE ITENS (TAB 3) ════════════════════════════════════════════════
+
+let REV_STATE = {}; // idx → {confirmado, acao, vinculo_key, preco_ref, categoria, motivo}
+let DEPARA    = {}; // desc_pdf → {key, preco_ref, cat}
+
+function parseMesItem(dataStr) {
+  if (!dataStr) return {mes:0, ano:0};
+  const p = dataStr.split('/');
+  if (p.length === 3) return {mes: parseInt(p[1]), ano: parseInt(p[2])};
+  if (p.length === 2) return {mes: parseInt(p[0]), ano: parseInt(p[1])};
+  return {mes:0, ano:0};
+}
+
+function matchFrontend(descPdf, threshold=0.45) {
+  const STOP = new Set(["CONG","CG","WAGYU","PASSION","B","S","SOB","ENCOMENDA",
+    "FATIADO","PICADO","CLASSICO","E","DA","DE","DO","DAS","DOS","EM","A"]);
+  const toks = s => new Set(
+    s.toUpperCase().replace(/[/()\\-]/g,' ').split(/\s+/)
+     .filter(w => w.length>1 && !STOP.has(w))
+  );
+  const inferCat = d => {
+    const u = d.toUpperCase();
+    if (u.includes("SUPREME")) return "SUPREME";
+    if (/RESERVA|RES |BP [3456]|BP[3456]| RES/.test(u)) return "RESERVA";
+    return "CLASSICO";
+  };
+  const tPdf = toks(descPdf);
+  if (!tPdf.size) return null;
+  const catInf = inferCat(descPdf);
+  let best = null, bestScore = 0;
+  const catOrder = [catInf, ...["CLASSICO","RESERVA","SUPREME"].filter(c=>c!==catInf)];
+  for (const cat of catOrder) {
+    for (const p of PRODUTOS) {
+      if (p.cat !== cat) continue;
+      const tTab = toks(p.desc);
+      const inter = [...tPdf].filter(t=>tTab.has(t)).length;
+      if (!inter) continue;
+      const score = (inter/tTab.size)*0.7 + (inter/tPdf.size)*0.3;
+      if (score > bestScore) { bestScore = score; best = {p, score, cat}; }
+    }
+    if (best && bestScore >= 0.70 && cat === catInf) break;
+  }
+  return bestScore >= threshold ? best : null;
+}
+
+// Retorna top-N candidatos com score para sugestões do Grupo B
+function topCandidatos(descPdf, n=3) {
+  const STOP = new Set(["CONG","CG","WAGYU","PASSION","B","S","SOB","ENCOMENDA",
+    "FATIADO","PICADO","CLASSICO","E","DA","DE","DO","DAS","DOS","EM","A"]);
+  const toks = s => new Set(
+    s.toUpperCase().replace(/[/()\\-]/g,' ').split(/\s+/)
+     .filter(w => w.length>1 && !STOP.has(w))
+  );
+  const tPdf = toks(descPdf);
+  if (!tPdf.size) return [];
+  const scores = PRODUTOS.map(p => {
+    const tTab = toks(p.desc);
+    const inter = [...tPdf].filter(t=>tTab.has(t)).length;
+    if (!inter) return {p, score:0};
+    const score = (inter/tTab.size)*0.7 + (inter/tPdf.size)*0.3;
+    return {p, score};
+  }).filter(x=>x.score>0);
+  scores.sort((a,b)=>b.score-a.score);
+  return scores.slice(0, n);
+}
+
+function abrirRevisao() {
+  if (!ITENS.length) return;
+  const mes = parseInt(document.getElementById('sel-mes').value);
+  const ano = parseInt(document.getElementById('inp-ano').value);
+  DEPARA    = (CFG.depara || {});
+  REV_STATE = {};
+  const GA=[], GB=[], GC=[];
+
+  ITENS.forEach((it, idx) => {
+    const {mes:mIt, ano:aIt} = parseMesItem(it.data);
+    const foraComp = (mIt && aIt) && (mIt !== mes || aIt !== ano);
+    if (foraComp) {
+      GC.push({...it, idx});
+      REV_STATE[idx] = {acao:'fora', motivo:'fora_competencia', confirmado:true, usado:false};
+      return;
+    }
+    const dp = DEPARA[it.desc];
+    if (dp) {
+      GA.push({...it, idx, match:dp.key, preco_ref:dp.preco_ref, categoria:dp.cat, via:'depara'});
+      REV_STATE[idx] = {confirmado:false, acao:'reconhecido', vinculo_key:dp.key, preco_ref:dp.preco_ref, categoria:dp.cat};
+      return;
+    }
+    const m = matchFrontend(it.desc);
+    if (m) {
+      GA.push({...it, idx, match:m.p.key, preco_ref:m.p.ref, categoria:m.p.cat, score:m.score, via:'auto'});
+      REV_STATE[idx] = {confirmado:false, acao:'reconhecido', vinculo_key:m.p.key, preco_ref:m.p.ref, categoria:m.p.cat};
+    } else {
+      GB.push({...it, idx});
+      REV_STATE[idx] = {confirmado:false, acao:null};
+    }
+  });
+
+  document.getElementById('rc-ok').textContent    = GA.length;
+  document.getElementById('rc-pend').textContent  = GB.length;
+  document.getElementById('rc-fora').textContent  = GC.length;
+  document.getElementById('ga-badge').textContent = GA.length;
+  document.getElementById('gb-badge').textContent = GB.length;
+  document.getElementById('gc-badge').textContent = GC.length;
+
+  renderGrupoA(GA);
+  renderGrupoB(GB);
+  renderGrupoC(GC, mes, ano);
+
+  document.getElementById('rev-gb-card').style.display = GB.length ? 'block' : 'none';
+  document.getElementById('rev-gc-card').style.display = GC.length ? 'block' : 'none';
+
+  verificarPodeCalcular();
+  goTab(3);
+}
+
+// ── GRUPO A ──────────────────────────────────────────────────────────────────
+const CAT_STYLE = {
+  CLASSICO:'background:#EAF3FB;color:#1F4E79',
+  RESERVA: 'background:#F0EDE6;color:#5C4A1E',
+  SUPREME: 'background:#FFF0C8;color:#7B4500'
+};
+
+function renderGrupoA(GA) {
+  document.getElementById('rev-ga-tbody').innerHTML = GA.map(it => {
+    const catS  = CAT_STYLE[it.categoria] || '';
+    const viaTag = it.via==='depara'
+      ? '<span style="font-size:9px;background:#E8F5EE;color:#1A6B3C;border-radius:4px;padding:1px 5px;margin-left:4px">De-Para</span>'
+      : '<span style="font-size:9px;background:#E8F0FE;color:#1F4E79;border-radius:4px;padding:1px 5px;margin-left:4px">Auto</span>';
+    return `<tr id="ga-row-${it.idx}">
+      <td style="text-align:center;width:32px">
+        <input type="checkbox" id="chk-a-${it.idx}" onchange="confirmarItemA(${it.idx},this.checked)">
+      </td>
+      <td class="mono" style="font-size:10px">${it.data}</td>
+      <td class="mono">${it.pedido}</td>
+      <td class="mono">${it.nf}</td>
+      <td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px">${it.cliente}</td>
+      <td><span class="cod">${it.cod}</span></td>
+      <td style="font-size:10px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${it.desc}${viaTag}</td>
+      <td id="cat-a-${it.idx}"><span style="${catS};border-radius:8px;padding:1px 7px;font-size:9px;font-weight:700">${it.categoria}</span></td>
+      <td>
+        <select style="font-size:10px;padding:2px 4px;border:1px solid var(--border);border-radius:4px;max-width:180px"
+          onchange="alterarMatchA(${it.idx},this.value)">
+          ${buildProdOptions(it.match)}
+        </select>
+      </td>
+      <td class="mono tr" id="ref-a-${it.idx}">${it.preco_ref ? R(it.preco_ref) : '—'}</td>
+      <td class="mono tr">${R(it.preco)}</td>
+      <td class="mono tr"><strong>${R(it.total)}</strong></td>
+      <td style="text-align:center;width:80px" id="conf-a-${it.idx}">
+        <span style="color:#ccc;font-size:11px">pendente</span>
+      </td>
+    </tr>`;
+  }).join('');
+  // Resetar master checkbox
+  const mstr = document.getElementById('chk-all-a');
+  if (mstr) { mstr.checked = false; mstr.indeterminate = false; }
+}
+
+function buildProdOptions(selectedKey) {
+  const cats = ['CLASSICO','RESERVA','SUPREME'];
+  let out = '<option value="">— selecionar —</option>';
+  cats.forEach(cat => {
+    const prods = PRODUTOS.filter(p=>p.cat===cat);
+    out += `<optgroup label="${cat}">`;
+    prods.forEach(p => {
+      out += `<option value="${p.key}" ${p.key===selectedKey?'selected':''}>${p.desc} — ${R(p.ref)}/kg</option>`;
+    });
+    out += '</optgroup>';
+  });
+  return out;
+}
+
+function confirmarItemA(idx, checked) {
+  idx = parseInt(idx);
+  if (REV_STATE[idx]) REV_STATE[idx].confirmado = checked;
+  const row  = document.getElementById('ga-row-'+idx);
+  const conf = document.getElementById('conf-a-'+idx);
+  if (row)  row.style.background  = checked ? '#F0FAF3' : '';
+  if (conf) conf.innerHTML = checked
+    ? '<span style="color:var(--green);font-weight:700;font-size:13px">✓ Conf.</span>'
+    : '<span style="color:#ccc;font-size:11px">pendente</span>';
+  // Atualizar master checkbox
+  const allChks = [...document.querySelectorAll('[id^="chk-a-"]')];
+  const nMarcados = allChks.filter(c=>c.checked).length;
+  const mstr = document.getElementById('chk-all-a');
+  if (mstr) {
+    mstr.checked       = (nMarcados === allChks.length && allChks.length > 0);
+    mstr.indeterminate = (nMarcados > 0 && nMarcados < allChks.length);
+  }
+  verificarPodeCalcular();
+}
+
+function toggleAllA(el) {
+  [...document.querySelectorAll('[id^="chk-a-"]')].forEach(c => {
+    const idx = parseInt(c.id.replace('chk-a-',''));
+    c.checked = el.checked;
+    confirmarItemA(idx, el.checked);
+  });
+}
+
+function confirmarTodosA() {
+  [...document.querySelectorAll('[id^="chk-a-"]')].forEach(c => {
+    const idx = parseInt(c.id.replace('chk-a-',''));
+    c.checked = true;
+    confirmarItemA(idx, true);
+  });
+}
+
+function alterarMatchA(idx, key) {
+  idx = parseInt(idx);
+  const prod = PRODUTOS.find(p=>p.key===key);
+  if (!prod) return;
+  REV_STATE[idx] = {...(REV_STATE[idx]||{}), vinculo_key:key, preco_ref:prod.ref, categoria:prod.cat, confirmado:false};
+  const refEl = document.getElementById('ref-a-'+idx);
+  const catEl = document.getElementById('cat-a-'+idx);
+  if (refEl) refEl.textContent = R(prod.ref);
+  if (catEl) catEl.innerHTML = `<span style="${CAT_STYLE[prod.cat]||''};border-radius:8px;padding:1px 7px;font-size:9px;font-weight:700">${prod.cat}</span>`;
+  // Desconfirmar para forçar revisão consciente após troca
+  const chk = document.getElementById('chk-a-'+idx);
+  if (chk) { chk.checked = false; confirmarItemA(idx, false); }
+}
+
+// ── GRUPO B ──────────────────────────────────────────────────────────────────
+function renderGrupoB(GB) {
+  document.getElementById('rev-gb-tbody').innerHTML = GB.map(it => {
+    const tops = topCandidatos(it.desc, 3);
+    const sugestoes = tops.length
+      ? tops.map(({p,score}) =>
+          `<button onclick="aplicarSugestaoB(${it.idx},'${p.key.replace(/'/g,"\\'")}',${p.ref},'${p.cat}')"
+            style="font-size:9px;background:#F0F5FF;border:1px solid #4A90E2;color:#1F4E79;border-radius:6px;
+                   padding:2px 8px;cursor:pointer;margin:1px;white-space:nowrap"
+            title="Score: ${(score*100).toFixed(0)}%">
+            ${p.desc} <span style="color:#4A90E2">(${p.cat[0]}) ${R(p.ref)}</span>
+          </button>`
+        ).join('')
+      : '<span style="font-size:9px;color:#bbb">Nenhuma sugestão encontrada</span>';
+
+    return `<tr id="gb-row-${it.idx}">
+      <td class="mono" style="font-size:10px">${it.data}</td>
+      <td class="mono">${it.pedido}</td>
+      <td class="mono">${it.nf}</td>
+      <td style="max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px">${it.cliente}</td>
+      <td><span class="cod">${it.cod}</span></td>
+      <td style="font-size:10px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;color:var(--red)">${it.desc}</td>
+      <td style="min-width:160px">
+        <div style="margin-bottom:4px;font-size:9px;color:var(--muted);font-weight:600">Sugestões:</div>
+        <div id="sug-${it.idx}">${sugestoes}</div>
+      </td>
+      <td style="min-width:150px">
+        <select style="font-size:10px;padding:2px 4px;border:1px solid var(--red);border-radius:4px;width:100%;margin-bottom:4px"
+          onchange="onAcaoB(${it.idx},this.value)" id="acao-${it.idx}">
+          <option value="">— ação —</option>
+          <option value="vincular">Vincular à tabela</option>
+          <option value="avulso">Preço avulso</option>
+          <option value="excluir">Excluir do cálculo</option>
+        </select>
+        <div id="td-vinc-${it.idx}"></div>
+      </td>
+      <td class="mono tr">${R(it.preco)}</td>
+      <td class="mono tr"><strong>${R(it.total)}</strong></td>
+    </tr>`;
+  }).join('');
+}
+
+function aplicarSugestaoB(idx, key, ref, cat) {
+  idx = parseInt(idx);
+  // Setar ação como vincular, aplicar o produto
+  const selAcao = document.getElementById('acao-'+idx);
+  if (selAcao) { selAcao.value = 'vincular'; onAcaoB(idx, 'vincular'); }
+  // Aguardar o DOM do select de vínculo e setar o valor
+  setTimeout(() => {
+    const tdVinc = document.getElementById('td-vinc-'+idx);
+    if (!tdVinc) return;
+    const selVinc = tdVinc.querySelector('select');
+    if (selVinc) { selVinc.value = key; onVinculoB(idx, key); }
+    // Destacar sugestão escolhida
+    const sugContainer = document.getElementById('sug-'+idx);
+    if (sugContainer) sugContainer.style.opacity = '0.4';
+  }, 50);
+}
+
+function onAcaoB(idx, acao) {
+  idx = parseInt(idx);
+  const td = document.getElementById('td-vinc-'+idx);
+  REV_STATE[idx] = {...(REV_STATE[idx]||{}), acao};
+  if (acao === 'vincular') {
+    td.innerHTML = `<select style="font-size:10px;padding:2px 4px;border:1px solid var(--border);border-radius:4px;width:100%"
+      onchange="onVinculoB(${idx},this.value)">
+      ${buildProdOptions(REV_STATE[idx]?.vinculo_key||'')}
+    </select>`;
+    REV_STATE[idx].confirmado = false;
+  } else if (acao === 'avulso') {
+    td.innerHTML = `<input type="number" step="0.01" min="0" placeholder="Preço ref. R$/kg"
+      style="width:110px;font-size:10px;padding:3px 6px;border:1px solid var(--border);border-radius:4px"
+      oninput="onAvulsoB(${idx},this.value)">`;
+    REV_STATE[idx].confirmado = false;
+  } else if (acao === 'excluir') {
+    td.innerHTML = `<span style="font-size:10px;color:var(--muted);font-style:italic">✗ Excluído conscientemente</span>`;
+    REV_STATE[idx].confirmado  = true;
+    REV_STATE[idx].vinculo_key = null;
+    REV_STATE[idx].preco_ref   = null;
+  }
+  atualizarEstiloRowB(idx);
+  verificarPodeCalcular();
+}
+
+function onVinculoB(idx, key) {
+  idx = parseInt(idx);
+  const prod = PRODUTOS.find(p=>p.key===key);
+  if (!prod) return;
+  REV_STATE[idx] = {...(REV_STATE[idx]||{}), vinculo_key:key, preco_ref:prod.ref, categoria:prod.cat, confirmado:true};
+  atualizarEstiloRowB(idx);
+  verificarPodeCalcular();
+}
+
+function onAvulsoB(idx, val) {
+  idx = parseInt(idx);
+  const v = parseFloat(val);
+  if (!v || v<=0) { REV_STATE[idx].confirmado=false; verificarPodeCalcular(); return; }
+  REV_STATE[idx] = {...(REV_STATE[idx]||{}), preco_ref:v, vinculo_key:'AVULSO', confirmado:true};
+  atualizarEstiloRowB(idx);
+  verificarPodeCalcular();
+}
+
+function atualizarEstiloRowB(idx) {
+  const row = document.getElementById('gb-row-'+idx);
+  if (!row) return;
+  const st = REV_STATE[idx];
+  row.style.background = st?.confirmado ? '#F0FAF3' : '';
+  const sel = document.getElementById('acao-'+idx);
+  if (sel) sel.style.borderColor = st?.confirmado ? 'var(--green)' : (st?.acao ? 'var(--orange)' : 'var(--red)');
+}
+
+// ── GRUPO C ──────────────────────────────────────────────────────────────────
+function renderGrupoC(GC, mes, ano) {
+  const MESES_PT = ["","Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+  document.getElementById('rev-gc-tbody').innerHTML = GC.map(it => `
+    <tr style="opacity:0.65">
+      <td class="mono" style="font-size:10px">${it.data}</td>
+      <td class="mono">${it.pedido}</td>
+      <td class="mono">${it.nf}</td>
+      <td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px">${it.cliente}</td>
+      <td><span class="cod">${it.cod}</span></td>
+      <td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${it.desc}</td>
+      <td class="mono tr">${R(it.preco)}</td>
+      <td class="mono tr"><strong>${R(it.total)}</strong></td>
+      <td><span style="background:#eee;color:#888;border-radius:6px;padding:2px 8px;font-size:10px">
+        Fora — competência: ${MESES_PT[mes]}/${ano}
+      </span></td>
+    </tr>`).join('');
+}
+
+// ── CONTROLE GERAL ───────────────────────────────────────────────────────────
+function verificarPodeCalcular() {
+  const pendentes = Object.values(REV_STATE).filter(st => !st.acao).length;
+  const btn = document.getElementById('btn-calc');
+  if (!btn) return;
+  btn.disabled = pendentes > 0;
+  if (pendentes > 0) {
+    btn.title = `${pendentes} item(ns) no Grupo B ainda sem ação definida`;
+  } else {
+    btn.title = '';
+  }
+}
+
+// ══ CALCULAR ═════════════════════════════════════════════════════════════════
+
+async function calcular(){
+  if(!VEND_ATIVO||!ITENS.length) return;
+  const nivel = parseInt(document.getElementById('sel-nivel').value);
+  const mes   = parseInt(document.getElementById('sel-mes').value);
+  const ano   = parseInt(document.getElementById('inp-ano').value);
+
+  document.getElementById('btn-calc').disabled=true;
+  document.getElementById('btn-calc').innerHTML='<div class="spin"></div> Calculando...';
+
+  // Construir itens enriquecidos com dados do REV_STATE + persistir De-Para
+  const novoDepara = {...(CFG.depara||{})};
+  const itensEnriquecidos = ITENS.map((it, idx) => {
+    const st = REV_STATE[idx] || {};
+    // Itens fora da competência: marcar para exclusão
+    if (st.motivo === 'fora_competencia') {
+      return {...it, _excluir: true, _motivo: 'fora_competencia'};
+    }
+    // Itens do Grupo B com vínculo → persistir no De-Para
+    if (st.acao === 'vincular' && st.vinculo_key && st.vinculo_key !== 'AVULSO') {
+      const prod = PRODUTOS.find(p=>p.key===st.vinculo_key);
+      if (prod) {
+        novoDepara[it.desc] = {key: prod.key, preco_ref: prod.ref, cat: prod.cat};
+      }
+      return {...it, _match_key: st.vinculo_key, _preco_ref_override: st.preco_ref, _cat_override: st.categoria};
+    }
+    if (st.acao === 'avulso' && st.preco_ref) {
+      return {...it, _preco_ref_override: st.preco_ref, _match_key: 'AVULSO'};
+    }
+    if (st.acao === 'excluir') {
+      return {...it, _excluir: true, _motivo: 'excluido_operador'};
+    }
+    // Grupo A com match confirmado ou não — passa o vinculo_key se disponível
+    if (st.vinculo_key) {
+      return {...it, _match_key: st.vinculo_key, _preco_ref_override: st.preco_ref};
+    }
+    return it;
+  });
+
+  // Persistir De-Para no config se houve novos mapeamentos
+  if (Object.keys(novoDepara).length !== Object.keys(CFG.depara||{}).length) {
+    const cfgAtual = {...CFG, depara: novoDepara};
+    await fetch('/api/config', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(cfgAtual)});
+    CFG.depara = novoDepara;
+    toast('De-Para salvo — '+Object.keys(novoDepara).length+' mapeamentos');
+  }
+
+  try {
+    const resp = await fetch('/api/calcular',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        itens: itensEnriquecidos,
+        canal: VEND_ATIVO.canal,
+        nivel, mes, ano,
+        vendedor: VEND_ATIVO.nome
+      })
+    });
+    RESULTADO = await resp.json();
+    renderResultado(RESULTADO);
+    goTab(4);
+  } catch(e) {
+    alert('Erro ao calcular: '+e.message);
+  } finally {
+    document.getElementById('btn-calc').disabled=false;
+    document.getElementById('btn-calc').innerHTML='Calcular OTE →';
+  }
+}
+
+// ══ RESULTADO ════════════════════════════════════════════════════════════════
+function renderResultado(res){
+  const{fixo,var_final,rem_total,fat_comp,fat_total,ating,r,classified,ote_row,nivel,mes,ano,vendedor}=res;
+  const atingeMeta  = fat_comp >= ote_row.meta;
+  const atingeCorte = fat_comp >= ote_row.corte;
+
+  const statusAl = atingeMeta
+    ?`<div class="al al-o">✅ <strong>Meta atingida!</strong> Faturamento computável ${R(fat_comp)} — Meta ${R(ote_row.meta)} — Atingimento ${P(ating)}</div>`
+    :atingeCorte
+    ?`<div class="al al-w">⚠ Abaixo da meta, acima do corte. Faturamento: ${R(fat_comp)} / Meta: ${R(ote_row.meta)} — Atingimento: ${P(ating)}</div>`
+    :`<div class="al al-e">❌ Abaixo do corte de 70%. Fat: ${R(fat_comp)} — Corte: ${R(ote_row.corte)} — Ating: ${P(ating)}</div>`;
+
+  const semRef = r.sem_ref?.fat || 0;
+  const semRefAl = semRef>0
+    ?`<div class="al al-w" style="margin-top:9px">⚠ ${R(semRef)} em vendas sem preço de referência cadastrado — não computados no variável. Preencha em Configurações → Tabela de Preços.</div>`:'';
+
+  const FB = {abaixo:'b1',desconto:'b2',ideal:'b3',acima:'b4',sem_ref:'b0'};
+  const FL = {abaixo:'Abaixo 10%',desconto:'3-10% Desc.',ideal:'Tabela Ideal',acima:'Acima Tabela',sem_ref:'Sem Ref.'};
+
+  const linhas = classified.map((it,i)=>{
+    const ref  = it.preco_ref;
+    const used = it.faixa !== 'sem_ref';
+    const dv   = it.desvio!=null?((it.desvio>=0?'+':'')+P(it.desvio)):'—';
+    const dc   = it.faixa==='acima'?'cg':it.faixa==='abaixo'?'cr':it.faixa==='desconto'?'co':'';
+
+    const CAT_BADGE = {
+      CLASSICO: 'background:#EAF3FB;color:#1F4E79',
+      RESERVA:  'background:#F0EDE6;color:#5C4A1E',
+      SUPREME:  'background:#FFF0C8;color:#7B4500',
+    };
+    const catStyle = CAT_BADGE[it.categoria] || 'background:#eee;color:#333';
+    const catLabel = it.categoria || '—';
+
+    // Fundo da linha: sem_ref recebe listrado cinza claro para destacar exclusão
+    const rowBg = used
+      ? ({acima:'#F0FAF3',ideal:'#F0F5FF',desconto:'#FFF8F0',abaixo:'#FFF0F0'}[it.faixa]||'')
+      : '#F7F7F7';
+
+    // Badge "Usado no Cálculo"
+    const usedBadge = used
+      ? `<span style="background:#E8F5EE;color:#1A6B3C;border-radius:8px;padding:2px 9px;font-size:10px;font-weight:700;border:1px solid #B8DFC8">✓ Sim</span>`
+      : `<span style="background:#FFF0F0;color:#C0392B;border-radius:8px;padding:2px 9px;font-size:10px;font-weight:700;border:1px solid #F5C6C6">✗ Não</span>`;
+
+    // Motivo da exclusão (tooltip implícito no badge Faixa)
+    const motivo = !used ? '<span style="font-size:9px;color:#aaa;display:block;margin-top:1px">Sem referência de preço</span>' : '';
+
+    return`<tr style="background:${rowBg};opacity:${used?'1':'0.72'}">
+      <td class="mono" style="font-size:10px;font-weight:${used?'400':'400'};color:${used?'inherit':'#999'}">${it.data}</td>
+      <td class="mono" style="color:${used?'inherit':'#999'}">${it.pedido}</td>
+      <td class="mono" style="color:${used?'inherit':'#999'}">${it.nf}</td>
+      <td style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;color:${used?'inherit':'#999'}">${it.cliente}</td>
+      <td><span class="cod">${it.cod}</span></td>
+      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px">${it.desc}</td>
+      <td style="text-align:center">${used?`<span style="${catStyle};border-radius:8px;padding:1px 6px;font-size:9px;font-weight:700">${catLabel}</span>`:'<span style="color:#bbb;font-size:9px">—</span>'}</td>
+      <td class="mono tr" style="color:${used?'inherit':'#999'}">${N(it.peso,3)}</td>
+      <td class="mono tr" style="color:${used?'inherit':'#999'}">${R(it.preco)}</td>
+      <td class="mono tr" style="font-weight:600;color:${used?'var(--navy3)':'#bbb'}">${ref?R(ref):'<span style="color:#bbb;font-style:italic">—</span>'}</td>
+      <td class="mono tr ${used?dc:''}" style="font-weight:${used?'600':'400'};color:${used?'inherit':'#bbb'}">${dv}</td>
+      <td style="text-align:center">${used?`<span class="badge ${FB[it.faixa]}">${FL[it.faixa]}</span>`:'<span style="color:#bbb;font-size:10px">—</span>'}</td>
+      <td style="text-align:center">${usedBadge}${motivo}</td>
+      <td class="mono tr" style="color:${used?'inherit':'#999'}"><strong>${R(it.total)}</strong></td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('resultado-wrap').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+      <div>
+        <div class="ptitle">Extrato de Comissão OTE</div>
+        <div style="font-size:13px;color:var(--muted)"><strong style="color:var(--navy)">${vendedor.nome}</strong> · ${vendedor.cargo} · ${MESES[mes]}/${ano} · Nível ${nivel}</div>
+      </div>
+      <div style="text-align:right;font-size:10px;color:var(--muted)">
+        ${new Date().toLocaleDateString('pt-BR')} ${new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}<br>
+        <span style="font-size:9px">Stoic Capital · BeefPassion OTE v1.0</span>
+      </div>
+    </div>
+
+    ${statusAl}${semRefAl}
+
+    <div class="rgrid" style="margin-top:14px">
+      <div class="rc rc-d"><div class="rv">${R(fat_comp)}</div><div class="rl">Faturamento Computável</div><div class="rs">${P(ating)} da meta</div></div>
+      <div class="rc rc-g"><div class="rv">${R(rem_total)}</div><div class="rl">Remuneração Total</div><div class="rs">Fixo + Variável</div></div>
+      <div class="rc rc-gr"><div class="rv">${R(var_final)}</div><div class="rl">Variável a Receber</div><div class="rs">Base: ${R(ote_row.var)}</div></div>
+    </div>
+    <div class="rgrid">
+      <div class="rc rc-l"><div class="rv" style="font-size:22px">${R(fixo)}</div><div class="rl">Salário Fixo</div></div>
+      <div class="rc rc-l"><div class="rv" style="font-size:22px">${R(ote_row.meta)}</div><div class="rl">Meta do Período</div><div class="rs">Corte: ${R(ote_row.corte)}</div></div>
+      <div class="rc rc-l"><div class="rv" style="font-size:22px">${R(fat_total)}</div><div class="rl">Faturamento Total</div><div class="rs">Incl. sem referência</div></div>
+    </div>
+
+    <div class="card">
+      <div class="ctitle">Desdobramento por Faixa de Preço</div>
+      <div class="fgrid">
+        ${[['abaixo','⬇ Abaixo 10%','fx1','cr'],['desconto','↘ 3-10% Desc.','fx2','co'],['ideal','✓ Tabela Ideal','fx3','cn'],['acima','⬆ Acima Tabela','fx4','cg']].map(([f,lbl,cls,cc])=>`
+        <div class="fx ${cls}">
+          <div class="fxl">${lbl}</div>
+          <div class="fxv">${R(r[f]?.fat||0)}</div>
+          <div class="fxs">${fat_comp>0?P((r[f]?.fat||0)/fat_comp):'-'} do fat.</div>
+          <div class="fxvar ${cc}">Variável: ${R(r[f]?.var_fx||0)}</div>
+          <div class="fxs">Mult.: ${(r[f]?.mult||0).toFixed(4)}</div>
+        </div>`).join('')}
+      </div>
+      <div>
+        <div style="display:flex;height:18px;border-radius:5px;overflow:hidden;margin-top:4px">
+          ${(r.abaixo?.fat||0)>0?`<div style="width:${P((r.abaixo.fat)/fat_total)};background:var(--red)"></div>`:''}
+          ${(r.desconto?.fat||0)>0?`<div style="width:${P((r.desconto.fat)/fat_total)};background:var(--orange)"></div>`:''}
+          ${(r.ideal?.fat||0)>0?`<div style="width:${P((r.ideal.fat)/fat_total)};background:var(--navy3)"></div>`:''}
+          ${(r.acima?.fat||0)>0?`<div style="width:${P((r.acima.fat)/fat_total)};background:var(--green)"></div>`:''}
+          ${semRef>0?`<div style="flex:1;background:#CCC"></div>`:''}
+        </div>
+      </div>
+    </div>
+
+    ${renderSimulacao(r, fat_comp, ating, ote_row)}
+
+    ${renderTop3Faixas(classified)}
+
+    <div class="card">
+      <div class="ctitle">Resumo Financeiro</div>
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 0">Faturamento Computável</td><td class="mono tr" style="padding:8px 0;font-weight:600">${R(fat_comp)}</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 0;color:var(--muted)">Meta (Nível ${nivel})</td><td class="mono tr" style="padding:8px 0;color:var(--muted)">${R(ote_row.meta)}</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 0;color:var(--muted)">Atingimento</td><td class="mono tr" style="padding:8px 0;color:var(--muted)">${P(ating)}</td></tr>
+        <tr style="border-bottom:2px solid var(--border)"><td style="padding:8px 0;color:var(--muted)">Variável Base OTE</td><td class="mono tr" style="padding:8px 0;color:var(--muted)">${R(ote_row.var)}</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 0">Salário Fixo</td><td class="mono tr" style="padding:8px 0">${R(fixo)}</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:8px 0">Variável a Receber</td><td class="mono tr cg" style="padding:8px 0;font-weight:600">${R(var_final)}</td></tr>
+        <tr style="background:var(--navy);color:var(--gold)"><td style="padding:10px 12px;font-weight:700;border-radius:0 0 0 6px">REMUNERAÇÃO TOTAL</td><td class="mono tr" style="padding:10px 12px;font-weight:700;font-size:17px;border-radius:0 0 6px 0">${R(rem_total)}</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="ctitle">Vendas Categorizadas — ${classified.length} itens</div>
+      <div class="twrap">
+        <table class="dt">
+          <thead><tr>
+  <th>Data Competência</th>
+  <th>Pedido</th><th>NF</th><th>Cliente</th><th>Cód.</th><th>Produto</th><th>Cat.</th>
+  <th class="tr">Kg</th>
+  <th class="tr">Praticado</th>
+  <th class="tr">Ref. Tabela</th>
+  <th class="tr">Desvio</th>
+  <th>Faixa</th>
+  <th style="text-align:center">Usado no Cálculo</th>
+  <th class="tr">Total</th>
+</tr></thead>
+          <tbody>${linhas}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="padding:12px;background:var(--smoke);border-radius:6px;font-size:10px;color:var(--muted);line-height:1.8;margin-top:4px">
+      <strong style="color:var(--navy)">Notas metodológicas:</strong> Classificação por faixa: desvio entre preço praticado e preço de tabela (Configurações).
+      Multiplicador: tabela exata de <em>Beef_Metas_OTE.xlsx · "1. Tabela de Multiplicador"</em> · 252 entradas.
+      Extração PDF: pdfplumber com leitura posicional (coordenadas X/Y).
+      Vendas sem referência excluídas do faturamento computável e do variável.
+    </div>
+
+    <div class="brow no-print" style="margin-top:18px">
+      <button class="btn btn-o" onclick="goTab(2)">← Voltar</button>
+      <button class="btn btn-g" onclick="exportarXLSX()">⬇ Exportar Excel</button>
+      <button class="btn btn-p" onclick="window.print()">🖨 Imprimir / PDF</button>
+    </div>`;
+}
+
+async function exportarXLSX(){
+  if(!RESULTADO||!VEND_ATIVO) return;
+  const nivel = parseInt(document.getElementById('sel-nivel').value);
+  const mes   = parseInt(document.getElementById('sel-mes').value);
+  const ano   = parseInt(document.getElementById('inp-ano').value);
+
+  const resp = await fetch('/api/exportar_xlsx',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({itens:ITENS,canal:VEND_ATIVO.canal,nivel,mes,ano,vendedor:VEND_ATIVO.nome})
+  });
+  if(!resp.ok){alert('Erro ao gerar Excel.');return;}
+  const blob = await resp.blob();
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = `OTE_${VEND_ATIVO.nome}_${String(mes).padStart(2,'0')}_${ano}.xlsx`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ══ CFG: PREÇOS ══════════════════════════════════════════════════════════════
+function buildPriceTable(filtro=''){
+  const tbody = document.getElementById('pc-tbody');
+  const precos = CFG.precos||{};
+  const catAtiva = document.getElementById('cat-filter') ? document.getElementById('cat-filter').value : '';
+  tbody.innerHTML = PRODUTOS.filter(p=>{
+    const matchTxt = !filtro || p.desc.toLowerCase().includes(filtro.toLowerCase());
+    const matchCat = !catAtiva || p.cat === catAtiva;
+    return matchTxt && matchCat;
+  }).map(p=>{
+    const val = precos[p.key];
+    const CAT_STYLE = {
+      CLASSICO: 'background:#EAF3FB;color:#1F4E79;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700',
+      RESERVA:  'background:#F0EDE6;color:#5C4A1E;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700',
+      SUPREME:  'background:#FFF0C8;color:#7B4500;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700',
+    };
+    return `<tr id="pr-${p.key.replace('|','-')}" data-d="${p.desc.toLowerCase()}" data-cat="${p.cat}">
+      <td style="font-size:11px;font-weight:500">${p.desc}</td>
+      <td style="text-align:center"><span style="${CAT_STYLE[p.cat]||''}">${p.cat}</span></td>
+      <td class="mono tr" style="font-size:10px;color:var(--muted)">${p.ref ? 'R$ '+N(p.ref) : '—'}</td>
+      <td><input type="number" class="pinp ${val?'ok':''}" id="pi-${p.key.replace('|','-')}"
+        step="0.01" min="0" placeholder="0,00"
+        value="${val?val.toFixed(2):''}"
+        oninput="onPI('${p.key}',this)"></td>
+    </tr>`;
+  }).join('');
+  updatePC();
+}
+
+function onPI(key,el){
+  const v=parseFloat(el.value);
+  if(!CFG.precos) CFG.precos={};
+  if(v>0){CFG.precos[key]=v;el.classList.add('ok');}
+  else{delete CFG.precos[key];el.classList.remove('ok');}
+  updatePC();
+}
+
+function updatePC(){
+  const n=Object.keys(CFG.precos||{}).length;
+  const tot=PRODUTOS.length;
+  document.getElementById('pc-n').textContent=n;
+  document.getElementById('pc-tot').textContent=tot;
+  document.getElementById('pc-prog').style.width=Math.round(n/tot*100)+'%';
+  document.getElementById('pc-lbl').textContent=`${n} de ${tot} preços vigentes definidos (${Math.round(n/tot*100)}%)`;
+}
+
+function filterP(q){
+  buildPriceTable(q);
+}
+function filterCat(cat){
+  buildPriceTable(document.querySelector('.srch input').value);
+}
+
+function fillRef(){
+  PRODUTOS.forEach(p=>{
+    if(!(CFG.precos||{})[p.key] && p.ref){
+      if(!CFG.precos) CFG.precos={};
+      CFG.precos[p.key]=p.ref;
+    }
+  });
+  buildPriceTable();
+}
+
+function clearPrecos(){
+  if(!confirm('Limpar todos os preços vigentes?')) return;
+  CFG.precos={};
+  buildPriceTable();
+}
+
+// ══ CFG: OTE ═════════════════════════════════════════════════════════════════
+// ── helpers OTE ──────────────────────────────────────────────────────────────
+function oteReadonly(canal, ni, field, value){
+  return `<input id="ote-${canal}-${ni}-${field}" type="number" step="0.01" min="0"
+    value="${parseFloat(value).toFixed(2)}" readonly
+    style="width:90px;padding:5px 8px;border:1.5px solid var(--border);border-radius:5px;
+           font-family:'DM Mono',monospace;font-size:11px;text-align:right;
+           background:var(--smoke);color:var(--muted);cursor:not-allowed">`;
+}
+
+function onOTEInput(canal, ni, field, raw){
+  const v = parseFloat(raw) || 0;
+  const rows = (CFG.ote||{})[canal]||[];
+  const row  = rows.find(r=>r.n===ni);
+  if(!row) return;
+
+  if(field === 'ote'){
+    row.ote  = v;
+    row.fixo = parseFloat((v * row.pf).toFixed(2));
+    row.var  = parseFloat((v * row.pv).toFixed(2));
+    setOTERO(canal, ni, 'fixo', row.fixo);
+    setOTERO(canal, ni, 'var',  row.var);
+  }
+  if(field === 'pf'){
+    const pct  = Math.min(Math.max(v/100, 0), 1);
+    row.pf  = parseFloat(pct.toFixed(4));
+    row.pv  = parseFloat((1 - pct).toFixed(4));
+    row.fixo = parseFloat((row.ote * pct).toFixed(2));
+    row.var  = parseFloat((row.ote * row.pv).toFixed(2));
+    setOTERO(canal, ni, 'fixo', row.fixo);
+    setOTERO(canal, ni, 'var',  row.var);
+  }
+  if(field === 'meta'){
+    row.meta  = v;
+    row.corte = parseFloat((v * 0.7).toFixed(2));
+    setOTERO(canal, ni, 'corte', row.corte);
+  }
+}
+
+function setOTERO(canal, ni, field, value){
+  const el = document.getElementById(`ote-${canal}-${ni}-${field}`);
+  if(el) el.value = parseFloat(value).toFixed(2);
+}
+
+function buildOTECfg(){
+  const wrap = document.getElementById('ote-cfg-wrap');
+  const ote  = CFG.ote || {};
+  const locked = !OTE_DESBLOQUEADO;
+  const LABELS = {PJ:'Comercial PJ', PF:'Gerente/Vendedor PF', ADMIN:'Aux. Adm. e Comercial'};
+  const lockStatus = document.getElementById('ote-lock-status');
+  if(lockStatus) lockStatus.textContent = locked ? '🔒 Bloqueado para edição' : '🔓 Desbloqueado';
+  const inpStyle = locked
+    ? `width:90px;padding:5px 8px;border:1.5px solid var(--border);border-radius:5px;font-family:'DM Mono',monospace;font-size:11px;text-align:right;background:var(--smoke);color:var(--muted);cursor:not-allowed`
+    : `width:90px;padding:5px 8px;border:1.5px solid var(--border);border-radius:5px;font-family:'DM Mono',monospace;font-size:11px;text-align:right;color:#0000CC;font-weight:500`;
+
+  wrap.innerHTML = Object.entries(ote).map(([canal, rows]) => `
+    <div style="margin-bottom:28px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--navy3)">${LABELS[canal]||canal}</div>
+        <div style="font-size:10px;color:var(--muted);font-style:italic">Canal: ${canal}</div>
+      </div>
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:11px;min-width:680px">
+          <thead><tr style="background:var(--navy)">
+            <th style="padding:7px 10px;color:var(--gold);font-size:9px;letter-spacing:1px;text-transform:uppercase;text-align:center;width:44px">Nível</th>
+            <th style="padding:7px 10px;color:var(--gold);font-size:9px;letter-spacing:1px;text-transform:uppercase;text-align:center">OTE ✏</th>
+            <th style="padding:7px 10px;color:rgba(220,198,151,.45);font-size:9px;letter-spacing:1px;text-transform:uppercase;text-align:center">Fixo (auto)</th>
+            <th style="padding:7px 10px;color:rgba(220,198,151,.45);font-size:9px;letter-spacing:1px;text-transform:uppercase;text-align:center">Variável (auto)</th>
+            <th style="padding:7px 10px;color:var(--gold);font-size:9px;letter-spacing:1px;text-transform:uppercase;text-align:center">% Fixo ✏</th>
+            <th style="padding:7px 10px;color:var(--gold);font-size:9px;letter-spacing:1px;text-transform:uppercase;text-align:center">Meta ✏</th>
+            <th style="padding:7px 10px;color:rgba(220,198,151,.45);font-size:9px;letter-spacing:1px;text-transform:uppercase;text-align:center">Corte 70% (auto)</th>
+          </tr></thead>
+          <tbody>${rows.map((row,i) => `
+            <tr style="border-bottom:1px solid var(--border);background:${i%2===0?'#fff':'var(--smoke)'}">
+              <td style="padding:6px 10px;font-weight:700;text-align:center;font-size:13px;color:var(--navy)">${row.n}</td>
+              <td style="padding:4px 8px;text-align:center">
+                <input id="ote-${canal}-${row.n}-ote" type="number" step="0.01" min="0"
+                  value="${row.ote.toFixed(2)}"
+                  ${locked?"readonly":""} oninput="!locked&&onOTEInput('${canal}',${row.n},'ote',this.value)"
+                  style="${inpStyle}">
+              </td>
+              <td style="padding:4px 8px;text-align:center">${oteReadonly(canal, row.n, 'fixo', row.fixo)}</td>
+              <td style="padding:4px 8px;text-align:center">${oteReadonly(canal, row.n, 'var',  row.var)}</td>
+              <td style="padding:4px 8px;text-align:center">
+                <input id="ote-${canal}-${row.n}-pf" type="number" step="0.1" min="0" max="100"
+                  value="${(row.pf*100).toFixed(1)}"
+                  ${locked?"readonly":""} oninput="!locked&&onOTEInput('${canal}',${row.n},'pf',this.value)"
+                  style="width:65px;padding:5px 8px;border:1.5px solid var(--border);border-radius:5px;font-family:'DM Mono',monospace;font-size:11px;text-align:right;color:#0000CC;font-weight:500">
+                <span style="font-size:10px;color:var(--muted);margin-left:2px">%</span>
+              </td>
+              <td style="padding:4px 8px;text-align:center">
+                <input id="ote-${canal}-${row.n}-meta" type="number" step="1" min="0"
+                  value="${row.meta.toFixed(2)}"
+                  ${locked?"readonly":""} oninput="!locked&&onOTEInput('${canal}',${row.n},'meta',this.value)"
+                  style="width:105px;padding:5px 8px;border:1.5px solid var(--border);border-radius:5px;font-family:'DM Mono',monospace;font-size:11px;text-align:right;color:#0000CC;font-weight:500">
+              </td>
+              <td style="padding:4px 8px;text-align:center">${oteReadonly(canal, row.n, 'corte', row.corte)}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:7px;font-size:10px;color:var(--muted);font-style:italic">
+        ✏ Editável diretamente · Fixo, Variável e Corte recalculam automaticamente · Clique em Salvar Configurações para persistir
+      </div>
+    </div>`).join('');
+}
+
+// ══ CFG: VENDEDORES ══════════════════════════════════════════════════════════
+let VEND_DESBLOQUEADO = false;
+
+function buildVendCfg(){
+  const wrap    = document.getElementById('vend-wrap');
+  const addRow  = document.getElementById('vend-add-row');
+  const locked  = !VEND_DESBLOQUEADO;
+  const inp     = (v, i, f, val, type='text') => locked
+    ? `<input value="${val}" disabled style="width:100%;padding:6px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;background:var(--smoke);color:var(--muted);cursor:not-allowed">`
+    : `<input type="${type}" value="${val}" ${type==='number'?'min="1" max="10"':''}
+        oninput="CFG.vendedores[${i}].${f}=${type==='number'?'parseInt(this.value)||3':'this.value'}"
+        style="width:100%;padding:6px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:12px">`;
+
+  wrap.innerHTML = (CFG.vendedores||[]).map((v,i)=>`
+    <div style="border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:10px;background:${locked?'var(--smoke)':'#fff'}">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-weight:700;font-size:13px;color:var(--navy)">${v.nome}</div>
+        ${locked ? '' : `<button onclick="removerVendedor(${i})"
+          style="background:#FFF0F0;border:1px solid #F5C6C6;color:var(--red);border-radius:6px;padding:2px 10px;font-size:11px;cursor:pointer">
+          ✕ Remover</button>`}
+      </div>
+      <div class="frow" style="grid-template-columns:1fr 1fr 2fr 1fr;gap:12px">
+        <div class="fg"><label>Nome</label>${inp(v,i,'nome',v.nome)}</div>
+        <div class="fg"><label>Canal</label>
+          ${locked
+            ? `<input value="${v.canal}" disabled style="width:100%;padding:6px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;background:var(--smoke);color:var(--muted)">`
+            : `<select onchange="CFG.vendedores[${i}].canal=this.value"
+                style="width:100%;padding:6px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:12px">
+                <option ${v.canal==='PJ'?'selected':''}>PJ</option>
+                <option ${v.canal==='PF'?'selected':''}>PF</option>
+                <option ${v.canal==='ADMIN'?'selected':''}>ADMIN</option>
+              </select>`}
+        </div>
+        <div class="fg"><label>Cargo</label>${inp(v,i,'cargo',v.cargo)}</div>
+        <div class="fg"><label>Nível Padrão</label>${inp(v,i,'nivel_padrao',v.nivel_padrao,'number')}</div>
+      </div>
+    </div>`).join('');
+
+  if (addRow) addRow.style.display = locked ? 'none' : 'block';
+  const lockStatus = document.getElementById('vend-lock-status');
+  if (lockStatus) lockStatus.textContent = locked ? '🔒 Bloqueado para edição' : '🔓 Desbloqueado';
+}
+
+function adicionarVendedor(){
+  if(!CFG.vendedores) CFG.vendedores=[];
+  CFG.vendedores.push({nome:'Novo Vendedor',canal:'PJ',cargo:'',nivel_padrao:3});
+  buildVendCfg();
+}
+
+function removerVendedor(i){
+  if(!confirm('Remover este vendedor?')) return;
+  CFG.vendedores.splice(i,1);
+  buildVendCfg();
+  buildVGrid();
+}
+
+function showCfg(tab){
+  ['precos','ote','mult','vend','seguranca'].forEach(t=>{
+    const el=document.getElementById('cfg-'+t);
+    if(el) el.style.display=t===tab?'block':'none';
+  });
+  document.querySelectorAll('.ctab').forEach((el,i)=>{
+    el.classList.toggle('active',['precos','ote','mult','vendedores','seguranca'][i]===tab);
+  });
+  if(tab==='ote')        { solicitarSenhaSeNecessario('ote',  buildOTECfg);  }
+  if(tab==='mult')       { buildMultTable(); solicitarSenhaSeNecessario('mult', ()=>{}); }
+  if(tab==='vendedores') { buildVendCfg();   solicitarSenhaSeNecessario('vendedores', ()=>{}); }
+  if(tab==='precos')     { solicitarSenhaSeNecessario('precos', ()=>{}); }
+}
+
+async function saveAllCfg(){
+  try {
+    await fetch('/api/config',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(CFG)
+    });
+    toast('✓ Configurações salvas');
+    buildVGrid();
+  } catch(e) {
+    toast('Erro ao salvar');
+  }
+}
+
+// ══ SIMULAÇÃO POR FAIXA ══════════════════════════════════════════════════════
+function renderSimulacao(r, fat_comp, ating, ote_row) {
+  if (!fat_comp || fat_comp <= 0) return '';
+  const var_base = ote_row.var;
+
+  // Para cada faixa: simular 100% do fat_comp nela, manter mesmo atingimento
+  const FAIXAS = [
+    { key:'abaixo',  col:1, lbl:'Abaixo 10%',   cls:'fx1', cc:'cr', icon:'⬇' },
+    { key:'desconto',col:2, lbl:'3–10% Desc.',   cls:'fx2', cc:'co', icon:'↘' },
+    { key:'ideal',   col:3, lbl:'Tabela Ideal',  cls:'fx3', cc:'cn', icon:'✓' },
+    { key:'acima',   col:4, lbl:'Acima Tabela',  cls:'fx4', cc:'cg', icon:'⬆' },
+  ];
+
+  // get_mult recriado no frontend — usa CFG.mult_rows se disponível
+  function getMult(at, col) {
+    const marcos = Object.keys(CFG.mult_rows||{}).map(Number).sort((a,b)=>a-b);
+    if (!marcos.length) return 0;
+    let bestKey = marcos[0];
+    for (const m of marcos) { if (m <= at) bestKey = m; else break; }
+    const row = (CFG.mult_rows||{})[bestKey.toFixed(2)] || {};
+    return parseFloat(row['c'+col]||0);
+  }
+
+  const realVarFx = Object.values(r).reduce((s,f)=>s+(f.var_fx||0), 0);
+  const realVar   = Math.max(realVarFx, 0);
+
+  const sims = FAIXAS.map(f => {
+    const mult     = getMult(ating, f.col);
+    const var_sim  = Math.max(1 * var_base * mult, 0); // 100% na faixa
+    const delta    = var_sim - realVar;
+    const rem_sim  = ote_row.fixo + var_sim;
+    return { ...f, mult, var_sim, rem_sim, delta };
+  });
+
+  const maxVar = Math.max(...sims.map(s=>s.var_sim), 0.01);
+
+  return `
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+      <div class="ctitle" style="margin:0">Simulação — E se 100% das Vendas Fossem em Cada Faixa?</div>
+      <span style="font-size:10px;color:var(--muted);font-style:italic">mesmo atingimento atual de ${P(ating)}</span>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:14px">
+      Mantendo o faturamento computável atual de <strong>${R(fat_comp)}</strong>, calcula quanto seria o variável se <em>todas</em> as vendas tivessem sido realizadas em cada faixa de preço.
+    </div>
+    <div class="fgrid">
+      ${sims.map(s => {
+        const barW = maxVar>0 ? Math.round(s.var_sim/maxVar*100) : 0;
+        const deltaStr = s.delta >= 0
+          ? `<span style="color:var(--green);font-size:10px">▲ +${R(s.delta)} vs. realizado</span>`
+          : `<span style="color:var(--red);font-size:10px">▼ ${R(s.delta)} vs. realizado</span>`;
+        return `
+        <div class="${s.cls}" style="border-radius:10px;padding:16px 18px;position:relative;overflow:hidden">
+          <div class="fxl">${s.icon} ${s.lbl}</div>
+          <div class="fxv">${R(s.var_sim)}</div>
+          <div class="fxs">Remuneração total: <strong>${R(s.rem_sim)}</strong></div>
+          <div class="fxs" style="margin-top:4px">Mult.: ${s.mult.toFixed(4)}</div>
+          <div style="margin-top:8px">${deltaStr}</div>
+          <div style="margin-top:8px;height:5px;border-radius:3px;background:rgba(0,0,0,.10)">
+            <div style="height:5px;border-radius:3px;background:rgba(0,0,0,.25);width:${barW}%"></div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="margin-top:10px;padding:10px 14px;background:var(--smoke);border-radius:7px;font-size:11px;color:var(--muted)">
+      ℹ O variável realizado foi <strong style="color:var(--navy)">${R(realVar)}</strong>.
+      A faixa de maior potencial é
+      <strong style="color:var(--green)">${sims.reduce((a,b)=>a.var_sim>b.var_sim?a:b).icon} ${sims.reduce((a,b)=>a.var_sim>b.var_sim?a:b).lbl}</strong>
+      com variável de <strong>${R(sims.reduce((a,b)=>a.var_sim>b.var_sim?a:b).var_sim)}</strong>.
+    </div>
+  </div>`;
+}
+
+// ══ TOP 3 CORTES POR FAIXA ════════════════════════════════════════════════════
+function renderTop3Faixas(classified) {
+  const FAIXAS_ORD = [
+    { key:'acima',   lbl:'⬆ Acima Tabela',  cor:'var(--green)',  bg:'#F0FAF3' },
+    { key:'ideal',   lbl:'✓ Tabela Ideal',   cor:'var(--navy3)',  bg:'#EBF2FB' },
+    { key:'desconto',lbl:'↘ 3–10% Desc.',    cor:'var(--orange)', bg:'#FFF7ED' },
+    { key:'abaixo',  lbl:'⬇ Abaixo 10%',    cor:'var(--red)',    bg:'#FFF1F1' },
+  ];
+
+  // Agrupa por preco_key (chave canônica) dentro de cada faixa
+  const grupos = {};
+  for (const it of (classified||[])) {
+    if (!it.usado_no_calculo) continue;
+    const faixa = it.faixa;
+    if (!faixa || faixa==='sem_ref' || faixa==='fora_comp' || faixa==='excluido') continue;
+    const chave = it.preco_key || it.desc;        // preco_key = "PICANHA PASSION|RESERVA"
+    const label = chave ? chave.split('|')[0] : it.desc;  // só o nome, sem categoria
+    if (!grupos[faixa]) grupos[faixa] = {};
+    if (!grupos[faixa][chave]) grupos[faixa][chave] = { label, total:0, kg:0, n:0 };
+    grupos[faixa][chave].total += (it.total   || 0);
+    grupos[faixa][chave].kg    += (it.peso_kg || 0);
+    grupos[faixa][chave].n     += 1;
+  }
+
+  const algumaDado = FAIXAS_ORD.some(f => grupos[f.key] && Object.keys(grupos[f.key]).length > 0);
+  if (!algumaDado) return '';
+
+  return `
+  <div class="card">
+    <div class="ctitle">Top 3 Cortes por Faixa de Preço</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:14px">Ranking por faturamento total dentro de cada faixa — apenas itens usados no cálculo.</div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px">
+      ${FAIXAS_ORD.map(f => {
+        const g = grupos[f.key] || {};
+        const top = Object.values(g).sort((a,b)=>b.total-a.total).slice(0,3);
+        if (!top.length) return `
+          <div style="border:1px solid var(--border);border-radius:10px;padding:14px 16px;background:var(--smoke)">
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:${f.cor};margin-bottom:10px">${f.lbl}</div>
+            <div style="font-size:11px;color:var(--muted);font-style:italic">Nenhuma venda nesta faixa</div>
+          </div>`;
+        const maxTotal = top[0].total;
+        return `
+          <div style="border:1px solid var(--border);border-radius:10px;padding:14px 16px;background:${f.bg}">
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:${f.cor};margin-bottom:12px">${f.lbl}</div>
+            ${top.map((p,i) => `
+              <div style="margin-bottom:${i<top.length-1?'11':'0'}px">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px">
+                  <span style="font-size:11px;font-weight:600;color:var(--navy)">${i+1}. ${p.label}</span>
+                  <span style="font-family:'DM Mono',monospace;font-size:11px;font-weight:700">${R(p.total)}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+                  <span style="font-size:9px;color:var(--muted)">${p.n} venda${p.n>1?'s':''} · ${N(p.kg,1)} kg</span>
+                  <span style="font-size:9px;color:var(--muted)">${P(p.total/maxTotal)} do top</span>
+                </div>
+                <div style="height:4px;border-radius:2px;background:rgba(0,0,0,.08)">
+                  <div style="height:4px;border-radius:2px;background:${f.cor};opacity:.7;width:${Math.round(p.total/maxTotal*100)}%"></div>
+                </div>
+              </div>`).join('')}
+          </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+}
+
+// ══ SENHA ════════════════════════════════════════════════════════════════════
+let SESSAO_SENHA_OK = false;   // true após senha correta nesta sessão (30 min)
+let SESSAO_SENHA_TS = 0;
+let SENHA_CALLBACK  = null;
+let SENHA_SECAO     = null;
+// Seções desbloqueadas individualmente
+const SECOES_DESBLOQUEADAS = {};
+
+const SENHA_DEFAULT = 'beefpassion';
+const SENHA_TTL_MS  = 30 * 60 * 1000; // 30 minutos
+
+function senhaValida(){
+  return SESSAO_SENHA_OK && (Date.now() - SESSAO_SENHA_TS < SENHA_TTL_MS);
+}
+
+function solicitarSenha(secao, callback) {
+  if (senhaValida()) {
+    desbloquearSecao(secao);
+    if (callback) callback();
+    return;
+  }
+  SENHA_CALLBACK = callback;
+  SENHA_SECAO    = secao;
+  document.getElementById('senha-descricao').textContent =
+    `Digite a senha para editar: ${
+      {precos:'Tabela de Preços', ote:'Parâmetros OTE',
+       mult:'Multiplicadores', vendedores:'Vendedores'}[secao] || secao
+    }`;
+  document.getElementById('senha-erro').textContent  = '';
+  document.getElementById('senha-input').value       = '';
+  const ov = document.getElementById('senha-overlay');
+  ov.style.display = 'flex';
+  setTimeout(()=>document.getElementById('senha-input').focus(), 80);
+}
+
+function solicitarSenhaSeNecessario(secao, callback) {
+  // Chamado ao abrir aba — só mostra modal se ainda não desbloqueado
+  if (senhaValida() || SECOES_DESBLOQUEADAS[secao]) {
+    desbloquearSecao(secao);
+    if (callback) callback();
+  }
+  // Se bloqueado, apenas renderiza em modo readonly (callback não chamado)
+}
+
+function confirmarSenha() {
+  const digitada = document.getElementById('senha-input').value;
+  const correta  = CFG.senha || SENHA_DEFAULT;
+  if (digitada === correta) {
+    SESSAO_SENHA_OK = true;
+    SESSAO_SENHA_TS = Date.now();
+    SECOES_DESBLOQUEADAS[SENHA_SECAO] = true;
+    fecharModalSenha();
+    desbloquearSecao(SENHA_SECAO);
+    if (SENHA_CALLBACK) SENHA_CALLBACK();
+  } else {
+    document.getElementById('senha-erro').textContent = '❌ Senha incorreta. Tente novamente.';
+    document.getElementById('senha-input').value = '';
+    document.getElementById('senha-input').focus();
+  }
+}
+
+function fecharModalSenha() {
+  document.getElementById('senha-overlay').style.display = 'none';
+}
+
+function desbloquearSecao(secao) {
+  if (secao === 'mult') {
+    MULT_DESBLOQUEADO = true;
+    buildMultTable();
+    const st = document.getElementById('mult-lock-status');
+    if (st) st.textContent = '🔓 Desbloqueado';
+  }
+  if (secao === 'vendedores') {
+    VEND_DESBLOQUEADO = true;
+    buildVendCfg();
+  }
+  if (secao === 'ote') {
+    OTE_DESBLOQUEADO = true;
+    buildOTECfg();
+  }
+  if (secao === 'precos') {
+    PRECOS_DESBLOQUEADO = true;
+    buildPriceTable();
+  }
+}
+
+function trocarSenha() {
+  const atual = document.getElementById('senha-atual').value;
+  const nova  = document.getElementById('senha-nova').value;
+  const conf  = document.getElementById('senha-conf').value;
+  const msg   = document.getElementById('senha-troca-msg');
+  const correta = CFG.senha || SENHA_DEFAULT;
+  if (atual !== correta) { msg.style.color='var(--red)'; msg.textContent='Senha atual incorreta.'; return; }
+  if (!nova)             { msg.style.color='var(--red)'; msg.textContent='Nova senha não pode ser vazia.'; return; }
+  if (nova !== conf)     { msg.style.color='var(--red)'; msg.textContent='Confirmação não coincide.'; return; }
+  CFG.senha = nova;
+  msg.style.color='var(--green)'; msg.textContent='✓ Senha alterada. Clique em Salvar Configurações para persistir.';
+}
+
+// ══ CFG: MULTIPLICADORES ═════════════════════════════════════════════════════
+let MULT_DESBLOQUEADO    = false;
+let OTE_DESBLOQUEADO     = false;
+let PRECOS_DESBLOQUEADO  = false;
+
+// Estrutura padrão dos multiplicadores (espelha MULT_TABLE do backend)
+// Exibimos apenas linhas com atingimento >= 0.70 (abaixo = tudo zero)
+const MULT_MARCOS = [
+  0.70,0.75,0.80,0.85,0.90,0.95,1.00,1.05,1.10,1.15,1.20,
+  1.25,1.30,1.35,1.40,1.50,1.60,1.70,1.80,1.90,2.00,2.50
+];
+
+function buildMultTable() {
+  const locked = !MULT_DESBLOQUEADO;
+  const multCfg = CFG.mult_table || {};  // sobrescritas salvas
+  const tbody = document.getElementById('mult-tbody');
+  if (!tbody) return;
+
+  // Buscar valores originais do backend via CFG ou fallback padrão
+  const backendMult = CFG.mult_rows || {};
+
+  tbody.innerHTML = MULT_MARCOS.map((ating, i) => {
+    const key  = ating.toFixed(2);
+    const row  = multCfg[key] || backendMult[key] || {c1:0,c2:0,c3:0,c4:0};
+    const bg   = i%2===0?'#fff':'var(--smoke)';
+    const inpStyle = locked
+      ? 'width:80px;padding:4px 8px;border:1px solid var(--border);border-radius:5px;font-family:"DM Mono",monospace;font-size:11px;text-align:right;background:var(--smoke);color:var(--muted);cursor:not-allowed'
+      : 'width:80px;padding:4px 8px;border:1px solid var(--border);border-radius:5px;font-family:"DM Mono",monospace;font-size:11px;text-align:right;color:#0000CC;font-weight:500';
+    const cell = (col, v) => locked
+      ? `<td style="padding:5px 12px;text-align:center"><input value="${parseFloat(v).toFixed(4)}" disabled style="${inpStyle}"></td>`
+      : `<td style="padding:5px 12px;text-align:center"><input type="number" step="0.0001" value="${parseFloat(v).toFixed(4)}"
+          oninput="onMultInput('${key}',${col},this.value)" style="${inpStyle}"></td>`;
+    return `<tr style="border-bottom:1px solid var(--border);background:${bg}">
+      <td style="padding:5px 12px;text-align:center;font-family:'DM Mono',monospace;font-size:11px;font-weight:600;color:var(--navy)">
+        ${(ating*100).toFixed(0)}%${ating===1.00?' <span style="font-size:9px;color:var(--green)">(meta)</span>':''}
+      </td>
+      ${cell(1,row.c1||0)}${cell(2,row.c2||0)}${cell(3,row.c3||0)}${cell(4,row.c4||0)}
+    </tr>`;
+  }).join('');
+
+  const hint = document.getElementById('mult-edit-hint');
+  if (hint) hint.textContent = locked
+    ? 'Desbloqueie para editar os multiplicadores. Alterações são salvas junto com as demais configurações.'
+    : '✏ Editável. Salve as configurações para persistir as alterações.';
+}
+
+function onMultInput(key, col, val) {
+  if (!CFG.mult_table) CFG.mult_table = {};
+  if (!CFG.mult_table[key]) CFG.mult_table[key] = {c1:0,c2:0,c3:0,c4:0};
+  CFG.mult_table[key]['c'+col] = parseFloat(val)||0;
+}
+
+// ══ BOOT ══════════════════════════════════════════════════════════════════════
+init();
+</script>
+</body>
+</html>
