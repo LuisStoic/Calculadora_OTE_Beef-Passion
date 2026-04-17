@@ -396,6 +396,10 @@ input[type=number]{font-family:'DM Mono',monospace}
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
         <div class="ctitle" style="margin:0">Preços de Referência — <span id="pc-n">0</span> / <span id="pc-tot">105</span> preenchidos</div>
         <div style="display:flex;align-items:center;gap:10px">
+          <div style="display:flex;border:1.5px solid var(--border);border-radius:6px;overflow:hidden">
+            <button class="btn btn-sm" id="btn-preco-pj" onclick="switchPrecoCanal('PJ')" style="border:none;border-radius:0;font-size:11px;font-weight:700;padding:5px 14px;background:var(--navy);color:#fff">PJ</button>
+            <button class="btn btn-sm" id="btn-preco-pf" onclick="switchPrecoCanal('PF')" style="border:none;border-radius:0;font-size:11px;font-weight:700;padding:5px 14px;background:transparent;color:var(--muted)">PF</button>
+          </div>
           <span style="font-size:11px;color:var(--muted)" id="preco-lock-status">🔒 Bloqueado para edição</span>
           <button class="btn btn-o btn-sm" onclick="solicitarSenha('precos', buildPriceTable)">Desbloquear</button>
         </div>
@@ -740,7 +744,7 @@ async function init(){
     CFG = await r.json();
   } catch(e) {
     console.error('Erro ao carregar config:', e);
-    CFG = {precos:{}, vendedores:[], ote:{}};
+    CFG = {precos_pj:{}, precos_pf:{}, vendedores:[], ote:{}};
   }
   buildVGrid();
   buildPriceTable();
@@ -1482,9 +1486,26 @@ async function exportarXLSX(){
 }
 
 // ══ CFG: PREÇOS ══════════════════════════════════════════════════════════════
+let PRECO_CANAL_ATIVO = 'PJ';
+
+function switchPrecoCanal(canal) {
+  PRECO_CANAL_ATIVO = canal;
+  document.getElementById('btn-preco-pj').style.background = canal==='PJ' ? 'var(--navy)' : 'transparent';
+  document.getElementById('btn-preco-pj').style.color      = canal==='PJ' ? '#fff' : 'var(--muted)';
+  document.getElementById('btn-preco-pf').style.background = canal==='PF' ? 'var(--navy)' : 'transparent';
+  document.getElementById('btn-preco-pf').style.color      = canal==='PF' ? '#fff' : 'var(--muted)';
+  buildPriceTable();
+}
+
+function getPrecosCanalAtivo() {
+  const key = PRECO_CANAL_ATIVO === 'PJ' ? 'precos_pj' : 'precos_pf';
+  if (!CFG[key]) CFG[key] = {};
+  return CFG[key];
+}
+
 function buildPriceTable(filtro=''){
   const tbody = document.getElementById('pc-tbody');
-  const precos = CFG.precos||{};
+  const precos = getPrecosCanalAtivo();
   const catAtiva = document.getElementById('cat-filter') ? document.getElementById('cat-filter').value : '';
   tbody.innerHTML = PRODUTOS.filter(p=>{
     const matchTxt = !filtro || p.desc.toLowerCase().includes(filtro.toLowerCase());
@@ -1512,14 +1533,14 @@ function buildPriceTable(filtro=''){
 
 function onPI(key,el){
   const v=parseFloat(el.value);
-  if(!CFG.precos) CFG.precos={};
-  if(v>0){CFG.precos[key]=v;el.classList.add('ok');}
-  else{delete CFG.precos[key];el.classList.remove('ok');}
+  const precos = getPrecosCanalAtivo();
+  if(v>0){precos[key]=v;el.classList.add('ok');}
+  else{delete precos[key];el.classList.remove('ok');}
   updatePC();
 }
 
 function updatePC(){
-  const n=Object.keys(CFG.precos||{}).length;
+  const n=Object.keys(getPrecosCanalAtivo()).length;
   const tot=PRODUTOS.length;
   document.getElementById('pc-n').textContent=n;
   document.getElementById('pc-tot').textContent=tot;
@@ -1535,18 +1556,20 @@ function filterCat(cat){
 }
 
 function fillRef(){
+  const precos = getPrecosCanalAtivo();
   PRODUTOS.forEach(p=>{
-    if(!(CFG.precos||{})[p.key] && p.ref){
-      if(!CFG.precos) CFG.precos={};
-      CFG.precos[p.key]=p.ref;
+    if(!precos[p.key] && p.ref){
+      precos[p.key]=p.ref;
     }
   });
   buildPriceTable();
 }
 
 function clearPrecos(){
-  if(!confirm('Limpar todos os preços vigentes?')) return;
-  CFG.precos={};
+  const label = PRECO_CANAL_ATIVO === 'PJ' ? 'PJ' : 'PF';
+  if(!confirm(`Limpar todos os preços vigentes (${label})?`)) return;
+  const key = PRECO_CANAL_ATIVO === 'PJ' ? 'precos_pj' : 'precos_pf';
+  CFG[key]={};
   buildPriceTable();
 }
 

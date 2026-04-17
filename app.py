@@ -172,7 +172,8 @@ PRECOS_TABELA_2026 = {
 
 # ── Configuração padrão ────────────────────────────────────────────────────────
 DEFAULT_CFG = {
-    "precos": dict(PRECOS_TABELA_2026),  # Tabela 2026 · 00__2026_Tabela_PJ_Beef_Passion.pdf
+    "precos_pj": dict(PRECOS_TABELA_2026),  # Tabela 2026 PJ
+    "precos_pf": dict(PRECOS_TABELA_2026),  # Tabela 2026 PF (inicialmente igual à PJ)
     "vendedores": [
         {"nome": "Bruno",    "canal": "PJ",    "cargo": "Comercial PJ",             "nivel_padrao": 3},
         {"nome": "Anderson", "canal": "PF",    "cargo": "Gerente / Vendedor PF",    "nivel_padrao": 3},
@@ -299,6 +300,12 @@ def load_cfg() -> dict:
                 saved = json.load(f)
             cfg = json.loads(json.dumps(DEFAULT_CFG))
             cfg.update(saved)
+            # Backward compat: migrar "precos" legado → precos_pj + precos_pf
+            if "precos" in cfg and "precos_pj" not in cfg:
+                cfg["precos_pj"] = cfg.pop("precos")
+                cfg["precos_pf"] = dict(cfg["precos_pj"])
+            elif "precos" in cfg:
+                cfg.pop("precos", None)  # remove legado se já tem pj/pf
             return cfg
         except Exception:
             pass
@@ -508,8 +515,8 @@ _MATCH_STOP = {
     "FATIADO","PICADO","CLASSICO","/","(",")","-","E","DA","DE","DO","DAS","DOS","EM","A"
 }
 
-# Índice pré-computado: categoria → lista de (tokens_set, desc_tabela, chave_completa)
-# Construído na primeira chamada e cacheado
+# Índice pré-computado por canal: {"PJ": {cat→[...]}, "PF": {cat→[...]}}
+# Construído na primeira chamada de cada canal e cacheado
 _MATCH_INDEX: dict = {}
 
 def _tokens(s: str) -> set:
@@ -536,24 +543,25 @@ def _inferir_categoria(desc: str) -> str:
         return "RESERVA"
     return "CLASSICO"
 
-def _match_preco(desc_pdf: str, precos: dict):
+def _match_preco(desc_pdf: str, precos: dict, canal: str = "PJ"):
     """
     Encontra o melhor match na tabela de preços para uma descrição do PDF.
     Retorna (preco_ref, chave_match, categoria, score) ou (None, None, None, 0).
     Algoritmo: score = 0.7 * cobertura_tabela + 0.3 * cobertura_pdf, threshold=0.45
     """
     global _MATCH_INDEX
-    if not _MATCH_INDEX:
-        _MATCH_INDEX = _build_match_index(precos)
+    if canal not in _MATCH_INDEX:
+        _MATCH_INDEX[canal] = _build_match_index(precos)
 
     cat_inf = _inferir_categoria(desc_pdf)
     tks_pdf = _tokens(desc_pdf)
     if not tks_pdf:
         return None, None, None, 0
 
+    idx = _MATCH_INDEX[canal]
     melhor = (None, None, None, 0)
     for cat_try in [cat_inf] + [c for c in ("CLASSICO","RESERVA","SUPREME") if c != cat_inf]:
-        for tks_tab, desc_tab, chave, preco in _MATCH_INDEX.get(cat_try, []):
+        for tks_tab, desc_tab, chave, preco in idx.get(cat_try, []):
             inter = len(tks_pdf & tks_tab)
             if inter == 0:
                 continue
@@ -571,7 +579,7 @@ def _match_preco(desc_pdf: str, precos: dict):
     return None, None, None, 0
 
 
-def classificar_item(item: dict, precos: dict) -> dict:
+def classificar_item(item: dict, precos: dict, canal: str = "PJ") -> dict:
     """
     Classifica um item por faixa de preço.
     Respeita overrides vindos do frontend (revisão manual):
@@ -600,7 +608,7 @@ def classificar_item(item: dict, precos: dict) -> dict:
     else:
         # Match automático
         desc_pdf = item.get("desc", "")
-        ref, chave_match, cat_match, score = _match_preco(desc_pdf, precos)
+        ref, chave_match, cat_match, score = _match_preco(desc_pdf, precos, canal)
 
     if not ref or ref <= 0:
         return {**item, "faixa": "sem_ref", "desvio": None, "preco_ref": None,
@@ -621,8 +629,8 @@ def classificar_item(item: dict, precos: dict) -> dict:
             "preco_key": chave_match, "categoria": cat_match, "match_score": round(score, 3)}
 
 
-def calcular_ote(itens: list, ote_row: dict, precos: dict) -> dict:
-    classified = [classificar_item(it, precos) for it in itens]
+def calcular_ote(itens: list, ote_row: dict, precos: dict, canal: str = "PJ") -> dict:
+    classified = [classificar_item(it, precos, canal) for it in itens]
 
     # Faixas que entram no cálculo do variável
     FAIXAS_COMP = ["abaixo", "desconto", "ideal", "acima"]
@@ -1047,8 +1055,10 @@ def post_config():
     cfg = load_cfg()
     global _MATCH_INDEX
     _MATCH_INDEX = {}  # Invalida cache de matching ao atualizar preços
-    if "precos" in data:
-        cfg["precos"] = data["precos"]
+    if "precos_pj" in data:
+        cfg["precos_pj"] = data["precos_pj"]
+    if "precos_pf" in data:
+        cfg["precos_pf"] = data["precos_pf"]
     if "vendedores" in data:
         cfg["vendedores"] = data["vendedores"]
     if "ote" in data:
@@ -1106,7 +1116,10 @@ def calcular_route():
     if not vendedor:
         vendedor = {"nome": nome_vend, "canal": canal, "cargo": canal}
 
-    resultado = calcular_ote(itens, ote_row, cfg["precos"])
+    # Seleciona tabela de preços pelo canal do vendedor
+    precos_canal = cfg.get("precos_pj", {}) if canal == "PJ" else cfg.get("precos_pf", {})
+
+    resultado = calcular_ote(itens, ote_row, precos_canal, canal)
     resultado["ote_row"] = ote_row
     resultado["vendedor"] = vendedor
     resultado["mes"] = mes
@@ -1144,7 +1157,10 @@ def exportar_xlsx():
     vendedor = next((v for v in cfg["vendedores"] if v["nome"] == nome_vend),
                     {"nome": nome_vend, "canal": canal, "cargo": canal})
 
-    resultado = calcular_ote(itens, ote_row, cfg["precos"])
+    # Seleciona tabela de preços pelo canal do vendedor
+    precos_canal = cfg.get("precos_pj", {}) if canal == "PJ" else cfg.get("precos_pf", {})
+
+    resultado = calcular_ote(itens, ote_row, precos_canal, canal)
     resultado["ote_row"] = ote_row
 
     xlsx_path = gerar_xlsx(resultado, vendedor, nivel, mes, ano)
