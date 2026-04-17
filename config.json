@@ -1,1304 +1,1392 @@
 {
   "precos_pj": {
-    "ACEM PESCOCO PECA|CLASSICO": 35,
-    "ACEM PESCOCO PECA|RESERVA": 55,
-    "ALCATRA PECA|CLASSICO": 89,
-    "ALCATRA PECA|RESERVA": 95,
-    "ANCHO STEAK|CLASSICO": 189,
-    "ANCHO STEAK|RESERVA": 380,
-    "ANCHO STEAK|SUPREME": 930,
-    "ARANHA DA ALCATRA|RESERVA": 75,
+    "DENVER PASSION|CLASSICO": 390,
+    "BISTECA FIORENTINA -Sob encomenda|CLASSICO": 280,
+    "TOMAHAWK - SOB ENCOMENDA|CLASSICO": 210,
+    "PICANHA PASSION BP 2|CLASSICO": 289,
+    "FRALDINHA  STEAK CG|CLASSICO": 212,
+    "FILÉ MIGNON MEDALHÃO|CLASSICO": 253,
+    "FRALDINHA RED PÇ|CLASSICO": 212,
+    "FLAT IRON PASSION|CLASSICO": 224,
+    "FILÉ MIGNON PEÇA|CLASSICO": 241,
+    "TBONE - SOB ENCOMENDA|CLASSICO": 210,
+    "BISTECA PASSION-SHORT RIB S/O|CLASSICO": 194,
+    "FILÉ DE COSTELA (PEÇA)|CLASSICO": 179,
+    "ANCHO STEAK BP 2|CLASSICO": 189,
+    "CHORIZO BP 2|CLASSICO": 169,
+    "CONTRAFILÉ BP 2|CLASSICO": 160,
     "ASSADO DE TIRA DIANTEIRO|CLASSICO": 161,
-    "ASSADO DE TIRA DIANTEIRO|RESERVA": 218,
-    "ASSADO DE TIRA TRASEIRO|CLASSICO": 110,
-    "ASSADO DE TIRA TRASEIRO|RESERVA": 145,
-    "BABY BEEF STEAK|CLASSICO": 89,
-    "BABY BEEF STEAK|RESERVA": 142,
+    "ENTRANHA PASSION|CLASSICO": 140,
     "BANANINHA|CLASSICO": 132,
-    "BANANINHA|RESERVA": 150,
-    "BEEF STEAK|CLASSICO": 89,
-    "BEEF STEAK|RESERVA": 125,
-    "BEEF TALLOW 1.5KG|RESERVA": 170,
-    "BEEF TALLOW 250G|RESERVA": 30,
+    "BOMBOM DA ALCATRA|CLASSICO": 131,
+    "ISCAS MIGNON|CLASSICO": 115,
+    "COSTELA DE JANELA - sob encomenda|CLASSICO": 145,
+    "CAPA DE FILÉ STEAK|CLASSICO": 125,
+    "COSTELA DO DIANTEIRO|CLASSICO": 120,
+    "COSTELA DO DIANTEIRO C/OSSO|CLASSICO": 135,
+    "MAMINHA|CLASSICO": 170,
+    "RABADA|CLASSICO": 55,
     "BIFE DO VAZIO|CLASSICO": 120,
-    "BIFE DO VAZIO|RESERVA": 172,
-    "BIFITOS|CLASSICO": 69,
-    "BIFITOS|RESERVA": 80,
-    "BISTECA FIORENTINA|CLASSICO": 280,
-    "BISTECA FIORENTINA|RESERVA": 437,
-    "BISTECA SHORT RIB|CLASSICO": 194,
-    "BISTECA SHORT RIB|RESERVA": 253,
-    "BISTECA SHORT RIB|SUPREME": 830,
+    "CAPA DE FILÉ|CLASSICO": 115,
+    "ASSADO DE TIRA TRASEIRO|CLASSICO": 110,
+    "SHOULDER STEAK|CLASSICO": 99,
+    "STEAK DO ACÉM (Cowboy)|CLASSICO": 99,
+    "ALCATRA PEÇA|CLASSICO": 89,
+    "FRALDA INTERNA|CLASSICO": 89,
+    "BABY BEEF STEAK|CLASSICO": 89,
+    "BEEF STEAK|CLASSICO": 89,
+    "LINGUA|CLASSICO": 60,
+    "PALETA PEÇA|CLASSICO": 89,
+    "PASSIONITOS|CLASSICO": 69,
+    "ARANHA DA ALCATRA|CLASSICO": 60,
     "BOCHECHA|CLASSICO": 69,
+    "MOIDA PATINHO|CLASSICO": 65,
+    "STEAK DA CASA|CLASSICO": 75,
+    "BIFITOS|CLASSICO": 69,
+    "ISCAS PASSION|CLASSICO": 60,
+    "KNUCKLE PASSION STEAK|CLASSICO": 69,
+    "COXAO MOLE PEÇA|CLASSICO": 65,
+    "CUBITOS|CLASSICO": 59,
+    "MOIDA BLEND|CLASSICO": 40,
+    "LAGARTO|CLASSICO": 60,
+    "PEIXINHO (PEÇA)|CLASSICO": 59,
+    "COXÃO DURO PEÇA|CLASSICO": 56,
+    "MUSCULO EM CUBOS|CLASSICO": 35,
+    "PEITO / BRISKET|CLASSICO": 59,
+    "PATINHO PEÇA|CLASSICO": 57,
+    "CAPA DA PALETA|CLASSICO": 55,
+    "BUCHO - Sob encomenda|CLASSICO": 45,
+    "RECORTE PASSION|CLASSICO": 39,
+    "OSSOBUCO|CLASSICO": 59,
+    "ACÉM PESCOÇO PEÇA|CLASSICO": 35,
+    "COSTELA MINGA- sob encomenda|CLASSICO": 30,
+    "MUSCULO PEÇA|CLASSICO": 30,
+    "STEAK PASSION|CLASSICO": 65,
+    "RECORTE DE COSTELA|CLASSICO": 30,
+    "RECORTE G|CLASSICO": 30,
+    "PRIME RIB CG|CLASSICO": 227,
+    "DENVER PASSION|RESERVA": 530,
+    "ANCHO STEAK BP Reserva|RESERVA": 380,
+    "BISTECA FIORENTINA -Sob encomenda|RESERVA": 437,
+    "TBONE - SOB ENCOMENDA|RESERVA": 437,
+    "FILÉ DE COSTELA BP|RESERVA": 380,
+    "PICANHA PASSION BP|RESERVA": 499,
+    "TOMAHAWK - SOB ENCOMENDA|RESERVA": 417,
+    "CHORIZO BP 2|RESERVA": 380,
+    "CONTRAFILÉ|RESERVA": 350,
+    "FRALDINHA PASSION STEAK BP 2|RESERVA": 310,
+    "FILÉ MIGNON MEDALHÃO|RESERVA": 360,
+    "FILÉ MIGNON PEÇA|RESERVA": 322,
+    "FRALDINHA PASSION BP|RESERVA": 286,
+    "FLAT IRON PASSION|RESERVA": 264,
+    "MAMINHA|RESERVA": 253,
+    "BISTECA PASSION-SHORT RIB S/O|RESERVA": 253,
+    "ASSADO DE TIRA DIANTEIRO|RESERVA": 218,
+    "BOMBOM DA ALCATRA|RESERVA": 207,
+    "COSTELA DO DIANTEIRO C/OSSO|RESERVA": 210,
+    "COSTELA DE JANELA - sob encomenda|RESERVA": 182,
+    "COSTELA DO DIANTEIRO|RESERVA": 178,
+    "BIFE DO VAZIO|RESERVA": 172,
+    "ENTRANHA PASSION|RESERVA": 166,
+    "FRALDA INTERNA|RESERVA": 159,
+    "BANANINHA|RESERVA": 150,
+    "STEAK DO ACÉM (Cowboy)|RESERVA": 149,
+    "ASSADO DE TIRA TRASEIRO|RESERVA": 145,
+    "BABY BEEF STEAK|RESERVA": 142,
+    "CAPA DE FILÉ|RESERVA": 140,
+    "SHOULDER STEAK|RESERVA": 135,
+    "BEEF TALLOW 1,5KG|RESERVA": 170,
+    "ISCAS MIGNON|RESERVA": 132,
+    "BEEF STEAK|RESERVA": 125,
+    "PALETA PEÇA|RESERVA": 128,
+    "CAPA DE FILÉ STEAK|RESERVA": 155,
+    "COXÃO DURO PEÇA|RESERVA": 110,
+    "STEAK PASSION|RESERVA": 119,
+    "KNUCKLE PASSION STEAK|RESERVA": 113,
+    "PATINHO PEÇA|RESERVA": 99,
+    "ALCATRA PEÇA|RESERVA": 95,
+    "ARANHA DA ALCATRA|RESERVA": 75,
+    "BIFITOS|RESERVA": 80,
+    "HAMBURGUER 180g|RESERVA": 49,
+    "HAMBURGUER SMASH 50g|RESERVA": 45,
+    "LAGARTO|RESERVA": 89,
+    "LINGUA|RESERVA": 90,
+    "PEITO / BRISKET|RESERVA": 89,
+    "LINGUIÇA BOVINA FINA|RESERVA": 50,
     "BOCHECHA|RESERVA": 80,
     "BOICON BOVINO FATIADO|RESERVA": 80,
-    "BOMBOM DA ALCATRA|CLASSICO": 131,
-    "BOMBOM DA ALCATRA|RESERVA": 207,
-    "BUCHO|CLASSICO": 45,
-    "BUCHO|RESERVA": 69,
-    "CALDO DE OSSO 100ML|RESERVA": 20,
-    "CAPA DA PALETA|CLASSICO": 55,
-    "CAPA DA PALETA|RESERVA": 70,
-    "CAPA DE FILE STEAK|CLASSICO": 125,
-    "CAPA DE FILE STEAK|RESERVA": 155,
-    "CAPA DE FILE|CLASSICO": 115,
-    "CAPA DE FILE|RESERVA": 140,
-    "CECINA BRESAOLA|RESERVA": 60,
-    "CHORIZO|CLASSICO": 169,
-    "CHORIZO|RESERVA": 380,
-    "CHORIZO|SUPREME": 930,
-    "CONTRAFILE|CLASSICO": 160,
-    "CONTRAFILE|RESERVA": 350,
-    "CORACAO|RESERVA": 55,
-    "COSTELA DE JANELA|CLASSICO": 145,
-    "COSTELA DE JANELA|RESERVA": 182,
-    "COSTELA DO DIANTEIRO C/OSSO|CLASSICO": 135,
-    "COSTELA DO DIANTEIRO|CLASSICO": 120,
-    "COSTELA DO DIANTEIRO|RESERVA": 178,
-    "COSTELA MINGA|CLASSICO": 30,
-    "COSTELA MINGA|RESERVA": 45,
-    "COXAO DURO PECA|CLASSICO": 56,
-    "COXAO DURO PECA|RESERVA": 110,
-    "COXAO MOLE PECA|CLASSICO": 65,
-    "COXAO MOLE PECA|RESERVA": 80,
-    "CUBITOS|CLASSICO": 59,
-    "CUBITOS|RESERVA": 79,
-    "DENVER PASSION|CLASSICO": 390,
-    "DENVER PASSION|RESERVA": 530,
-    "DENVER PASSION|SUPREME": 930,
-    "ENTRANHA PASSION|CLASSICO": 140,
-    "ENTRANHA PASSION|RESERVA": 166,
+    "COXAO MOLE PEÇA|RESERVA": 80,
     "FIGADO|RESERVA": 79,
-    "FILE DE COSTELA|CLASSICO": 179,
-    "FILE DE COSTELA|RESERVA": 380,
-    "FILE MIGNON MEDALHAO|CLASSICO": 253,
-    "FILE MIGNON MEDALHAO|RESERVA": 360,
-    "FILE MIGNON PECA|CLASSICO": 241,
-    "FILE MIGNON PECA|RESERVA": 322,
-    "FLAT IRON PASSION|CLASSICO": 224,
-    "FLAT IRON PASSION|RESERVA": 264,
-    "FLAT IRON PASSION|SUPREME": 830,
-    "FRALDA INTERNA|CLASSICO": 89,
-    "FRALDA INTERNA|RESERVA": 159,
-    "FRALDINHA PASSION STEAK|CLASSICO": 218,
-    "FRALDINHA PASSION STEAK|RESERVA": 593,
-    "FRALDINHA PASSION|CLASSICO": 212,
-    "FRALDINHA PASSION|RESERVA": 286,
-    "GORDURA PECA|RESERVA": 20,
-    "HAMBURGUER 180G|RESERVA": 49,
-    "HAMBURGUER DE COSTELA 180G|RESERVA": 40,
-    "HAMBURGUER SMASH 50G|RESERVA": 45,
-    "ISCAS MIGNON|CLASSICO": 115,
-    "ISCAS MIGNON|RESERVA": 132,
-    "ISCAS PASSION|CLASSICO": 60,
-    "ISCAS PASSION|RESERVA": 74,
-    "KNUCKLE PASSION STEAK|CLASSICO": 69,
-    "KNUCKLE PASSION STEAK|RESERVA": 113,
-    "LAGARTO|CLASSICO": 60,
-    "LAGARTO|RESERVA": 89,
-    "LINGUA|CLASSICO": 60,
-    "LINGUA|RESERVA": 90,
-    "LINGUICA BOVINA|RESERVA": 50,
-    "MAMINHA|CLASSICO": 170,
-    "MAMINHA|RESERVA": 253,
-    "MAMINHA|SUPREME": 700,
-    "MOIDA BLEND|CLASSICO": 40,
-    "MOIDA BLEND|RESERVA": 60,
-    "MOIDA PATINHO|CLASSICO": 65,
     "MOIDA PATINHO|RESERVA": 74,
-    "MUSCULO EM CUBOS|CLASSICO": 35,
-    "MUSCULO EM CUBOS|RESERVA": 55,
-    "MUSCULO PECA|CLASSICO": 30,
-    "MUSCULO PECA|RESERVA": 44,
-    "OSSO MOCOTO|RESERVA": 18,
-    "OSSOBUCO|CLASSICO": 42,
-    "OSSOBUCO|RESERVA": 59,
-    "PALETA PECA|CLASSICO": 89,
-    "PALETA PECA|RESERVA": 128,
-    "PASSIONITOS|CLASSICO": 69,
     "PASSIONITOS|RESERVA": 80,
-    "PATINHO PECA|CLASSICO": 57,
-    "PATINHO PECA|RESERVA": 99,
-    "PEITO BRISKET|CLASSICO": 59,
-    "PEITO BRISKET|RESERVA": 89,
-    "PEIXINHO|CLASSICO": 59,
-    "PEIXINHO|RESERVA": 70,
-    "PICANHA PASSION|CLASSICO": 289,
-    "PICANHA PASSION|RESERVA": 499,
-    "PICANHA PASSION|SUPREME": 930,
-    "RABADA|CLASSICO": 55,
     "RABADA|RESERVA": 79,
-    "RECORTE|CLASSICO": 35,
-    "RECORTE|RESERVA": 45,
-    "SALSICHA BOVINA|RESERVA": 60,
-    "SHOULDER STEAK|CLASSICO": 99,
-    "SHOULDER STEAK|RESERVA": 135,
-    "STEAK DA CASA|CLASSICO": 75,
     "STEAK DA CASA|RESERVA": 95,
-    "STEAK DO ACEM COWBOY|CLASSICO": 99,
-    "STEAK DO ACEM COWBOY|RESERVA": 149,
-    "STEAK PASSION|CLASSICO": 65,
-    "STEAK PASSION|RESERVA": 119,
-    "STEAK PASSION|SUPREME": 320,
-    "TBONE|CLASSICO": 210,
-    "TBONE|RESERVA": 437,
-    "TOMAHAWK|CLASSICO": 210,
-    "TOMAHAWK|RESERVA": 417
+    "HAMBURGUER DE COSTELA 180g|RESERVA": 40,
+    "SALSICHA BOVINA|RESERVA": 60,
+    "FIGADO ISCA|RESERVA": 65,
+    "CAPA DA PALETA|RESERVA": 70,
+    "ISCAS PASSION|RESERVA": 74,
+    "PEIXINHO (PEÇA)|RESERVA": 70,
+    "CUBITOS|RESERVA": 79,
+    "CORAÇÃO - sob encomenda|RESERVA": 55,
+    "MOIDA BLEND 5 kg|RESERVA": 60,
+    "OSSOBUCO|RESERVA": 59,
+    "MUSCULO EM CUBOS|RESERVA": 55,
+    "BUCHO - Sob encomenda|RESERVA": 69,
+    "CECINA BRESAOLA|RESERVA": 60,
+    "COSTELA MINGA- sob encomenda|RESERVA": 45,
+    "MUSCULO PEÇA|RESERVA": 44,
+    "RECORTE|RESERVA": 45,
+    "ACÉM PESCOÇO PEÇA|RESERVA": 55,
+    "BEEF TALLOW 250g|RESERVA": 30,
+    "GORDURA PEÇA|RESERVA": 20,
+    "CALDO DE OSSO 100ml|RESERVA": 20,
+    "OSSO MOCOTÓ|RESERVA": 18,
+    "PRIME RIB|RESERVA": 378,
+    "FLAT IRON PASSION|SUPREME": 688,
+    "ANCHO SUPREME|SUPREME": 721,
+    "CHORIZO SUPREME|SUPREME": 721,
+    "DENVER SUPREME|SUPREME": 721,
+    "PICANHA SUPREME|SUPREME": 721,
+    "BISTECA SUPREME|SUPREME": 644,
+    "MAMINHA SUPREME|SUPREME": 500,
+    "FRALDINHA STEAK SUPREME|SUPREME": 489,
+    "FRALDINHA PÇ SUPREME|SUPREME": 490,
+    "STEAK PASSION SUPREME|SUPREME": 252,
+    "TIMO|SUPREME": 98
   },
   "precos_pf": {
-    "ACEM PESCOCO PECA|CLASSICO": 35,
-    "ACEM PESCOCO PECA|RESERVA": 55,
-    "ALCATRA PECA|CLASSICO": 89,
-    "ALCATRA PECA|RESERVA": 95,
-    "ANCHO STEAK|CLASSICO": 189,
-    "ANCHO STEAK|RESERVA": 380,
-    "ANCHO STEAK|SUPREME": 930,
-    "ARANHA DA ALCATRA|RESERVA": 75,
-    "ASSADO DE TIRA DIANTEIRO|CLASSICO": 161,
-    "ASSADO DE TIRA DIANTEIRO|RESERVA": 218,
-    "ASSADO DE TIRA TRASEIRO|CLASSICO": 110,
-    "ASSADO DE TIRA TRASEIRO|RESERVA": 145,
-    "BABY BEEF STEAK|CLASSICO": 89,
-    "BABY BEEF STEAK|RESERVA": 142,
-    "BANANINHA|CLASSICO": 132,
-    "BANANINHA|RESERVA": 150,
-    "BEEF STEAK|CLASSICO": 89,
-    "BEEF STEAK|RESERVA": 125,
-    "BEEF TALLOW 1.5KG|RESERVA": 170,
-    "BEEF TALLOW 250G|RESERVA": 30,
-    "BIFE DO VAZIO|CLASSICO": 120,
-    "BIFE DO VAZIO|RESERVA": 172,
-    "BIFITOS|CLASSICO": 69,
-    "BIFITOS|RESERVA": 80,
-    "BISTECA FIORENTINA|CLASSICO": 280,
-    "BISTECA FIORENTINA|RESERVA": 437,
-    "BISTECA SHORT RIB|CLASSICO": 194,
-    "BISTECA SHORT RIB|RESERVA": 253,
-    "BISTECA SHORT RIB|SUPREME": 830,
-    "BOCHECHA|CLASSICO": 69,
-    "BOCHECHA|RESERVA": 80,
-    "BOICON BOVINO FATIADO|RESERVA": 80,
-    "BOMBOM DA ALCATRA|CLASSICO": 131,
-    "BOMBOM DA ALCATRA|RESERVA": 207,
-    "BUCHO|CLASSICO": 45,
-    "BUCHO|RESERVA": 69,
-    "CALDO DE OSSO 100ML|RESERVA": 20,
-    "CAPA DA PALETA|CLASSICO": 55,
-    "CAPA DA PALETA|RESERVA": 70,
-    "CAPA DE FILE STEAK|CLASSICO": 125,
-    "CAPA DE FILE STEAK|RESERVA": 155,
-    "CAPA DE FILE|CLASSICO": 115,
-    "CAPA DE FILE|RESERVA": 140,
+    "DENVER PASSION|CLASSICO": 507,
+    "BISTECA FIORENTINA -Sob encomenda|CLASSICO": 364,
+    "TOMAHAWK - SOB ENCOMENDA|CLASSICO": 325,
+    "PICANHA PASSION BP 2|CLASSICO": 320,
+    "FRALDINHA  STEAK CG|CLASSICO": 310,
+    "FILÉ MIGNON MEDALHÃO|CLASSICO": 300,
+    "FRALDINHA RED PÇ|CLASSICO": 300,
+    "FLAT IRON PASSION|CLASSICO": 290,
+    "FILÉ MIGNON PEÇA|CLASSICO": 285,
+    "TBONE - SOB ENCOMENDA|CLASSICO": 273,
+    "BISTECA PASSION-SHORT RIB S/O|CLASSICO": 250,
+    "FILÉ DE COSTELA (PEÇA)|CLASSICO": 250,
+    "ANCHO STEAK BP 2|CLASSICO": 245,
+    "CHORIZO BP 2|CLASSICO": 220,
+    "CONTRAFILÉ BP 2|CLASSICO": 210,
+    "ASSADO DE TIRA DIANTEIRO|CLASSICO": 209,
+    "ENTRANHA PASSION|CLASSICO": 182,
+    "BANANINHA|CLASSICO": 170,
+    "BOMBOM DA ALCATRA|CLASSICO": 170,
+    "ISCAS MIGNON|CLASSICO": 170,
+    "COSTELA DE JANELA - sob encomenda|CLASSICO": 165,
+    "CAPA DE FILÉ STEAK|CLASSICO": 160,
+    "COSTELA DO DIANTEIRO|CLASSICO": 160,
+    "COSTELA DO DIANTEIRO C/OSSO|CLASSICO": 160,
+    "MAMINHA|CLASSICO": 160,
+    "RABADA|CLASSICO": 160,
+    "BIFE DO VAZIO|CLASSICO": 156,
+    "CAPA DE FILÉ|CLASSICO": 149.5,
+    "ASSADO DE TIRA TRASEIRO|CLASSICO": 143,
+    "SHOULDER STEAK|CLASSICO": 130,
+    "STEAK DO ACÉM (Cowboy)|CLASSICO": 128,
+    "ALCATRA PEÇA|CLASSICO": 115.7,
+    "FRALDA INTERNA|CLASSICO": 115.7,
+    "BABY BEEF STEAK|CLASSICO": 115,
+    "BEEF STEAK|CLASSICO": 115,
+    "LINGUA|CLASSICO": 115,
+    "PALETA PEÇA|CLASSICO": 115,
+    "PASSIONITOS|CLASSICO": 110,
+    "ARANHA DA ALCATRA|CLASSICO": 110,
+    "BOCHECHA|CLASSICO": 105,
+    "MOIDA PATINHO|CLASSICO": 100,
+    "STEAK DA CASA|CLASSICO": 95,
+    "BIFITOS|CLASSICO": 90,
+    "ISCAS PASSION|CLASSICO": 90,
+    "KNUCKLE PASSION STEAK|CLASSICO": 89,
+    "COXAO MOLE PEÇA|CLASSICO": 85,
+    "CUBITOS|CLASSICO": 85,
+    "MOIDA BLEND|CLASSICO": 80,
+    "LAGARTO|CLASSICO": 78,
+    "PEIXINHO (PEÇA)|CLASSICO": 76.7,
+    "COXÃO DURO PEÇA|CLASSICO": 75,
+    "MUSCULO EM CUBOS|CLASSICO": 75,
+    "PEITO / BRISKET|CLASSICO": 75,
+    "PATINHO PEÇA|CLASSICO": 74,
+    "CAPA DA PALETA|CLASSICO": 64,
+    "BUCHO - Sob encomenda|CLASSICO": 59,
+    "RECORTE PASSION|CLASSICO": 58.5,
+    "OSSOBUCO|CLASSICO": 55,
+    "ACÉM PESCOÇO PEÇA|CLASSICO": 45.5,
+    "COSTELA MINGA- sob encomenda|CLASSICO": 39,
+    "MUSCULO PEÇA|CLASSICO": 39,
+    "STEAK PASSION|CLASSICO": 15,
+    "PRIME RIB CG|CLASSICO": 325,
+    "DENVER PASSION|RESERVA": 600,
+    "ANCHO STEAK BP Reserva|RESERVA": 568,
+    "BISTECA FIORENTINA -Sob encomenda|RESERVA": 568,
+    "TBONE - SOB ENCOMENDA|RESERVA": 560,
+    "FILÉ DE COSTELA BP|RESERVA": 550,
+    "PICANHA PASSION BP|RESERVA": 550,
+    "TOMAHAWK - SOB ENCOMENDA|RESERVA": 540,
+    "CHORIZO BP 2|RESERVA": 520,
+    "CONTRAFILÉ|RESERVA": 510,
+    "FRALDINHA PASSION STEAK BP 2|RESERVA": 400,
+    "FILÉ MIGNON MEDALHÃO|RESERVA": 390,
+    "FILÉ MIGNON PEÇA|RESERVA": 380,
+    "FRALDINHA PASSION BP|RESERVA": 380,
+    "FLAT IRON PASSION|RESERVA": 345,
+    "MAMINHA|RESERVA": 330,
+    "BISTECA PASSION-SHORT RIB S/O|RESERVA": 330,
+    "ASSADO DE TIRA DIANTEIRO|RESERVA": 283,
+    "BOMBOM DA ALCATRA|RESERVA": 270,
+    "COSTELA DO DIANTEIRO C/OSSO|RESERVA": 250,
+    "COSTELA DE JANELA - sob encomenda|RESERVA": 236.6,
+    "COSTELA DO DIANTEIRO|RESERVA": 230,
+    "BIFE DO VAZIO|RESERVA": 220,
+    "ENTRANHA PASSION|RESERVA": 215,
+    "FRALDA INTERNA|RESERVA": 205,
+    "BANANINHA|RESERVA": 195,
+    "STEAK DO ACÉM (Cowboy)|RESERVA": 195,
+    "ASSADO DE TIRA TRASEIRO|RESERVA": 190,
+    "BABY BEEF STEAK|RESERVA": 185,
+    "CAPA DE FILÉ|RESERVA": 180,
+    "SHOULDER STEAK|RESERVA": 180,
+    "BEEF TALLOW 1,5KG|RESERVA": 170,
+    "ISCAS MIGNON|RESERVA": 170,
+    "BEEF STEAK|RESERVA": 160,
+    "PALETA PEÇA|RESERVA": 160,
+    "CAPA DE FILÉ STEAK|RESERVA": 155,
+    "COXÃO DURO PEÇA|RESERVA": 150,
+    "STEAK PASSION|RESERVA": 150,
+    "KNUCKLE PASSION STEAK|RESERVA": 145,
+    "PATINHO PEÇA|RESERVA": 130,
+    "ALCATRA PEÇA|RESERVA": 115.7,
+    "ARANHA DA ALCATRA|RESERVA": 115,
+    "BIFITOS|RESERVA": 115,
+    "HAMBURGUER 180g|RESERVA": 115,
+    "HAMBURGUER SMASH 50g|RESERVA": 115,
+    "LAGARTO|RESERVA": 115,
+    "LINGUA|RESERVA": 115,
+    "PEITO / BRISKET|RESERVA": 115,
+    "LINGUIÇA BOVINA FINA|RESERVA": 110,
+    "BOCHECHA|RESERVA": 105,
+    "BOICON BOVINO FATIADO|RESERVA": 105,
+    "COXAO MOLE PEÇA|RESERVA": 100,
+    "FIGADO|RESERVA": 100,
+    "MOIDA PATINHO|RESERVA": 100,
+    "PASSIONITOS|RESERVA": 100,
+    "RABADA|RESERVA": 100,
+    "STEAK DA CASA|RESERVA": 100,
+    "HAMBURGUER DE COSTELA 180g|RESERVA": 99,
+    "SALSICHA BOVINA|RESERVA": 98,
+    "FIGADO ISCA|RESERVA": 95,
+    "CAPA DA PALETA|RESERVA": 90,
+    "ISCAS PASSION|RESERVA": 90,
+    "PEIXINHO (PEÇA)|RESERVA": 90,
+    "CUBITOS|RESERVA": 85,
+    "CORAÇÃO - sob encomenda|RESERVA": 80,
+    "MOIDA BLEND 5 kg|RESERVA": 80,
+    "OSSOBUCO|RESERVA": 80,
+    "MUSCULO EM CUBOS|RESERVA": 75,
+    "BUCHO - Sob encomenda|RESERVA": 69,
     "CECINA BRESAOLA|RESERVA": 60,
-    "CHORIZO|CLASSICO": 169,
-    "CHORIZO|RESERVA": 380,
-    "CHORIZO|SUPREME": 930,
-    "CONTRAFILE|CLASSICO": 160,
-    "CONTRAFILE|RESERVA": 350,
-    "CORACAO|RESERVA": 55,
-    "COSTELA DE JANELA|CLASSICO": 145,
-    "COSTELA DE JANELA|RESERVA": 182,
-    "COSTELA DO DIANTEIRO C/OSSO|CLASSICO": 135,
-    "COSTELA DO DIANTEIRO|CLASSICO": 120,
-    "COSTELA DO DIANTEIRO|RESERVA": 178,
-    "COSTELA MINGA|CLASSICO": 30,
-    "COSTELA MINGA|RESERVA": 45,
-    "COXAO DURO PECA|CLASSICO": 56,
-    "COXAO DURO PECA|RESERVA": 110,
-    "COXAO MOLE PECA|CLASSICO": 65,
-    "COXAO MOLE PECA|RESERVA": 80,
-    "CUBITOS|CLASSICO": 59,
-    "CUBITOS|RESERVA": 79,
-    "DENVER PASSION|CLASSICO": 390,
-    "DENVER PASSION|RESERVA": 530,
-    "DENVER PASSION|SUPREME": 930,
-    "ENTRANHA PASSION|CLASSICO": 140,
-    "ENTRANHA PASSION|RESERVA": 166,
-    "FIGADO|RESERVA": 79,
-    "FILE DE COSTELA|CLASSICO": 179,
-    "FILE DE COSTELA|RESERVA": 380,
-    "FILE MIGNON MEDALHAO|CLASSICO": 253,
-    "FILE MIGNON MEDALHAO|RESERVA": 360,
-    "FILE MIGNON PECA|CLASSICO": 241,
-    "FILE MIGNON PECA|RESERVA": 322,
-    "FLAT IRON PASSION|CLASSICO": 224,
-    "FLAT IRON PASSION|RESERVA": 264,
+    "COSTELA MINGA- sob encomenda|RESERVA": 60,
+    "MUSCULO PEÇA|RESERVA": 60,
+    "RECORTE|RESERVA": 58.5,
+    "ACÉM PESCOÇO PEÇA|RESERVA": 45.5,
+    "BEEF TALLOW 250g|RESERVA": 30,
+    "GORDURA PEÇA|RESERVA": 26,
+    "CALDO DE OSSO 100ml|RESERVA": 20,
+    "OSSO MOCOTÓ|RESERVA": 18,
+    "PRIME RIB|RESERVA": 540,
     "FLAT IRON PASSION|SUPREME": 830,
-    "FRALDA INTERNA|CLASSICO": 89,
-    "FRALDA INTERNA|RESERVA": 159,
-    "FRALDINHA PASSION STEAK|CLASSICO": 218,
-    "FRALDINHA PASSION STEAK|RESERVA": 593,
-    "FRALDINHA PASSION|CLASSICO": 212,
-    "FRALDINHA PASSION|RESERVA": 286,
-    "GORDURA PECA|RESERVA": 20,
-    "HAMBURGUER 180G|RESERVA": 49,
-    "HAMBURGUER DE COSTELA 180G|RESERVA": 40,
-    "HAMBURGUER SMASH 50G|RESERVA": 45,
-    "ISCAS MIGNON|CLASSICO": 115,
-    "ISCAS MIGNON|RESERVA": 132,
-    "ISCAS PASSION|CLASSICO": 60,
-    "ISCAS PASSION|RESERVA": 74,
-    "KNUCKLE PASSION STEAK|CLASSICO": 69,
-    "KNUCKLE PASSION STEAK|RESERVA": 113,
-    "LAGARTO|CLASSICO": 60,
-    "LAGARTO|RESERVA": 89,
-    "LINGUA|CLASSICO": 60,
-    "LINGUA|RESERVA": 90,
-    "LINGUICA BOVINA|RESERVA": 50,
-    "MAMINHA|CLASSICO": 170,
-    "MAMINHA|RESERVA": 253,
-    "MAMINHA|SUPREME": 700,
-    "MOIDA BLEND|CLASSICO": 40,
-    "MOIDA BLEND|RESERVA": 60,
-    "MOIDA PATINHO|CLASSICO": 65,
-    "MOIDA PATINHO|RESERVA": 74,
-    "MUSCULO EM CUBOS|CLASSICO": 35,
-    "MUSCULO EM CUBOS|RESERVA": 55,
-    "MUSCULO PECA|CLASSICO": 30,
-    "MUSCULO PECA|RESERVA": 44,
-    "OSSO MOCOTO|RESERVA": 18,
-    "OSSOBUCO|CLASSICO": 42,
-    "OSSOBUCO|RESERVA": 59,
-    "PALETA PECA|CLASSICO": 89,
-    "PALETA PECA|RESERVA": 128,
-    "PASSIONITOS|CLASSICO": 69,
-    "PASSIONITOS|RESERVA": 80,
-    "PATINHO PECA|CLASSICO": 57,
-    "PATINHO PECA|RESERVA": 99,
-    "PEITO BRISKET|CLASSICO": 59,
-    "PEITO BRISKET|RESERVA": 89,
-    "PEIXINHO|CLASSICO": 59,
-    "PEIXINHO|RESERVA": 70,
-    "PICANHA PASSION|CLASSICO": 289,
-    "PICANHA PASSION|RESERVA": 499,
-    "PICANHA PASSION|SUPREME": 930,
-    "RABADA|CLASSICO": 55,
-    "RABADA|RESERVA": 79,
-    "RECORTE|CLASSICO": 35,
-    "RECORTE|RESERVA": 45,
-    "SALSICHA BOVINA|RESERVA": 60,
-    "SHOULDER STEAK|CLASSICO": 99,
-    "SHOULDER STEAK|RESERVA": 135,
-    "STEAK DA CASA|CLASSICO": 75,
-    "STEAK DA CASA|RESERVA": 95,
-    "STEAK DO ACEM COWBOY|CLASSICO": 99,
-    "STEAK DO ACEM COWBOY|RESERVA": 149,
-    "STEAK PASSION|CLASSICO": 65,
-    "STEAK PASSION|RESERVA": 119,
-    "STEAK PASSION|SUPREME": 320,
-    "TBONE|CLASSICO": 210,
-    "TBONE|RESERVA": 437,
-    "TOMAHAWK|CLASSICO": 210,
-    "TOMAHAWK|RESERVA": 417
+    "ANCHO SUPREME|SUPREME": 1000.3,
+    "CHORIZO SUPREME|SUPREME": 1000.3,
+    "DENVER SUPREME|SUPREME": 1000.3,
+    "PICANHA SUPREME|SUPREME": 1000.3,
+    "BISTECA SUPREME|SUPREME": 920,
+    "MAMINHA SUPREME|SUPREME": 700,
+    "FRALDINHA STEAK SUPREME|SUPREME": 699,
+    "FRALDINHA PÇ SUPREME|SUPREME": 670,
+    "STEAK PASSION SUPREME|SUPREME": 360,
+    "TIMO|SUPREME": 140
   },
   "produtos": [
-    {
-      "key": "ACEM PESCOCO PECA|CLASSICO",
-      "desc": "ACEM PESCOCO PECA",
-      "cat": "CLASSICO",
-      "ref_2026": 35,
-      "cod_bp": ""
-    },
-    {
-      "key": "ACEM PESCOCO PECA|RESERVA",
-      "desc": "ACEM PESCOCO PECA",
-      "cat": "RESERVA",
-      "ref_2026": 55,
-      "cod_bp": ""
-    },
-    {
-      "key": "ALCATRA PECA|CLASSICO",
-      "desc": "ALCATRA PECA",
-      "cat": "CLASSICO",
-      "ref_2026": 89,
-      "cod_bp": ""
-    },
-    {
-      "key": "ALCATRA PECA|RESERVA",
-      "desc": "ALCATRA PECA",
-      "cat": "RESERVA",
-      "ref_2026": 95,
-      "cod_bp": ""
-    },
-    {
-      "key": "ANCHO STEAK|CLASSICO",
-      "desc": "ANCHO STEAK",
-      "cat": "CLASSICO",
-      "ref_2026": 189,
-      "cod_bp": ""
-    },
-    {
-      "key": "ANCHO STEAK|RESERVA",
-      "desc": "ANCHO STEAK",
-      "cat": "RESERVA",
-      "ref_2026": 380,
-      "cod_bp": ""
-    },
-    {
-      "key": "ANCHO STEAK|SUPREME",
-      "desc": "ANCHO STEAK",
-      "cat": "SUPREME",
-      "ref_2026": 930,
-      "cod_bp": ""
-    },
-    {
-      "key": "ARANHA DA ALCATRA|RESERVA",
-      "desc": "ARANHA DA ALCATRA",
-      "cat": "RESERVA",
-      "ref_2026": 75,
-      "cod_bp": ""
-    },
-    {
-      "key": "ASSADO DE TIRA DIANTEIRO|CLASSICO",
-      "desc": "ASSADO DE TIRA DIANTEIRO",
-      "cat": "CLASSICO",
-      "ref_2026": 161,
-      "cod_bp": ""
-    },
-    {
-      "key": "ASSADO DE TIRA DIANTEIRO|RESERVA",
-      "desc": "ASSADO DE TIRA DIANTEIRO",
-      "cat": "RESERVA",
-      "ref_2026": 218,
-      "cod_bp": ""
-    },
-    {
-      "key": "ASSADO DE TIRA TRASEIRO|CLASSICO",
-      "desc": "ASSADO DE TIRA TRASEIRO",
-      "cat": "CLASSICO",
-      "ref_2026": 110,
-      "cod_bp": ""
-    },
-    {
-      "key": "ASSADO DE TIRA TRASEIRO|RESERVA",
-      "desc": "ASSADO DE TIRA TRASEIRO",
-      "cat": "RESERVA",
-      "ref_2026": 145,
-      "cod_bp": ""
-    },
-    {
-      "key": "BABY BEEF STEAK|CLASSICO",
-      "desc": "BABY BEEF STEAK",
-      "cat": "CLASSICO",
-      "ref_2026": 89,
-      "cod_bp": ""
-    },
-    {
-      "key": "BABY BEEF STEAK|RESERVA",
-      "desc": "BABY BEEF STEAK",
-      "cat": "RESERVA",
-      "ref_2026": 142,
-      "cod_bp": ""
-    },
-    {
-      "key": "BANANINHA|CLASSICO",
-      "desc": "BANANINHA",
-      "cat": "CLASSICO",
-      "ref_2026": 132,
-      "cod_bp": ""
-    },
-    {
-      "key": "BANANINHA|RESERVA",
-      "desc": "BANANINHA",
-      "cat": "RESERVA",
-      "ref_2026": 150,
-      "cod_bp": ""
-    },
-    {
-      "key": "BEEF STEAK|CLASSICO",
-      "desc": "BEEF STEAK",
-      "cat": "CLASSICO",
-      "ref_2026": 89,
-      "cod_bp": ""
-    },
-    {
-      "key": "BEEF STEAK|RESERVA",
-      "desc": "BEEF STEAK",
-      "cat": "RESERVA",
-      "ref_2026": 125,
-      "cod_bp": ""
-    },
-    {
-      "key": "BEEF TALLOW 1.5KG|RESERVA",
-      "desc": "BEEF TALLOW 1.5KG",
-      "cat": "RESERVA",
-      "ref_2026": 170,
-      "cod_bp": ""
-    },
-    {
-      "key": "BEEF TALLOW 250G|RESERVA",
-      "desc": "BEEF TALLOW 250G",
-      "cat": "RESERVA",
-      "ref_2026": 30,
-      "cod_bp": ""
-    },
-    {
-      "key": "BIFE DO VAZIO|CLASSICO",
-      "desc": "BIFE DO VAZIO",
-      "cat": "CLASSICO",
-      "ref_2026": 120,
-      "cod_bp": ""
-    },
-    {
-      "key": "BIFE DO VAZIO|RESERVA",
-      "desc": "BIFE DO VAZIO",
-      "cat": "RESERVA",
-      "ref_2026": 172,
-      "cod_bp": ""
-    },
-    {
-      "key": "BIFITOS|CLASSICO",
-      "desc": "BIFITOS",
-      "cat": "CLASSICO",
-      "ref_2026": 69,
-      "cod_bp": ""
-    },
-    {
-      "key": "BIFITOS|RESERVA",
-      "desc": "BIFITOS",
-      "cat": "RESERVA",
-      "ref_2026": 80,
-      "cod_bp": ""
-    },
-    {
-      "key": "BISTECA FIORENTINA|CLASSICO",
-      "desc": "BISTECA FIORENTINA",
-      "cat": "CLASSICO",
-      "ref_2026": 280,
-      "cod_bp": ""
-    },
-    {
-      "key": "BISTECA FIORENTINA|RESERVA",
-      "desc": "BISTECA FIORENTINA",
-      "cat": "RESERVA",
-      "ref_2026": 437,
-      "cod_bp": ""
-    },
-    {
-      "key": "BISTECA SHORT RIB|CLASSICO",
-      "desc": "BISTECA SHORT RIB",
-      "cat": "CLASSICO",
-      "ref_2026": 194,
-      "cod_bp": ""
-    },
-    {
-      "key": "BISTECA SHORT RIB|RESERVA",
-      "desc": "BISTECA SHORT RIB",
-      "cat": "RESERVA",
-      "ref_2026": 253,
-      "cod_bp": ""
-    },
-    {
-      "key": "BISTECA SHORT RIB|SUPREME",
-      "desc": "BISTECA SHORT RIB",
-      "cat": "SUPREME",
-      "ref_2026": 830,
-      "cod_bp": ""
-    },
-    {
-      "key": "BOCHECHA|CLASSICO",
-      "desc": "BOCHECHA",
-      "cat": "CLASSICO",
-      "ref_2026": 69,
-      "cod_bp": ""
-    },
-    {
-      "key": "BOCHECHA|RESERVA",
-      "desc": "BOCHECHA",
-      "cat": "RESERVA",
-      "ref_2026": 80,
-      "cod_bp": ""
-    },
-    {
-      "key": "BOICON BOVINO FATIADO|RESERVA",
-      "desc": "BOICON BOVINO FATIADO",
-      "cat": "RESERVA",
-      "ref_2026": 80,
-      "cod_bp": ""
-    },
-    {
-      "key": "BOMBOM DA ALCATRA|CLASSICO",
-      "desc": "BOMBOM DA ALCATRA",
-      "cat": "CLASSICO",
-      "ref_2026": 131,
-      "cod_bp": ""
-    },
-    {
-      "key": "BOMBOM DA ALCATRA|RESERVA",
-      "desc": "BOMBOM DA ALCATRA",
-      "cat": "RESERVA",
-      "ref_2026": 207,
-      "cod_bp": ""
-    },
-    {
-      "key": "BUCHO|CLASSICO",
-      "desc": "BUCHO",
-      "cat": "CLASSICO",
-      "ref_2026": 45,
-      "cod_bp": ""
-    },
-    {
-      "key": "BUCHO|RESERVA",
-      "desc": "BUCHO",
-      "cat": "RESERVA",
-      "ref_2026": 69,
-      "cod_bp": ""
-    },
-    {
-      "key": "CALDO DE OSSO 100ML|RESERVA",
-      "desc": "CALDO DE OSSO 100ML",
-      "cat": "RESERVA",
-      "ref_2026": 20,
-      "cod_bp": ""
-    },
-    {
-      "key": "CAPA DA PALETA|CLASSICO",
-      "desc": "CAPA DA PALETA",
-      "cat": "CLASSICO",
-      "ref_2026": 55,
-      "cod_bp": ""
-    },
-    {
-      "key": "CAPA DA PALETA|RESERVA",
-      "desc": "CAPA DA PALETA",
-      "cat": "RESERVA",
-      "ref_2026": 70,
-      "cod_bp": ""
-    },
-    {
-      "key": "CAPA DE FILE STEAK|CLASSICO",
-      "desc": "CAPA DE FILE STEAK",
-      "cat": "CLASSICO",
-      "ref_2026": 125,
-      "cod_bp": ""
-    },
-    {
-      "key": "CAPA DE FILE STEAK|RESERVA",
-      "desc": "CAPA DE FILE STEAK",
-      "cat": "RESERVA",
-      "ref_2026": 155,
-      "cod_bp": ""
-    },
-    {
-      "key": "CAPA DE FILE|CLASSICO",
-      "desc": "CAPA DE FILE",
-      "cat": "CLASSICO",
-      "ref_2026": 115,
-      "cod_bp": ""
-    },
-    {
-      "key": "CAPA DE FILE|RESERVA",
-      "desc": "CAPA DE FILE",
-      "cat": "RESERVA",
-      "ref_2026": 140,
-      "cod_bp": ""
-    },
-    {
-      "key": "CECINA BRESAOLA|RESERVA",
-      "desc": "CECINA BRESAOLA",
-      "cat": "RESERVA",
-      "ref_2026": 60,
-      "cod_bp": ""
-    },
-    {
-      "key": "CHORIZO|CLASSICO",
-      "desc": "CHORIZO",
-      "cat": "CLASSICO",
-      "ref_2026": 169,
-      "cod_bp": ""
-    },
-    {
-      "key": "CHORIZO|RESERVA",
-      "desc": "CHORIZO",
-      "cat": "RESERVA",
-      "ref_2026": 380,
-      "cod_bp": ""
-    },
-    {
-      "key": "CHORIZO|SUPREME",
-      "desc": "CHORIZO",
-      "cat": "SUPREME",
-      "ref_2026": 930,
-      "cod_bp": ""
-    },
-    {
-      "key": "CONTRAFILE|CLASSICO",
-      "desc": "CONTRAFILE",
-      "cat": "CLASSICO",
-      "ref_2026": 160,
-      "cod_bp": ""
-    },
-    {
-      "key": "CONTRAFILE|RESERVA",
-      "desc": "CONTRAFILE",
-      "cat": "RESERVA",
-      "ref_2026": 350,
-      "cod_bp": ""
-    },
-    {
-      "key": "CORACAO|RESERVA",
-      "desc": "CORACAO",
-      "cat": "RESERVA",
-      "ref_2026": 55,
-      "cod_bp": ""
-    },
-    {
-      "key": "COSTELA DE JANELA|CLASSICO",
-      "desc": "COSTELA DE JANELA",
-      "cat": "CLASSICO",
-      "ref_2026": 145,
-      "cod_bp": ""
-    },
-    {
-      "key": "COSTELA DE JANELA|RESERVA",
-      "desc": "COSTELA DE JANELA",
-      "cat": "RESERVA",
-      "ref_2026": 182,
-      "cod_bp": ""
-    },
-    {
-      "key": "COSTELA DO DIANTEIRO C/OSSO|CLASSICO",
-      "desc": "COSTELA DO DIANTEIRO C/OSSO",
-      "cat": "CLASSICO",
-      "ref_2026": 135,
-      "cod_bp": ""
-    },
-    {
-      "key": "COSTELA DO DIANTEIRO|CLASSICO",
-      "desc": "COSTELA DO DIANTEIRO",
-      "cat": "CLASSICO",
-      "ref_2026": 120,
-      "cod_bp": ""
-    },
-    {
-      "key": "COSTELA DO DIANTEIRO|RESERVA",
-      "desc": "COSTELA DO DIANTEIRO",
-      "cat": "RESERVA",
-      "ref_2026": 178,
-      "cod_bp": ""
-    },
-    {
-      "key": "COSTELA MINGA|CLASSICO",
-      "desc": "COSTELA MINGA",
-      "cat": "CLASSICO",
-      "ref_2026": 30,
-      "cod_bp": ""
-    },
-    {
-      "key": "COSTELA MINGA|RESERVA",
-      "desc": "COSTELA MINGA",
-      "cat": "RESERVA",
-      "ref_2026": 45,
-      "cod_bp": ""
-    },
-    {
-      "key": "COXAO DURO PECA|CLASSICO",
-      "desc": "COXAO DURO PECA",
-      "cat": "CLASSICO",
-      "ref_2026": 56,
-      "cod_bp": ""
-    },
-    {
-      "key": "COXAO DURO PECA|RESERVA",
-      "desc": "COXAO DURO PECA",
-      "cat": "RESERVA",
-      "ref_2026": 110,
-      "cod_bp": ""
-    },
-    {
-      "key": "COXAO MOLE PECA|CLASSICO",
-      "desc": "COXAO MOLE PECA",
-      "cat": "CLASSICO",
-      "ref_2026": 65,
-      "cod_bp": ""
-    },
-    {
-      "key": "COXAO MOLE PECA|RESERVA",
-      "desc": "COXAO MOLE PECA",
-      "cat": "RESERVA",
-      "ref_2026": 80,
-      "cod_bp": ""
-    },
-    {
-      "key": "CUBITOS|CLASSICO",
-      "desc": "CUBITOS",
-      "cat": "CLASSICO",
-      "ref_2026": 59,
-      "cod_bp": ""
-    },
-    {
-      "key": "CUBITOS|RESERVA",
-      "desc": "CUBITOS",
-      "cat": "RESERVA",
-      "ref_2026": 79,
-      "cod_bp": ""
-    },
     {
       "key": "DENVER PASSION|CLASSICO",
       "desc": "DENVER PASSION",
       "cat": "CLASSICO",
-      "ref_2026": 390,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "61"
     },
     {
-      "key": "DENVER PASSION|RESERVA",
-      "desc": "DENVER PASSION",
-      "cat": "RESERVA",
-      "ref_2026": 530,
-      "cod_bp": ""
-    },
-    {
-      "key": "DENVER PASSION|SUPREME",
-      "desc": "DENVER PASSION",
-      "cat": "SUPREME",
-      "ref_2026": 930,
-      "cod_bp": ""
-    },
-    {
-      "key": "ENTRANHA PASSION|CLASSICO",
-      "desc": "ENTRANHA PASSION",
+      "key": "BISTECA FIORENTINA -Sob encomenda|CLASSICO",
+      "desc": "BISTECA FIORENTINA -Sob encomenda",
       "cat": "CLASSICO",
-      "ref_2026": 140,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "950"
     },
     {
-      "key": "ENTRANHA PASSION|RESERVA",
-      "desc": "ENTRANHA PASSION",
-      "cat": "RESERVA",
-      "ref_2026": 166,
-      "cod_bp": ""
-    },
-    {
-      "key": "FIGADO|RESERVA",
-      "desc": "FIGADO",
-      "cat": "RESERVA",
-      "ref_2026": 79,
-      "cod_bp": ""
-    },
-    {
-      "key": "FILE DE COSTELA|CLASSICO",
-      "desc": "FILE DE COSTELA",
+      "key": "TOMAHAWK - SOB ENCOMENDA|CLASSICO",
+      "desc": "TOMAHAWK - SOB ENCOMENDA",
       "cat": "CLASSICO",
-      "ref_2026": 179,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "465"
     },
     {
-      "key": "FILE DE COSTELA|RESERVA",
-      "desc": "FILE DE COSTELA",
-      "cat": "RESERVA",
-      "ref_2026": 380,
-      "cod_bp": ""
-    },
-    {
-      "key": "FILE MIGNON MEDALHAO|CLASSICO",
-      "desc": "FILE MIGNON MEDALHAO",
+      "key": "PICANHA PASSION BP 2|CLASSICO",
+      "desc": "PICANHA PASSION BP 2",
       "cat": "CLASSICO",
-      "ref_2026": 253,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "111"
     },
     {
-      "key": "FILE MIGNON MEDALHAO|RESERVA",
-      "desc": "FILE MIGNON MEDALHAO",
-      "cat": "RESERVA",
-      "ref_2026": 360,
-      "cod_bp": ""
-    },
-    {
-      "key": "FILE MIGNON PECA|CLASSICO",
-      "desc": "FILE MIGNON PECA",
+      "key": "FRALDINHA  STEAK CG|CLASSICO",
+      "desc": "FRALDINHA  STEAK CG",
       "cat": "CLASSICO",
-      "ref_2026": 241,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "374"
     },
     {
-      "key": "FILE MIGNON PECA|RESERVA",
-      "desc": "FILE MIGNON PECA",
-      "cat": "RESERVA",
-      "ref_2026": 322,
-      "cod_bp": ""
+      "key": "FILÉ MIGNON MEDALHÃO|CLASSICO",
+      "desc": "FILÉ MIGNON MEDALHÃO",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "201"
+    },
+    {
+      "key": "FRALDINHA RED PÇ|CLASSICO",
+      "desc": "FRALDINHA RED PÇ",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "213"
     },
     {
       "key": "FLAT IRON PASSION|CLASSICO",
       "desc": "FLAT IRON PASSION",
       "cat": "CLASSICO",
-      "ref_2026": 224,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "221"
     },
     {
-      "key": "FLAT IRON PASSION|RESERVA",
-      "desc": "FLAT IRON PASSION",
-      "cat": "RESERVA",
-      "ref_2026": 264,
-      "cod_bp": ""
-    },
-    {
-      "key": "FLAT IRON PASSION|SUPREME",
-      "desc": "FLAT IRON PASSION",
-      "cat": "SUPREME",
-      "ref_2026": 830,
-      "cod_bp": ""
-    },
-    {
-      "key": "FRALDA INTERNA|CLASSICO",
-      "desc": "FRALDA INTERNA",
+      "key": "FILÉ MIGNON PEÇA|CLASSICO",
+      "desc": "FILÉ MIGNON PEÇA",
       "cat": "CLASSICO",
-      "ref_2026": 89,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "197"
     },
     {
-      "key": "FRALDA INTERNA|RESERVA",
-      "desc": "FRALDA INTERNA",
-      "cat": "RESERVA",
-      "ref_2026": 159,
-      "cod_bp": ""
-    },
-    {
-      "key": "FRALDINHA PASSION STEAK|CLASSICO",
-      "desc": "FRALDINHA PASSION STEAK",
+      "key": "TBONE - SOB ENCOMENDA|CLASSICO",
+      "desc": "TBONE - SOB ENCOMENDA",
       "cat": "CLASSICO",
-      "ref_2026": 218,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "362"
     },
     {
-      "key": "FRALDINHA PASSION STEAK|RESERVA",
-      "desc": "FRALDINHA PASSION STEAK",
-      "cat": "RESERVA",
-      "ref_2026": 593,
-      "cod_bp": ""
-    },
-    {
-      "key": "FRALDINHA PASSION|CLASSICO",
-      "desc": "FRALDINHA PASSION",
+      "key": "BISTECA PASSION-SHORT RIB S/O|CLASSICO",
+      "desc": "BISTECA PASSION-SHORT RIB S/O",
       "cat": "CLASSICO",
-      "ref_2026": 212,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "79"
     },
     {
-      "key": "FRALDINHA PASSION|RESERVA",
-      "desc": "FRALDINHA PASSION",
-      "cat": "RESERVA",
-      "ref_2026": 286,
-      "cod_bp": ""
+      "key": "FILÉ DE COSTELA (PEÇA)|CLASSICO",
+      "desc": "FILÉ DE COSTELA (PEÇA)",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "150"
     },
     {
-      "key": "GORDURA PECA|RESERVA",
-      "desc": "GORDURA PECA",
-      "cat": "RESERVA",
-      "ref_2026": 20,
-      "cod_bp": ""
+      "key": "ANCHO STEAK BP 2|CLASSICO",
+      "desc": "ANCHO STEAK BP 2",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "154"
     },
     {
-      "key": "HAMBURGUER 180G|RESERVA",
-      "desc": "HAMBURGUER 180G",
-      "cat": "RESERVA",
-      "ref_2026": 49,
-      "cod_bp": ""
+      "key": "CHORIZO BP 2|CLASSICO",
+      "desc": "CHORIZO BP 2",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "129"
     },
     {
-      "key": "HAMBURGUER DE COSTELA 180G|RESERVA",
-      "desc": "HAMBURGUER DE COSTELA 180G",
-      "cat": "RESERVA",
-      "ref_2026": 40,
-      "cod_bp": ""
+      "key": "CONTRAFILÉ BP 2|CLASSICO",
+      "desc": "CONTRAFILÉ BP 2",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "125"
     },
     {
-      "key": "HAMBURGUER SMASH 50G|RESERVA",
-      "desc": "HAMBURGUER SMASH 50G",
-      "cat": "RESERVA",
-      "ref_2026": 45,
-      "cod_bp": ""
+      "key": "ASSADO DE TIRA DIANTEIRO|CLASSICO",
+      "desc": "ASSADO DE TIRA DIANTEIRO",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "182"
+    },
+    {
+      "key": "ENTRANHA PASSION|CLASSICO",
+      "desc": "ENTRANHA PASSION",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "220"
+    },
+    {
+      "key": "BANANINHA|CLASSICO",
+      "desc": "BANANINHA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "496"
+    },
+    {
+      "key": "BOMBOM DA ALCATRA|CLASSICO",
+      "desc": "BOMBOM DA ALCATRA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "94"
     },
     {
       "key": "ISCAS MIGNON|CLASSICO",
       "desc": "ISCAS MIGNON",
       "cat": "CLASSICO",
-      "ref_2026": 115,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "206"
     },
     {
-      "key": "ISCAS MIGNON|RESERVA",
-      "desc": "ISCAS MIGNON",
-      "cat": "RESERVA",
-      "ref_2026": 132,
-      "cod_bp": ""
-    },
-    {
-      "key": "ISCAS PASSION|CLASSICO",
-      "desc": "ISCAS PASSION",
+      "key": "COSTELA DE JANELA - sob encomenda|CLASSICO",
+      "desc": "COSTELA DE JANELA - sob encomenda",
       "cat": "CLASSICO",
-      "ref_2026": 60,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "80"
     },
     {
-      "key": "ISCAS PASSION|RESERVA",
-      "desc": "ISCAS PASSION",
-      "cat": "RESERVA",
-      "ref_2026": 74,
-      "cod_bp": ""
-    },
-    {
-      "key": "KNUCKLE PASSION STEAK|CLASSICO",
-      "desc": "KNUCKLE PASSION STEAK",
+      "key": "CAPA DE FILÉ STEAK|CLASSICO",
+      "desc": "CAPA DE FILÉ STEAK",
       "cat": "CLASSICO",
-      "ref_2026": 69,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "145"
     },
     {
-      "key": "KNUCKLE PASSION STEAK|RESERVA",
-      "desc": "KNUCKLE PASSION STEAK",
-      "cat": "RESERVA",
-      "ref_2026": 113,
-      "cod_bp": ""
-    },
-    {
-      "key": "LAGARTO|CLASSICO",
-      "desc": "LAGARTO",
+      "key": "COSTELA DO DIANTEIRO|CLASSICO",
+      "desc": "COSTELA DO DIANTEIRO",
       "cat": "CLASSICO",
-      "ref_2026": 60,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "419"
     },
     {
-      "key": "LAGARTO|RESERVA",
-      "desc": "LAGARTO",
-      "cat": "RESERVA",
-      "ref_2026": 89,
-      "cod_bp": ""
-    },
-    {
-      "key": "LINGUA|CLASSICO",
-      "desc": "LINGUA",
+      "key": "COSTELA DO DIANTEIRO C/OSSO|CLASSICO",
+      "desc": "COSTELA DO DIANTEIRO C/OSSO",
       "cat": "CLASSICO",
-      "ref_2026": 60,
-      "cod_bp": ""
-    },
-    {
-      "key": "LINGUA|RESERVA",
-      "desc": "LINGUA",
-      "cat": "RESERVA",
-      "ref_2026": 90,
-      "cod_bp": ""
-    },
-    {
-      "key": "LINGUICA BOVINA|RESERVA",
-      "desc": "LINGUICA BOVINA",
-      "cat": "RESERVA",
-      "ref_2026": 50,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "188"
     },
     {
       "key": "MAMINHA|CLASSICO",
       "desc": "MAMINHA",
       "cat": "CLASSICO",
-      "ref_2026": 170,
-      "cod_bp": ""
-    },
-    {
-      "key": "MAMINHA|RESERVA",
-      "desc": "MAMINHA",
-      "cat": "RESERVA",
-      "ref_2026": 253,
-      "cod_bp": ""
-    },
-    {
-      "key": "MAMINHA|SUPREME",
-      "desc": "MAMINHA",
-      "cat": "SUPREME",
-      "ref_2026": 700,
-      "cod_bp": ""
-    },
-    {
-      "key": "MOIDA BLEND|CLASSICO",
-      "desc": "MOIDA BLEND",
-      "cat": "CLASSICO",
-      "ref_2026": 40,
-      "cod_bp": ""
-    },
-    {
-      "key": "MOIDA BLEND|RESERVA",
-      "desc": "MOIDA BLEND",
-      "cat": "RESERVA",
-      "ref_2026": 60,
-      "cod_bp": ""
-    },
-    {
-      "key": "MOIDA PATINHO|CLASSICO",
-      "desc": "MOIDA PATINHO",
-      "cat": "CLASSICO",
-      "ref_2026": 65,
-      "cod_bp": ""
-    },
-    {
-      "key": "MOIDA PATINHO|RESERVA",
-      "desc": "MOIDA PATINHO",
-      "cat": "RESERVA",
-      "ref_2026": 74,
-      "cod_bp": ""
-    },
-    {
-      "key": "MUSCULO EM CUBOS|CLASSICO",
-      "desc": "MUSCULO EM CUBOS",
-      "cat": "CLASSICO",
-      "ref_2026": 35,
-      "cod_bp": ""
-    },
-    {
-      "key": "MUSCULO EM CUBOS|RESERVA",
-      "desc": "MUSCULO EM CUBOS",
-      "cat": "RESERVA",
-      "ref_2026": 55,
-      "cod_bp": ""
-    },
-    {
-      "key": "MUSCULO PECA|CLASSICO",
-      "desc": "MUSCULO PECA",
-      "cat": "CLASSICO",
-      "ref_2026": 30,
-      "cod_bp": ""
-    },
-    {
-      "key": "MUSCULO PECA|RESERVA",
-      "desc": "MUSCULO PECA",
-      "cat": "RESERVA",
-      "ref_2026": 44,
-      "cod_bp": ""
-    },
-    {
-      "key": "OSSO MOCOTO|RESERVA",
-      "desc": "OSSO MOCOTO",
-      "cat": "RESERVA",
-      "ref_2026": 18,
-      "cod_bp": ""
-    },
-    {
-      "key": "OSSOBUCO|CLASSICO",
-      "desc": "OSSOBUCO",
-      "cat": "CLASSICO",
-      "ref_2026": 42,
-      "cod_bp": ""
-    },
-    {
-      "key": "OSSOBUCO|RESERVA",
-      "desc": "OSSOBUCO",
-      "cat": "RESERVA",
-      "ref_2026": 59,
-      "cod_bp": ""
-    },
-    {
-      "key": "PALETA PECA|CLASSICO",
-      "desc": "PALETA PECA",
-      "cat": "CLASSICO",
-      "ref_2026": 89,
-      "cod_bp": ""
-    },
-    {
-      "key": "PALETA PECA|RESERVA",
-      "desc": "PALETA PECA",
-      "cat": "RESERVA",
-      "ref_2026": 128,
-      "cod_bp": ""
-    },
-    {
-      "key": "PASSIONITOS|CLASSICO",
-      "desc": "PASSIONITOS",
-      "cat": "CLASSICO",
-      "ref_2026": 69,
-      "cod_bp": ""
-    },
-    {
-      "key": "PASSIONITOS|RESERVA",
-      "desc": "PASSIONITOS",
-      "cat": "RESERVA",
-      "ref_2026": 80,
-      "cod_bp": ""
-    },
-    {
-      "key": "PATINHO PECA|CLASSICO",
-      "desc": "PATINHO PECA",
-      "cat": "CLASSICO",
-      "ref_2026": 57,
-      "cod_bp": ""
-    },
-    {
-      "key": "PATINHO PECA|RESERVA",
-      "desc": "PATINHO PECA",
-      "cat": "RESERVA",
-      "ref_2026": 99,
-      "cod_bp": ""
-    },
-    {
-      "key": "PEITO BRISKET|CLASSICO",
-      "desc": "PEITO BRISKET",
-      "cat": "CLASSICO",
-      "ref_2026": 59,
-      "cod_bp": ""
-    },
-    {
-      "key": "PEITO BRISKET|RESERVA",
-      "desc": "PEITO BRISKET",
-      "cat": "RESERVA",
-      "ref_2026": 89,
-      "cod_bp": ""
-    },
-    {
-      "key": "PEIXINHO|CLASSICO",
-      "desc": "PEIXINHO",
-      "cat": "CLASSICO",
-      "ref_2026": 59,
-      "cod_bp": ""
-    },
-    {
-      "key": "PEIXINHO|RESERVA",
-      "desc": "PEIXINHO",
-      "cat": "RESERVA",
-      "ref_2026": 70,
-      "cod_bp": ""
-    },
-    {
-      "key": "PICANHA PASSION|CLASSICO",
-      "desc": "PICANHA PASSION",
-      "cat": "CLASSICO",
-      "ref_2026": 289,
-      "cod_bp": ""
-    },
-    {
-      "key": "PICANHA PASSION|RESERVA",
-      "desc": "PICANHA PASSION",
-      "cat": "RESERVA",
-      "ref_2026": 499,
-      "cod_bp": ""
-    },
-    {
-      "key": "PICANHA PASSION|SUPREME",
-      "desc": "PICANHA PASSION",
-      "cat": "SUPREME",
-      "ref_2026": 930,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "97"
     },
     {
       "key": "RABADA|CLASSICO",
       "desc": "RABADA",
       "cat": "CLASSICO",
-      "ref_2026": 55,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "452"
     },
     {
-      "key": "RABADA|RESERVA",
-      "desc": "RABADA",
-      "cat": "RESERVA",
-      "ref_2026": 79,
-      "cod_bp": ""
-    },
-    {
-      "key": "RECORTE|CLASSICO",
-      "desc": "RECORTE",
+      "key": "BIFE DO VAZIO|CLASSICO",
+      "desc": "BIFE DO VAZIO",
       "cat": "CLASSICO",
-      "ref_2026": 35,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "497"
     },
     {
-      "key": "RECORTE|RESERVA",
-      "desc": "RECORTE",
-      "cat": "RESERVA",
-      "ref_2026": 45,
-      "cod_bp": ""
+      "key": "CAPA DE FILÉ|CLASSICO",
+      "desc": "CAPA DE FILÉ",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "146"
     },
     {
-      "key": "SALSICHA BOVINA|RESERVA",
-      "desc": "SALSICHA BOVINA",
-      "cat": "RESERVA",
-      "ref_2026": 60,
-      "cod_bp": ""
+      "key": "ASSADO DE TIRA TRASEIRO|CLASSICO",
+      "desc": "ASSADO DE TIRA TRASEIRO",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "170"
     },
     {
       "key": "SHOULDER STEAK|CLASSICO",
       "desc": "SHOULDER STEAK",
       "cat": "CLASSICO",
-      "ref_2026": 99,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "234"
     },
     {
-      "key": "SHOULDER STEAK|RESERVA",
-      "desc": "SHOULDER STEAK",
-      "cat": "RESERVA",
-      "ref_2026": 135,
-      "cod_bp": ""
+      "key": "STEAK DO ACÉM (Cowboy)|CLASSICO",
+      "desc": "STEAK DO ACÉM (Cowboy)",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "51"
+    },
+    {
+      "key": "ALCATRA PEÇA|CLASSICO",
+      "desc": "ALCATRA PEÇA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "539"
+    },
+    {
+      "key": "FRALDA INTERNA|CLASSICO",
+      "desc": "FRALDA INTERNA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "377"
+    },
+    {
+      "key": "BABY BEEF STEAK|CLASSICO",
+      "desc": "BABY BEEF STEAK",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "90"
+    },
+    {
+      "key": "BEEF STEAK|CLASSICO",
+      "desc": "BEEF STEAK",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "119"
+    },
+    {
+      "key": "LINGUA|CLASSICO",
+      "desc": "LINGUA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "367"
+    },
+    {
+      "key": "PALETA PEÇA|CLASSICO",
+      "desc": "PALETA PEÇA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "233"
+    },
+    {
+      "key": "PASSIONITOS|CLASSICO",
+      "desc": "PASSIONITOS",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "316"
+    },
+    {
+      "key": "ARANHA DA ALCATRA|CLASSICO",
+      "desc": "ARANHA DA ALCATRA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "552"
+    },
+    {
+      "key": "BOCHECHA|CLASSICO",
+      "desc": "BOCHECHA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "364"
+    },
+    {
+      "key": "MOIDA PATINHO|CLASSICO",
+      "desc": "MOIDA PATINHO",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "320"
     },
     {
       "key": "STEAK DA CASA|CLASSICO",
       "desc": "STEAK DA CASA",
       "cat": "CLASSICO",
-      "ref_2026": 75,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "502"
     },
     {
-      "key": "STEAK DA CASA|RESERVA",
-      "desc": "STEAK DA CASA",
-      "cat": "RESERVA",
-      "ref_2026": 95,
-      "cod_bp": ""
-    },
-    {
-      "key": "STEAK DO ACEM COWBOY|CLASSICO",
-      "desc": "STEAK DO ACEM COWBOY",
+      "key": "BIFITOS|CLASSICO",
+      "desc": "BIFITOS",
       "cat": "CLASSICO",
-      "ref_2026": 99,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "204"
     },
     {
-      "key": "STEAK DO ACEM COWBOY|RESERVA",
-      "desc": "STEAK DO ACEM COWBOY",
-      "cat": "RESERVA",
-      "ref_2026": 149,
-      "cod_bp": ""
+      "key": "ISCAS PASSION|CLASSICO",
+      "desc": "ISCAS PASSION",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "332"
+    },
+    {
+      "key": "KNUCKLE PASSION STEAK|CLASSICO",
+      "desc": "KNUCKLE PASSION STEAK",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "284"
+    },
+    {
+      "key": "COXAO MOLE PEÇA|CLASSICO",
+      "desc": "COXAO MOLE PEÇA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "439"
+    },
+    {
+      "key": "CUBITOS|CLASSICO",
+      "desc": "CUBITOS",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "319"
+    },
+    {
+      "key": "MOIDA BLEND|CLASSICO",
+      "desc": "MOIDA BLEND",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "358"
+    },
+    {
+      "key": "LAGARTO|CLASSICO",
+      "desc": "LAGARTO",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "449"
+    },
+    {
+      "key": "PEIXINHO (PEÇA)|CLASSICO",
+      "desc": "PEIXINHO (PEÇA)",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "446"
+    },
+    {
+      "key": "COXÃO DURO PEÇA|CLASSICO",
+      "desc": "COXÃO DURO PEÇA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "259"
+    },
+    {
+      "key": "MUSCULO EM CUBOS|CLASSICO",
+      "desc": "MUSCULO EM CUBOS",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "291"
+    },
+    {
+      "key": "PEITO / BRISKET|CLASSICO",
+      "desc": "PEITO / BRISKET",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "242"
+    },
+    {
+      "key": "PATINHO PEÇA|CLASSICO",
+      "desc": "PATINHO PEÇA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "271"
+    },
+    {
+      "key": "CAPA DA PALETA|CLASSICO",
+      "desc": "CAPA DA PALETA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "232"
+    },
+    {
+      "key": "BUCHO - Sob encomenda|CLASSICO",
+      "desc": "BUCHO - Sob encomenda",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "365"
+    },
+    {
+      "key": "RECORTE PASSION|CLASSICO",
+      "desc": "RECORTE PASSION",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "328"
+    },
+    {
+      "key": "OSSOBUCO|CLASSICO",
+      "desc": "OSSOBUCO",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "323"
+    },
+    {
+      "key": "ACÉM PESCOÇO PEÇA|CLASSICO",
+      "desc": "ACÉM PESCOÇO PEÇA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "58"
+    },
+    {
+      "key": "COSTELA MINGA- sob encomenda|CLASSICO",
+      "desc": "COSTELA MINGA- sob encomenda",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "349"
+    },
+    {
+      "key": "MUSCULO PEÇA|CLASSICO",
+      "desc": "MUSCULO PEÇA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "298"
     },
     {
       "key": "STEAK PASSION|CLASSICO",
       "desc": "STEAK PASSION",
       "cat": "CLASSICO",
-      "ref_2026": 65,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "263"
+    },
+    {
+      "key": "RECORTE DE COSTELA|CLASSICO",
+      "desc": "RECORTE DE COSTELA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "463"
+    },
+    {
+      "key": "RECORTE G|CLASSICO",
+      "desc": "RECORTE G",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "326"
+    },
+    {
+      "key": "PRIME RIB CG|CLASSICO",
+      "desc": "PRIME RIB CG",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "147"
+    },
+    {
+      "key": "DENVER PASSION|RESERVA",
+      "desc": "DENVER PASSION",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "65"
+    },
+    {
+      "key": "ANCHO STEAK BP Reserva|RESERVA",
+      "desc": "ANCHO STEAK BP Reserva",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "156"
+    },
+    {
+      "key": "BISTECA FIORENTINA -Sob encomenda|RESERVA",
+      "desc": "BISTECA FIORENTINA -Sob encomenda",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "132"
+    },
+    {
+      "key": "TBONE - SOB ENCOMENDA|RESERVA",
+      "desc": "TBONE - SOB ENCOMENDA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "141"
+    },
+    {
+      "key": "FILÉ DE COSTELA BP|RESERVA",
+      "desc": "FILÉ DE COSTELA BP",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "152"
+    },
+    {
+      "key": "PICANHA PASSION BP|RESERVA",
+      "desc": "PICANHA PASSION BP",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "113"
+    },
+    {
+      "key": "TOMAHAWK - SOB ENCOMENDA|RESERVA",
+      "desc": "TOMAHAWK - SOB ENCOMENDA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "161"
+    },
+    {
+      "key": "CHORIZO BP 2|RESERVA",
+      "desc": "CHORIZO BP 2",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "131"
+    },
+    {
+      "key": "CONTRAFILÉ|RESERVA",
+      "desc": "CONTRAFILÉ",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "127"
+    },
+    {
+      "key": "FRALDINHA PASSION STEAK BP 2|RESERVA",
+      "desc": "FRALDINHA PASSION STEAK BP 2",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "376"
+    },
+    {
+      "key": "FILÉ MIGNON MEDALHÃO|RESERVA",
+      "desc": "FILÉ MIGNON MEDALHÃO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "203"
+    },
+    {
+      "key": "FILÉ MIGNON PEÇA|RESERVA",
+      "desc": "FILÉ MIGNON PEÇA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "199"
+    },
+    {
+      "key": "FRALDINHA PASSION BP|RESERVA",
+      "desc": "FRALDINHA PASSION BP",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "215"
+    },
+    {
+      "key": "FLAT IRON PASSION|RESERVA",
+      "desc": "FLAT IRON PASSION",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "223"
+    },
+    {
+      "key": "MAMINHA|RESERVA",
+      "desc": "MAMINHA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "100"
+    },
+    {
+      "key": "BISTECA PASSION-SHORT RIB S/O|RESERVA",
+      "desc": "BISTECA PASSION-SHORT RIB S/O",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "79"
+    },
+    {
+      "key": "ASSADO DE TIRA DIANTEIRO|RESERVA",
+      "desc": "ASSADO DE TIRA DIANTEIRO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "184"
+    },
+    {
+      "key": "BOMBOM DA ALCATRA|RESERVA",
+      "desc": "BOMBOM DA ALCATRA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "96"
+    },
+    {
+      "key": "COSTELA DO DIANTEIRO C/OSSO|RESERVA",
+      "desc": "COSTELA DO DIANTEIRO C/OSSO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "188"
+    },
+    {
+      "key": "COSTELA DE JANELA - sob encomenda|RESERVA",
+      "desc": "COSTELA DE JANELA - sob encomenda",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "440"
+    },
+    {
+      "key": "COSTELA DO DIANTEIRO|RESERVA",
+      "desc": "COSTELA DO DIANTEIRO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "461"
+    },
+    {
+      "key": "BIFE DO VAZIO|RESERVA",
+      "desc": "BIFE DO VAZIO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "217"
+    },
+    {
+      "key": "ENTRANHA PASSION|RESERVA",
+      "desc": "ENTRANHA PASSION",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "246"
+    },
+    {
+      "key": "FRALDA INTERNA|RESERVA",
+      "desc": "FRALDA INTERNA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "312"
+    },
+    {
+      "key": "BANANINHA|RESERVA",
+      "desc": "BANANINHA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "122"
+    },
+    {
+      "key": "STEAK DO ACÉM (Cowboy)|RESERVA",
+      "desc": "STEAK DO ACÉM (Cowboy)",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "455"
+    },
+    {
+      "key": "ASSADO DE TIRA TRASEIRO|RESERVA",
+      "desc": "ASSADO DE TIRA TRASEIRO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "180"
+    },
+    {
+      "key": "BABY BEEF STEAK|RESERVA",
+      "desc": "BABY BEEF STEAK",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "92"
+    },
+    {
+      "key": "CAPA DE FILÉ|RESERVA",
+      "desc": "CAPA DE FILÉ",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "360"
+    },
+    {
+      "key": "SHOULDER STEAK|RESERVA",
+      "desc": "SHOULDER STEAK",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "236"
+    },
+    {
+      "key": "BEEF TALLOW 1,5KG|RESERVA",
+      "desc": "BEEF TALLOW 1,5KG",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "342"
+    },
+    {
+      "key": "ISCAS MIGNON|RESERVA",
+      "desc": "ISCAS MIGNON",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "206"
+    },
+    {
+      "key": "BEEF STEAK|RESERVA",
+      "desc": "BEEF STEAK",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "121"
+    },
+    {
+      "key": "PALETA PEÇA|RESERVA",
+      "desc": "PALETA PEÇA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "230"
+    },
+    {
+      "key": "CAPA DE FILÉ STEAK|RESERVA",
+      "desc": "CAPA DE FILÉ STEAK",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "508"
+    },
+    {
+      "key": "COXÃO DURO PEÇA|RESERVA",
+      "desc": "COXÃO DURO PEÇA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "261"
     },
     {
       "key": "STEAK PASSION|RESERVA",
       "desc": "STEAK PASSION",
       "cat": "RESERVA",
-      "ref_2026": 119,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "263"
     },
     {
-      "key": "STEAK PASSION|SUPREME",
-      "desc": "STEAK PASSION",
+      "key": "KNUCKLE PASSION STEAK|RESERVA",
+      "desc": "KNUCKLE PASSION STEAK",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "286"
+    },
+    {
+      "key": "PATINHO PEÇA|RESERVA",
+      "desc": "PATINHO PEÇA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "273"
+    },
+    {
+      "key": "ALCATRA PEÇA|RESERVA",
+      "desc": "ALCATRA PEÇA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "539"
+    },
+    {
+      "key": "ARANHA DA ALCATRA|RESERVA",
+      "desc": "ARANHA DA ALCATRA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "105"
+    },
+    {
+      "key": "BIFITOS|RESERVA",
+      "desc": "BIFITOS",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "205"
+    },
+    {
+      "key": "HAMBURGUER 180g|RESERVA",
+      "desc": "HAMBURGUER 180g",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "307"
+    },
+    {
+      "key": "HAMBURGUER SMASH 50g|RESERVA",
+      "desc": "HAMBURGUER SMASH 50g",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "424"
+    },
+    {
+      "key": "LAGARTO|RESERVA",
+      "desc": "LAGARTO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "449"
+    },
+    {
+      "key": "LINGUA|RESERVA",
+      "desc": "LINGUA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "367"
+    },
+    {
+      "key": "PEITO / BRISKET|RESERVA",
+      "desc": "PEITO / BRISKET",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "238"
+    },
+    {
+      "key": "LINGUIÇA BOVINA FINA|RESERVA",
+      "desc": "LINGUIÇA BOVINA FINA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "303"
+    },
+    {
+      "key": "BOCHECHA|RESERVA",
+      "desc": "BOCHECHA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "364"
+    },
+    {
+      "key": "BOICON BOVINO FATIADO|RESERVA",
+      "desc": "BOICON BOVINO FATIADO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "422"
+    },
+    {
+      "key": "COXAO MOLE PEÇA|RESERVA",
+      "desc": "COXAO MOLE PEÇA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "255"
+    },
+    {
+      "key": "FIGADO|RESERVA",
+      "desc": "FIGADO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "366"
+    },
+    {
+      "key": "MOIDA PATINHO|RESERVA",
+      "desc": "MOIDA PATINHO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "320"
+    },
+    {
+      "key": "PASSIONITOS|RESERVA",
+      "desc": "PASSIONITOS",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "317"
+    },
+    {
+      "key": "RABADA|RESERVA",
+      "desc": "RABADA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "287"
+    },
+    {
+      "key": "STEAK DA CASA|RESERVA",
+      "desc": "STEAK DA CASA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "255"
+    },
+    {
+      "key": "HAMBURGUER DE COSTELA 180g|RESERVA",
+      "desc": "HAMBURGUER DE COSTELA 180g",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "528"
+    },
+    {
+      "key": "SALSICHA BOVINA|RESERVA",
+      "desc": "SALSICHA BOVINA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "423"
+    },
+    {
+      "key": "FIGADO ISCA|RESERVA",
+      "desc": "FIGADO ISCA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "357"
+    },
+    {
+      "key": "CAPA DA PALETA|RESERVA",
+      "desc": "CAPA DA PALETA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "231"
+    },
+    {
+      "key": "ISCAS PASSION|RESERVA",
+      "desc": "ISCAS PASSION",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "332"
+    },
+    {
+      "key": "PEIXINHO (PEÇA)|RESERVA",
+      "desc": "PEIXINHO (PEÇA)",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "71"
+    },
+    {
+      "key": "CUBITOS|RESERVA",
+      "desc": "CUBITOS",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "319"
+    },
+    {
+      "key": "CORAÇÃO - sob encomenda|RESERVA",
+      "desc": "CORAÇÃO - sob encomenda",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "363"
+    },
+    {
+      "key": "MOIDA BLEND 5 kg|RESERVA",
+      "desc": "MOIDA BLEND 5 kg",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "305"
+    },
+    {
+      "key": "OSSOBUCO|RESERVA",
+      "desc": "OSSOBUCO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "295"
+    },
+    {
+      "key": "MUSCULO EM CUBOS|RESERVA",
+      "desc": "MUSCULO EM CUBOS",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "353"
+    },
+    {
+      "key": "BUCHO - Sob encomenda|RESERVA",
+      "desc": "BUCHO - Sob encomenda",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "365"
+    },
+    {
+      "key": "CECINA BRESAOLA|RESERVA",
+      "desc": "CECINA BRESAOLA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "219"
+    },
+    {
+      "key": "COSTELA MINGA- sob encomenda|RESERVA",
+      "desc": "COSTELA MINGA- sob encomenda",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "186"
+    },
+    {
+      "key": "MUSCULO PEÇA|RESERVA",
+      "desc": "MUSCULO PEÇA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "290"
+    },
+    {
+      "key": "RECORTE|RESERVA",
+      "desc": "RECORTE",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "328"
+    },
+    {
+      "key": "ACÉM PESCOÇO PEÇA|RESERVA",
+      "desc": "ACÉM PESCOÇO PEÇA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "59"
+    },
+    {
+      "key": "BEEF TALLOW 250g|RESERVA",
+      "desc": "BEEF TALLOW 250g",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "348"
+    },
+    {
+      "key": "GORDURA PEÇA|RESERVA",
+      "desc": "GORDURA PEÇA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "8200"
+    },
+    {
+      "key": "CALDO DE OSSO 100ml|RESERVA",
+      "desc": "CALDO DE OSSO 100ml",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "405"
+    },
+    {
+      "key": "OSSO MOCOTÓ|RESERVA",
+      "desc": "OSSO MOCOTÓ",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "506"
+    },
+    {
+      "key": "PRIME RIB|RESERVA",
+      "desc": "PRIME RIB",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "157"
+    },
+    {
+      "key": "FLAT IRON PASSION|SUPREME",
+      "desc": "FLAT IRON PASSION",
       "cat": "SUPREME",
-      "ref_2026": 320,
-      "cod_bp": ""
+      "ref_2026": 0,
+      "cod_bp": "454"
     },
     {
-      "key": "TBONE|CLASSICO",
-      "desc": "TBONE",
-      "cat": "CLASSICO",
-      "ref_2026": 210,
-      "cod_bp": ""
+      "key": "ANCHO SUPREME|SUPREME",
+      "desc": "ANCHO SUPREME",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "488"
     },
     {
-      "key": "TBONE|RESERVA",
-      "desc": "TBONE",
-      "cat": "RESERVA",
-      "ref_2026": 437,
-      "cod_bp": ""
+      "key": "CHORIZO SUPREME|SUPREME",
+      "desc": "CHORIZO SUPREME",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "487"
     },
     {
-      "key": "TOMAHAWK|CLASSICO",
-      "desc": "TOMAHAWK",
-      "cat": "CLASSICO",
-      "ref_2026": 210,
-      "cod_bp": ""
+      "key": "DENVER SUPREME|SUPREME",
+      "desc": "DENVER SUPREME",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "456"
     },
     {
-      "key": "TOMAHAWK|RESERVA",
-      "desc": "TOMAHAWK",
-      "cat": "RESERVA",
-      "ref_2026": 417,
-      "cod_bp": ""
+      "key": "PICANHA SUPREME|SUPREME",
+      "desc": "PICANHA SUPREME",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "492"
+    },
+    {
+      "key": "BISTECA SUPREME|SUPREME",
+      "desc": "BISTECA SUPREME",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "489"
+    },
+    {
+      "key": "MAMINHA SUPREME|SUPREME",
+      "desc": "MAMINHA SUPREME",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "99"
+    },
+    {
+      "key": "FRALDINHA STEAK SUPREME|SUPREME",
+      "desc": "FRALDINHA STEAK SUPREME",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "505"
+    },
+    {
+      "key": "FRALDINHA PÇ SUPREME|SUPREME",
+      "desc": "FRALDINHA PÇ SUPREME",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "490"
+    },
+    {
+      "key": "STEAK PASSION SUPREME|SUPREME",
+      "desc": "STEAK PASSION SUPREME",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "495"
+    },
+    {
+      "key": "TIMO|SUPREME",
+      "desc": "TIMO",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "369"
     }
   ],
   "vendedores": [
@@ -1631,36 +1719,5 @@
   },
   "senha": "beefpassion",
   "mult_table": {},
-  "depara": {
-    "ACEM P RESERVA CG": {
-      "cat": "CLASSICO",
-      "key": "ACEM PESCOCO PECA|CLASSICO",
-      "preco_ref": 35
-    },
-    "FRALDA RED (AG)CG": {
-      "cat": "CLASSICO",
-      "key": "FRALDA INTERNA|CLASSICO",
-      "preco_ref": 89
-    },
-    "LINGUICA(GROSSA)PASSION FRESCAL": {
-      "cat": "RESERVA",
-      "key": "LINGUICA BOVINA|RESERVA",
-      "preco_ref": 50
-    },
-    "ROLHA DA ALCATRA (AG) CG": {
-      "cat": "RESERVA",
-      "key": "ALCATRA PECA|RESERVA",
-      "preco_ref": 95
-    },
-    "BIFE DO ANTONIO (ROLHA DA ALCATRA) CG": {
-      "key": "BOMBOM DA ALCATRA|CLASSICO",
-      "preco_ref": 131,
-      "cat": "CLASSICO"
-    },
-    "ROLHA DA ALCATRA (AG)CG": {
-      "key": "ALCATRA PECA|RESERVA",
-      "preco_ref": 95,
-      "cat": "RESERVA"
-    }
-  }
+  "depara": {}
 }
