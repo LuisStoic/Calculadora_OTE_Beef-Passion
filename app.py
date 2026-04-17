@@ -170,10 +170,23 @@ PRECOS_TABELA_2026 = {
         "TOMAHAWK|RESERVA": 417.0
 }
 
+# ── Catálogo de produtos (gerado a partir da tabela de preços) ─────────────────
+DEFAULT_PRODUTOS = []
+_seen_keys = set()
+for _chave, _preco in PRECOS_TABELA_2026.items():
+    if "|" in _chave and _chave not in _seen_keys:
+        _seen_keys.add(_chave)
+        _desc, _cat = _chave.rsplit("|", 1)
+        DEFAULT_PRODUTOS.append({
+            "key": _chave, "desc": _desc, "cat": _cat,
+            "ref_2026": _preco, "cod_bp": ""
+        })
+
 # ── Configuração padrão ────────────────────────────────────────────────────────
 DEFAULT_CFG = {
     "precos_pj": dict(PRECOS_TABELA_2026),  # Tabela 2026 PJ
     "precos_pf": dict(PRECOS_TABELA_2026),  # Tabela 2026 PF (inicialmente igual à PJ)
+    "produtos": list(DEFAULT_PRODUTOS),      # Catálogo com cod_bp
     "vendedores": [
         {"nome": "Bruno",    "canal": "PJ",    "cargo": "Comercial PJ",             "nivel_padrao": 3},
         {"nome": "Anderson", "canal": "PF",    "cargo": "Gerente / Vendedor PF",    "nivel_padrao": 3},
@@ -306,6 +319,20 @@ def load_cfg() -> dict:
                 cfg["precos_pf"] = dict(cfg["precos_pj"])
             elif "precos" in cfg:
                 cfg.pop("precos", None)  # remove legado se já tem pj/pf
+            # Migration: gerar catálogo de produtos se ausente
+            if "produtos" not in cfg or not cfg["produtos"]:
+                produtos = []
+                seen = set()
+                for chave, preco in cfg.get("precos_pj", {}).items():
+                    if "|" not in chave or chave in seen:
+                        continue
+                    seen.add(chave)
+                    desc_tab, cat = chave.rsplit("|", 1)
+                    produtos.append({
+                        "key": chave, "desc": desc_tab, "cat": cat,
+                        "ref_2026": preco, "cod_bp": ""
+                    })
+                cfg["produtos"] = produtos
             return cfg
         except Exception:
             pass
@@ -543,12 +570,23 @@ def _inferir_categoria(desc: str) -> str:
         return "RESERVA"
     return "CLASSICO"
 
-def _match_preco(desc_pdf: str, precos: dict, canal: str = "PJ"):
+def _match_preco(desc_pdf: str, precos: dict, canal: str = "PJ",
+                 cod_pdf: str = "", produtos: list = None):
     """
     Encontra o melhor match na tabela de preços para uma descrição do PDF.
     Retorna (preco_ref, chave_match, categoria, score) ou (None, None, None, 0).
-    Algoritmo: score = 0.7 * cobertura_tabela + 0.3 * cobertura_pdf, threshold=0.45
+    Prioridade: (1) cod_bp exato, (2) fuzzy por tokens (threshold=0.45).
     """
+    # Prioridade 1: match exato pelo código Omega (cod_bp)
+    if cod_pdf and produtos:
+        for prod in produtos:
+            if prod.get("cod_bp") and prod["cod_bp"] == cod_pdf:
+                chave = prod["key"]
+                preco = precos.get(chave)
+                if preco and preco > 0:
+                    return preco, chave, prod["cat"], 1.0
+
+    # Prioridade 2: fuzzy match por tokens de descrição
     global _MATCH_INDEX
     if canal not in _MATCH_INDEX:
         _MATCH_INDEX[canal] = _build_match_index(precos)
@@ -579,7 +617,8 @@ def _match_preco(desc_pdf: str, precos: dict, canal: str = "PJ"):
     return None, None, None, 0
 
 
-def classificar_item(item: dict, precos: dict, canal: str = "PJ") -> dict:
+def classificar_item(item: dict, precos: dict, canal: str = "PJ",
+                     produtos: list = None) -> dict:
     """
     Classifica um item por faixa de preço.
     Respeita overrides vindos do frontend (revisão manual):
@@ -608,7 +647,9 @@ def classificar_item(item: dict, precos: dict, canal: str = "PJ") -> dict:
     else:
         # Match automático
         desc_pdf = item.get("desc", "")
-        ref, chave_match, cat_match, score = _match_preco(desc_pdf, precos, canal)
+        ref, chave_match, cat_match, score = _match_preco(
+            desc_pdf, precos, canal,
+            cod_pdf=item.get("cod", ""), produtos=produtos)
 
     if not ref or ref <= 0:
         return {**item, "faixa": "sem_ref", "desvio": None, "preco_ref": None,
@@ -629,8 +670,9 @@ def classificar_item(item: dict, precos: dict, canal: str = "PJ") -> dict:
             "preco_key": chave_match, "categoria": cat_match, "match_score": round(score, 3)}
 
 
-def calcular_ote(itens: list, ote_row: dict, precos: dict, canal: str = "PJ") -> dict:
-    classified = [classificar_item(it, precos, canal) for it in itens]
+def calcular_ote(itens: list, ote_row: dict, precos: dict, canal: str = "PJ",
+                 produtos: list = None) -> dict:
+    classified = [classificar_item(it, precos, canal, produtos) for it in itens]
 
     # Faixas que entram no cálculo do variável
     FAIXAS_COMP = ["abaixo", "desconto", "ideal", "acima"]
@@ -1065,6 +1107,12 @@ def post_config():
         cfg["ote"] = data["ote"]
     if "depara" in data:
         cfg["depara"] = data["depara"]
+    if "produtos" in data:
+        # Merge-only: adicionar/atualizar, NUNCA excluir
+        existing = {p["key"]: p for p in cfg.get("produtos", [])}
+        for p in data["produtos"]:
+            existing[p["key"]] = p
+        cfg["produtos"] = list(existing.values())
     if "mult_table" in data:
         cfg["mult_table"] = data["mult_table"]
     if "senha" in data:
@@ -1118,8 +1166,9 @@ def calcular_route():
 
     # Seleciona tabela de preços pelo canal do vendedor
     precos_canal = cfg.get("precos_pj", {}) if canal == "PJ" else cfg.get("precos_pf", {})
+    produtos = cfg.get("produtos", [])
 
-    resultado = calcular_ote(itens, ote_row, precos_canal, canal)
+    resultado = calcular_ote(itens, ote_row, precos_canal, canal, produtos)
     resultado["ote_row"] = ote_row
     resultado["vendedor"] = vendedor
     resultado["mes"] = mes
@@ -1159,8 +1208,9 @@ def exportar_xlsx():
 
     # Seleciona tabela de preços pelo canal do vendedor
     precos_canal = cfg.get("precos_pj", {}) if canal == "PJ" else cfg.get("precos_pf", {})
+    produtos = cfg.get("produtos", [])
 
-    resultado = calcular_ote(itens, ote_row, precos_canal, canal)
+    resultado = calcular_ote(itens, ote_row, precos_canal, canal, produtos)
     resultado["ote_row"] = ote_row
 
     xlsx_path = gerar_xlsx(resultado, vendedor, nivel, mes, ano)

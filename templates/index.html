@@ -415,12 +415,13 @@ input[type=number]{font-family:'DM Mono',monospace}
         </select>
         <button class="btn btn-o btn-sm" onclick="fillRef()">Preencher com Tabela 2026</button>
         <button class="btn btn-o btn-sm" onclick="clearPrecos()">Limpar tudo</button>
+        <button class="btn btn-o btn-sm" onclick="abrirAddProduto()" style="background:#D1FAE5;color:#065F46;border-color:#27AE60">+ Novo Produto</button>
       </div>
       <div class="progw"><div class="progb" id="pc-prog" style="width:0%"></div></div>
       <div class="progl" id="pc-lbl">0 preços preenchidos</div>
       <div class="ptwrap" style="margin-top:12px">
         <table class="pt">
-          <thead><tr><th>Descrição</th><th>Categoria</th><th>Ref. Tabela 2026</th><th>Preço Vigente (R$/kg) ✏</th></tr></thead>
+          <thead><tr><th style="width:70px">Cód. BP</th><th>Descrição</th><th>Categoria</th><th>Ref. Tabela 2026</th><th>Preço Vigente (R$/kg) ✏</th></tr></thead>
           <tbody id="pc-tbody"></tbody>
         </table>
       </div>
@@ -548,6 +549,48 @@ input[type=number]{font-family:'DM Mono',monospace}
   </div>
 </div>
 
+<!-- Modal Novo Produto -->
+<div id="add-prod-overlay" style="display:none;position:fixed;inset:0;background:rgba(13,24,56,.65);z-index:900;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:14px;padding:32px 36px;width:420px;box-shadow:0 8px 40px rgba(0,0,0,.3);position:relative">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--navy);margin-bottom:4px">Novo Produto</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:16px">Adicione um novo corte ao catálogo.</div>
+    <div style="display:grid;gap:10px">
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--navy)">Cód. BP (Omega) — opcional</label>
+        <input type="text" id="np-cod" maxlength="5" placeholder="Ex: 10023" style="width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:13px;font-family:'DM Mono',monospace">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--navy)">Descrição *</label>
+        <input type="text" id="np-desc" placeholder="Ex: PICANHA PASSION" style="width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:13px;text-transform:uppercase">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--navy)">Categoria *</label>
+        <select id="np-cat" style="width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:13px">
+          <option value="">— selecionar —</option>
+          <option value="CLASSICO">CLÁSSICO</option>
+          <option value="RESERVA">RESERVA</option>
+          <option value="SUPREME">SUPREME</option>
+        </select>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <label style="font-size:11px;font-weight:600;color:var(--navy)">Preço PJ (R$/kg)</label>
+          <input type="number" id="np-pj" step="0.01" min="0" placeholder="0,00" style="width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:13px">
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:600;color:var(--navy)">Preço PF (R$/kg)</label>
+          <input type="number" id="np-pf" step="0.01" min="0" placeholder="0,00" style="width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:13px">
+        </div>
+      </div>
+    </div>
+    <div id="np-erro" style="color:var(--red);font-size:11px;min-height:16px;margin-top:8px"></div>
+    <div style="display:flex;gap:10px;margin-top:14px">
+      <button class="btn btn-p" style="flex:1" onclick="salvarNovoProduto()">Adicionar</button>
+      <button class="btn btn-o" style="flex:1" onclick="fecharAddProduto()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ══ ESTADO ══════════════════════════════════════════════════════════════════
 const MESES=['','Janeiro','Fevereiro','Março','Abril','Maio','Junho',
@@ -557,8 +600,8 @@ let ITENS = [];
 let VEND_ATIVO = null;
 let RESULTADO = null;
 
-const PRODUTOS=[
-  {key:"ACEM PESCOCO PECA|CLASSICO",desc:"ACEM PESCOCO PECA",cat:"CLASSICO",ref:35.00},
+let PRODUTOS=[
+  {key:"ACEM PESCOCO PECA|CLASSICO",desc:"ACEM PESCOCO PECA",cat:"CLASSICO",ref:35.00,cod_bp:""},
   {key:"ALCATRA PECA|CLASSICO",desc:"ALCATRA PECA",cat:"CLASSICO",ref:89.00},
   {key:"ANCHO STEAK|CLASSICO",desc:"ANCHO STEAK",cat:"CLASSICO",ref:189.00},
   {key:"ASSADO DE TIRA DIANTEIRO|CLASSICO",desc:"ASSADO DE TIRA DIANTEIRO",cat:"CLASSICO",ref:161.00},
@@ -736,7 +779,14 @@ async function init(){
     CFG = await r.json();
   } catch(e) {
     console.error('Erro ao carregar config:', e);
-    CFG = {precos_pj:{}, precos_pf:{}, vendedores:[], ote:{}};
+    CFG = {precos_pj:{}, precos_pf:{}, vendedores:[], ote:{}, produtos:[]};
+  }
+  // Popula catálogo dinâmico a partir do backend
+  if (CFG.produtos && CFG.produtos.length) {
+    PRODUTOS = CFG.produtos.map(p => ({
+      key: p.key, desc: p.desc, cat: p.cat,
+      ref: p.ref_2026, cod_bp: p.cod_bp || ''
+    }));
   }
   buildVGrid();
   buildPriceTable();
@@ -870,7 +920,14 @@ function parseMesItem(dataStr) {
   return {mes:0, ano:0};
 }
 
-function matchFrontend(descPdf, threshold=0.45) {
+function matchFrontend(descPdf, threshold=0.45, codPdf='') {
+  // Prioridade 1: match exato por código Omega (cod_bp)
+  if (codPdf) {
+    const byCode = PRODUTOS.find(p => p.cod_bp && p.cod_bp === codPdf);
+    if (byCode) return {p: byCode, score: 1.0, cat: byCode.cat};
+  }
+
+  // Prioridade 2: fuzzy match por tokens
   const STOP = new Set(["CONG","CG","WAGYU","PASSION","B","S","SOB","ENCOMENDA",
     "FATIADO","PICADO","CLASSICO","E","DA","DE","DO","DAS","DOS","EM","A"]);
   const toks = s => new Set(
@@ -945,7 +1002,7 @@ function abrirRevisao() {
       REV_STATE[idx] = {confirmado:false, acao:'reconhecido', vinculo_key:dp.key, preco_ref:dp.preco_ref, categoria:dp.cat};
       return;
     }
-    const m = matchFrontend(it.desc);
+    const m = matchFrontend(it.desc, 0.45, it.cod || '');
     if (m) {
       GA.push({...it, idx, match:m.p.key, preco_ref:m.p.ref, categoria:m.p.cat, score:m.score, via:'auto'});
       REV_STATE[idx] = {confirmado:false, acao:'reconhecido', vinculo_key:m.p.key, preco_ref:m.p.ref, categoria:m.p.cat};
@@ -1023,7 +1080,8 @@ function buildProdOptions(selectedKey) {
     const prods = PRODUTOS.filter(p=>p.cat===cat);
     out += `<optgroup label="${cat}">`;
     prods.forEach(p => {
-      out += `<option value="${p.key}" ${p.key===selectedKey?'selected':''}>${p.desc} — ${R(p.ref)}/kg</option>`;
+      const codLbl = p.cod_bp ? `[${p.cod_bp}] ` : '';
+      out += `<option value="${p.key}" ${p.key===selectedKey?'selected':''}>${codLbl}${p.desc} — ${R(p.ref)}/kg</option>`;
     });
     out += '</optgroup>';
   });
@@ -1510,7 +1568,13 @@ function buildPriceTable(filtro=''){
       RESERVA:  'background:#F0EDE6;color:#5C4A1E;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700',
       SUPREME:  'background:#FFF0C8;color:#7B4500;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700',
     };
+    const codCell = PRECOS_DESBLOQUEADO
+      ? `<td><input type="text" class="pinp" maxlength="5" value="${p.cod_bp||''}" placeholder="—"
+          style="width:58px;text-align:center;font-size:10px;font-family:'DM Mono',monospace"
+          onchange="onCodBP('${p.key}',this.value)"></td>`
+      : `<td style="font-size:10px;font-family:'DM Mono',monospace;text-align:center;color:var(--muted)">${p.cod_bp||'—'}</td>`;
     return `<tr id="pr-${p.key.replace('|','-')}" data-d="${p.desc.toLowerCase()}" data-cat="${p.cat}">
+      ${codCell}
       <td style="font-size:11px;font-weight:500">${p.desc}</td>
       <td style="text-align:center"><span style="${CAT_STYLE[p.cat]||''}">${p.cat}</span></td>
       <td class="mono tr" style="font-size:10px;color:var(--muted)">${p.ref ? 'R$ '+N(p.ref) : '—'}</td>
@@ -1529,6 +1593,61 @@ function onPI(key,el){
   if(v>0){precos[key]=v;el.classList.add('ok');}
   else{delete precos[key];el.classList.remove('ok');}
   updatePC();
+}
+
+function onCodBP(key, val) {
+  const p = PRODUTOS.find(p => p.key === key);
+  if (p) p.cod_bp = val.trim();
+  syncProdutosToCfg();
+}
+
+function syncProdutosToCfg() {
+  CFG.produtos = PRODUTOS.map(p => ({
+    key: p.key, desc: p.desc, cat: p.cat,
+    ref_2026: p.ref, cod_bp: p.cod_bp || ''
+  }));
+}
+
+function abrirAddProduto() {
+  document.getElementById('np-cod').value = '';
+  document.getElementById('np-desc').value = '';
+  document.getElementById('np-cat').value = '';
+  document.getElementById('np-pj').value = '';
+  document.getElementById('np-pf').value = '';
+  document.getElementById('np-erro').textContent = '';
+  document.getElementById('add-prod-overlay').style.display = 'flex';
+  setTimeout(() => document.getElementById('np-desc').focus(), 80);
+}
+
+function fecharAddProduto() {
+  document.getElementById('add-prod-overlay').style.display = 'none';
+}
+
+function salvarNovoProduto() {
+  const cod  = document.getElementById('np-cod').value.trim();
+  const desc = document.getElementById('np-desc').value.trim().toUpperCase();
+  const cat  = document.getElementById('np-cat').value;
+  const pj   = parseFloat(document.getElementById('np-pj').value) || 0;
+  const pf   = parseFloat(document.getElementById('np-pf').value) || 0;
+  const erro = document.getElementById('np-erro');
+
+  if (!desc) { erro.textContent = 'Descrição é obrigatória.'; return; }
+  if (!cat)  { erro.textContent = 'Selecione uma categoria.'; return; }
+  if (cod && !/^\d{5}$/.test(cod)) { erro.textContent = 'Cód. BP deve ter exatamente 5 dígitos.'; return; }
+
+  const key = desc + '|' + cat;
+  if (PRODUTOS.find(p => p.key === key)) {
+    erro.textContent = 'Produto já existe: ' + desc + ' (' + cat + ')';
+    return;
+  }
+
+  PRODUTOS.push({ key, desc, cat, ref: 0, cod_bp: cod });
+  if (pj > 0) { if (!CFG.precos_pj) CFG.precos_pj = {}; CFG.precos_pj[key] = pj; }
+  if (pf > 0) { if (!CFG.precos_pf) CFG.precos_pf = {}; CFG.precos_pf[key] = pf; }
+  syncProdutosToCfg();
+  buildPriceTable();
+  fecharAddProduto();
+  toast('Produto adicionado — clique Salvar Configurações para persistir');
 }
 
 function updatePC(){
