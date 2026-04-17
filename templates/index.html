@@ -442,14 +442,6 @@ input[type=number]{font-family:'DM Mono',monospace}
     </div>
   </div>
 
-  <!-- VENDEDORES -->
-  <div id="cfg-vend" style="display:none">
-    <div class="card">
-      <div class="ctitle">Cadastro de Vendedores</div>
-      <div id="vend-wrap"></div>
-    </div>
-  </div>
-
   <!-- MULTIPLICADORES -->
   <div id="cfg-mult" style="display:none">
     <div class="card">
@@ -483,7 +475,7 @@ input[type=number]{font-family:'DM Mono',monospace}
   </div>
 
   <!-- VENDEDORES -->
-  <div id="cfg-vend" style="display:none">
+  <div id="cfg-vendedores" style="display:none">
     <div class="card">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
         <div class="ctitle" style="margin:0">Cadastro de Vendedores</div>
@@ -1737,7 +1729,7 @@ function removerVendedor(i){
 }
 
 function showCfg(tab){
-  ['precos','ote','mult','vend','seguranca'].forEach(t=>{
+  ['precos','ote','mult','vendedores','seguranca'].forEach(t=>{
     const el=document.getElementById('cfg-'+t);
     if(el) el.style.display=t===tab?'block':'none';
   });
