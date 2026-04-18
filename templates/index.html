@@ -923,6 +923,13 @@ function parseMesItem(dataStr) {
   return {mes:0, ano:0};
 }
 
+// Retorna o preço real da tabela cadastrada (PJ ou PF conforme canal do vendedor ativo)
+// NÃO usar p.ref (ref_2026) para cálculo — ele está zerado em produtos novos.
+function precoRealPorKey(key) {
+  const precos = (VEND_ATIVO?.canal === 'PJ') ? (CFG.precos_pj||{}) : (CFG.precos_pf||{});
+  return precos[key] || 0;
+}
+
 function matchFrontend(descPdf, threshold=0.45, codPdf='') {
   // Prioridade 1: match exato por código Omega (cod_bp)
   if (codPdf) {
@@ -1007,8 +1014,9 @@ function abrirRevisao() {
     }
     const m = matchFrontend(it.desc, 0.45, it.cod || '');
     if (m) {
-      GA.push({...it, idx, match:m.p.key, preco_ref:m.p.ref, categoria:m.p.cat, score:m.score, via:'auto'});
-      REV_STATE[idx] = {confirmado:false, acao:'reconhecido', vinculo_key:m.p.key, preco_ref:m.p.ref, categoria:m.p.cat};
+      const precoReal = precoRealPorKey(m.p.key);
+      GA.push({...it, idx, match:m.p.key, preco_ref:precoReal, categoria:m.p.cat, score:m.score, via:'auto'});
+      REV_STATE[idx] = {confirmado:false, acao:'reconhecido', vinculo_key:m.p.key, preco_ref:precoReal, categoria:m.p.cat};
     } else {
       GB.push({...it, idx});
       REV_STATE[idx] = {confirmado:false, acao:null};
@@ -1154,10 +1162,11 @@ function alterarMatchA(idx, key) {
   idx = parseInt(idx);
   const prod = PRODUTOS.find(p=>p.key===key);
   if (!prod) return;
-  REV_STATE[idx] = {...(REV_STATE[idx]||{}), vinculo_key:key, preco_ref:prod.ref, categoria:prod.cat, confirmado:false};
+  const precoReal = precoRealPorKey(key);
+  REV_STATE[idx] = {...(REV_STATE[idx]||{}), vinculo_key:key, preco_ref:precoReal, categoria:prod.cat, confirmado:false};
   const refEl = document.getElementById('ref-a-'+idx);
   const catEl = document.getElementById('cat-a-'+idx);
-  if (refEl) refEl.textContent = R(prod.ref);
+  if (refEl) refEl.textContent = R(precoReal);
   if (catEl) catEl.innerHTML = `<span style="${CAT_STYLE[prod.cat]||''};border-radius:8px;padding:1px 7px;font-size:9px;font-weight:700">${prod.cat}</span>`;
   // Desconfirmar para forçar revisão consciente após troca
   const chk = document.getElementById('chk-a-'+idx);
@@ -1254,7 +1263,8 @@ function onVinculoB(idx, key) {
   idx = parseInt(idx);
   const prod = PRODUTOS.find(p=>p.key===key);
   if (!prod) return;
-  REV_STATE[idx] = {...(REV_STATE[idx]||{}), vinculo_key:key, preco_ref:prod.ref, categoria:prod.cat, confirmado:true};
+  const precoReal = precoRealPorKey(key);
+  REV_STATE[idx] = {...(REV_STATE[idx]||{}), vinculo_key:key, preco_ref:precoReal, categoria:prod.cat, confirmado:true};
   atualizarEstiloRowB(idx);
   verificarPodeCalcular();
 }
@@ -1331,10 +1341,11 @@ async function calcular(){
     // Itens do Grupo B com vínculo → persistir no De-Para
     if (st.acao === 'vincular' && st.vinculo_key && st.vinculo_key !== 'AVULSO') {
       const prod = PRODUTOS.find(p=>p.key===st.vinculo_key);
+      const precoReal = precoRealPorKey(st.vinculo_key);
       if (prod) {
-        novoDepara[it.desc] = {key: prod.key, preco_ref: prod.ref, cat: prod.cat};
+        novoDepara[it.desc] = {key: prod.key, preco_ref: precoReal, cat: prod.cat};
       }
-      return {...it, _match_key: st.vinculo_key, _preco_ref_override: st.preco_ref, _cat_override: st.categoria};
+      return {...it, _match_key: st.vinculo_key, _preco_ref_override: precoReal, _cat_override: st.categoria};
     }
     if (st.acao === 'avulso' && st.preco_ref) {
       return {...it, _preco_ref_override: st.preco_ref, _match_key: 'AVULSO'};

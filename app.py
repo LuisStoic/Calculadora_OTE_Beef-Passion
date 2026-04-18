@@ -679,6 +679,22 @@ def classificar_item(item: dict, precos: dict, canal: str = "PJ",
         chave_match = match_override or "AVULSO"
         cat_match   = _inferir_categoria(item.get("desc",""))
         score       = 1.0
+    elif match_override and match_override != "AVULSO":
+        # Operador escolheu produto da tabela, mas o preço override veio zerado.
+        # Resolver preço pela tabela do canal. Isso evita que confirmações do
+        # Grupo B via sugestão caiam em "sem_ref" por causa de preco_ref=0.
+        preco_tab = precos.get(match_override, 0)
+        if preco_tab and preco_tab > 0:
+            ref         = float(preco_tab)
+            chave_match = match_override
+            cat_match   = match_override.rsplit("|", 1)[-1] if "|" in match_override else _inferir_categoria(item.get("desc",""))
+            score       = 1.0
+        else:
+            # Chave existe mas sem preço na tabela do canal — auto-match
+            desc_pdf = item.get("desc", "")
+            ref, chave_match, cat_match, score = _match_preco(
+                desc_pdf, precos, canal,
+                cod_pdf=item.get("cod", ""), produtos=produtos)
     else:
         # Match automático
         desc_pdf = item.get("desc", "")
@@ -903,6 +919,8 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
         ("ideal",    "✓ Tabela Ideal (≤3%)",BLUE3),
         ("acima",    "⬆ Acima da Tabela",   GREEN),
         ("sem_ref",  "— Sem Referência",    "888888"),
+        ("fora_comp","⊘ Fora da Competência","AAAAAA"),
+        ("excluido", "✗ Excluído pelo Operador","AAAAAA"),
     ]
     for i, (faixa, label, cor) in enumerate(FAIXA_DISPLAY):
         rr = row_fx + 1 + i
