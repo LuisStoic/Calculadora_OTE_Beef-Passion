@@ -171,6 +171,10 @@ PRECOS_TABELA_2026 = {
 }
 
 # ── Catálogo de produtos (gerado a partir da tabela de preços) ─────────────────
+# Macro categorias válidas (para classificação de análise)
+MACRO_CATEGORIAS = ["Nobre", "Comercial", "Fast Food e Alto Volume",
+                    "Industrial", "Gordura", "Pele e Osso"]
+
 DEFAULT_PRODUTOS = []
 _seen_keys = set()
 for _chave, _preco in PRECOS_TABELA_2026.items():
@@ -179,7 +183,7 @@ for _chave, _preco in PRECOS_TABELA_2026.items():
         _desc, _cat = _chave.rsplit("|", 1)
         DEFAULT_PRODUTOS.append({
             "key": _chave, "desc": _desc, "cat": _cat,
-            "ref_2026": _preco, "cod_bp": ""
+            "ref_2026": _preco, "cod_bp": "", "macro_categoria": ""
         })
 
 # ── Configuração padrão ────────────────────────────────────────────────────────
@@ -330,9 +334,13 @@ def load_cfg() -> dict:
                     desc_tab, cat = chave.rsplit("|", 1)
                     produtos.append({
                         "key": chave, "desc": desc_tab, "cat": cat,
-                        "ref_2026": preco, "cod_bp": ""
+                        "ref_2026": preco, "cod_bp": "", "macro_categoria": ""
                     })
                 cfg["produtos"] = produtos
+            # Migration: garantir campo macro_categoria em produtos antigos
+            for p in cfg.get("produtos", []):
+                if "macro_categoria" not in p:
+                    p["macro_categoria"] = ""
             return cfg
         except Exception:
             pass
@@ -652,6 +660,16 @@ def _match_preco(desc_pdf: str, precos: dict, canal: str = "PJ",
     return None, None, None, 0
 
 
+def _macro_por_key(produtos: list, key: str) -> str:
+    """Resolve a macro_categoria do produto pela chave na lista de produtos."""
+    if not produtos or not key:
+        return ""
+    for p in produtos:
+        if p.get("key") == key:
+            return p.get("macro_categoria", "") or ""
+    return ""
+
+
 def classificar_item(item: dict, precos: dict, canal: str = "PJ",
                      produtos: list = None) -> dict:
     """
@@ -666,9 +684,10 @@ def classificar_item(item: dict, precos: dict, canal: str = "PJ",
     if item.get("_excluir"):
         motivo = item.get("_motivo", "excluido_operador")
         faixa  = "fora_comp" if motivo == "fora_competencia" else "excluido"
+        macro  = _macro_por_key(produtos, item.get("_match_key", ""))
         return {**item, "faixa": faixa, "desvio": None, "preco_ref": None,
                 "preco_key": None, "categoria": _inferir_categoria(item.get("desc","")),
-                "match_score": 0.0, "_motivo": motivo}
+                "match_score": 0.0, "_motivo": motivo, "macro_categoria": macro}
 
     # ── Override manual de preço de referência (vincular / avulso) ───────────
     ref_override  = item.get("_preco_ref_override")
@@ -705,7 +724,7 @@ def classificar_item(item: dict, precos: dict, canal: str = "PJ",
     if not ref or ref <= 0:
         return {**item, "faixa": "sem_ref", "desvio": None, "preco_ref": None,
                 "preco_key": None, "categoria": _inferir_categoria(item.get("desc","")),
-                "match_score": 0.0}
+                "match_score": 0.0, "macro_categoria": ""}
 
     desvio = (item["preco"] - ref) / ref
     if desvio > 0:
@@ -717,8 +736,10 @@ def classificar_item(item: dict, precos: dict, canal: str = "PJ",
     else:
         faixa = "abaixo"
 
+    macro = _macro_por_key(produtos, chave_match)
     return {**item, "faixa": faixa, "desvio": round(desvio, 6), "preco_ref": ref,
-            "preco_key": chave_match, "categoria": cat_match, "match_score": round(score, 3)}
+            "preco_key": chave_match, "categoria": cat_match, "match_score": round(score, 3),
+            "macro_categoria": macro}
 
 
 def calcular_ote(itens: list, ote_row: dict, precos: dict, canal: str = "PJ",
@@ -940,18 +961,68 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
                 c.alignment = _right()
         ws.row_dimensions[rr].height = 18
 
-    ws.column_dimensions["A"].width = 28
+    # ── Desdobramento por Macro Categoria ──────────────────────────────────────
+    row_mc = row_fx + len(FAIXA_DISPLAY) + 3
+    ws.merge_cells(f"A{row_mc}:E{row_mc}")
+    ws.cell(row=row_mc, column=1, value="DESDOBRAMENTO POR MACRO CATEGORIA")
+    ws.cell(row=row_mc, column=1).fill = _fill(BLUE3)
+    ws.cell(row=row_mc, column=1).font = _font(bold=True, color=WHITE, size=10)
+    ws.cell(row=row_mc, column=1).alignment = _center()
+    ws.row_dimensions[row_mc].height = 22
+
+    row_mc += 1
+    mc_headers = ["Macro Categoria", "Faturamento (R$)", "% do Total", "Itens", "Faixas"]
+    for col, h in enumerate(mc_headers, 1):
+        c = ws.cell(row=row_mc, column=col, value=h)
+        c.fill = _fill(NAVY); c.font = _font(bold=True, color=GOLD, size=10)
+        c.alignment = _center(); c.border = _border_thin()
+
+    # Agregar por macro_categoria a partir dos itens classificados
+    macro_agg = {}
+    fat_total_classif = 0.0
+    for it in resultado["classified"]:
+        fat_total_classif += it.get("total", 0.0)
+        mc = (it.get("macro_categoria") or "").strip() or "(sem classificação)"
+        if mc not in macro_agg:
+            macro_agg[mc] = {"fat": 0.0, "n": 0, "faixas": {}}
+        macro_agg[mc]["fat"] += it.get("total", 0.0)
+        macro_agg[mc]["n"]   += 1
+        fx = it.get("faixa", "")
+        macro_agg[mc]["faixas"][fx] = macro_agg[mc]["faixas"].get(fx, 0) + 1
+
+    # Ordenar por faturamento desc (maior impacto primeiro)
+    macro_ordenado = sorted(macro_agg.items(), key=lambda x: -x[1]["fat"])
+    for i, (mc, ag) in enumerate(macro_ordenado):
+        rr = row_mc + 1 + i
+        pct = (ag["fat"] / fat_total_classif) if fat_total_classif > 0 else 0
+        faixas_str = " | ".join(
+            f"{FAIXA_LABELS.get(fx, fx)}: {cnt}"
+            for fx, cnt in sorted(ag["faixas"].items(), key=lambda x: -x[1])
+        )
+        vals = [mc, ag["fat"], pct, ag["n"], faixas_str]
+        fmts = [None, FMT_BRL, FMT_PCT, None, None]
+        for col, (val, fmt) in enumerate(zip(vals, fmts), 1):
+            c = ws.cell(row=rr, column=col, value=val)
+            if fmt: c.number_format = fmt
+            c.border = _border_thin()
+            bg = SMOKE if i % 2 == 0 else WHITE
+            c.fill = _fill(bg)
+            c.font = _font(size=10, bold=(col == 1))
+            if col in (2, 3, 4): c.alignment = _right()
+        ws.row_dimensions[rr].height = 18
+
+    ws.column_dimensions["A"].width = 32
     ws.column_dimensions["B"].width = 18
     ws.column_dimensions["C"].width = 14
     ws.column_dimensions["D"].width = 14
-    ws.column_dimensions["E"].width = 16
+    ws.column_dimensions["E"].width = 42
 
     # ── Aba 2: Vendas Classificadas ────────────────────────────────────────────
     ws2 = wb.create_sheet("BD_VENDAS_CLASSIFICADAS")
     ws2.sheet_view.showGridLines = False
 
     # ── Linha 1: título ─────────────────────────────────────────────────────
-    n_cols = 17  # total de colunas — atualizar se cols mudar
+    n_cols = 18  # total de colunas — atualizar se cols mudar
     ws2.merge_cells(f"A1:{get_column_letter(n_cols)}1")
     ws2["A1"] = f"BD VENDAS CLASSIFICADAS — {vendedor['nome']} — {MESES[mes]}/{ano} — Nível {nivel}"
     ws2["A1"].fill = _fill(NAVY); ws2["A1"].font = _font(bold=True, color=GOLD, size=12)
@@ -993,6 +1064,7 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
         "Cód. Produto",
         "Descrição (PDF)",
         "Categoria",
+        "Macro Categoria",
         "Match Tabela (Chave)",
         "Peso (kg)",
         "Preço Praticado (R$/kg)",
@@ -1003,7 +1075,7 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
         "Motivo Exclusão",
         "Total (R$)",
     ]
-    widths = [8, 16, 12, 10, 32, 12, 42, 12, 36, 10, 22, 22, 10, 20, 18, 26, 14]
+    widths = [8, 16, 12, 10, 32, 12, 42, 12, 22, 36, 10, 22, 22, 10, 20, 18, 26, 14]
 
     for col, (h, w) in enumerate(zip(cols, widths), 1):
         c = ws2.cell(row=4, column=col, value=h)
@@ -1054,21 +1126,22 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
             it.get("cod", ""),                        # F  Cód. Produto
             it.get("desc", ""),                       # G  Descrição PDF
             it.get("categoria", "—"),                 # H  Categoria
-            chave_match,                              # I  Match Tabela
-            it.get("peso", 0.0),                      # J  Peso kg
-            it.get("preco", 0.0),                     # K  Preço Praticado
-            it.get("preco_ref") or "",                # L  Preço Ref. Tabela
-            desvio_str,                               # M  Desvio %
-            FAIXA_LABELS.get(faixa, faixa),           # N  Faixa
-            usado_str,                                # O  Usado no Cálculo
-            motivo_str,                               # P  Motivo Exclusão
-            it.get("total", 0.0),                     # Q  Total R$
+            it.get("macro_categoria", "") or "—",     # I  Macro Categoria
+            chave_match,                              # J  Match Tabela
+            it.get("peso", 0.0),                      # K  Peso kg
+            it.get("preco", 0.0),                     # L  Preço Praticado
+            it.get("preco_ref") or "",                # M  Preço Ref. Tabela
+            desvio_str,                               # N  Desvio %
+            FAIXA_LABELS.get(faixa, faixa),           # O  Faixa
+            usado_str,                                # P  Usado no Cálculo
+            motivo_str,                               # Q  Motivo Exclusão
+            it.get("total", 0.0),                     # R  Total R$
         ]
         fmts_row = [
-            None, None, None, None, None, None, None, None, None,
+            None, None, None, None, None, None, None, None, None, None,
             FMT_NUM, FMT_BRL, FMT_BRL, None, None, None, None, FMT_BRL
         ]
-        aligns_right = {10, 11, 12, 16}  # colunas com alinhamento à direita (1-based)
+        aligns_right = {11, 12, 13, 18}  # colunas com alinhamento à direita (1-based)
 
         for col, (val, fmt) in enumerate(zip(row_data, fmts_row), 1):
             c = ws2.cell(row=rr, column=col, value=val)
@@ -1076,11 +1149,11 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
             c.border = _border_thin()
             c.fill   = _fill(bg if usado else "F4F4F4")
             # Fonte: sem_ref fica acinzentada para indicar exclusão visualmente
-            font_color = "999999" if not usado else (fc if col == 14 else "000000")
-            c.font = _font(size=9, color=font_color, bold=(col == 14 and usado))
+            font_color = "999999" if not usado else (fc if col == 15 else "000000")
+            c.font = _font(size=9, color=font_color, bold=(col == 15 and usado))
             if col in aligns_right: c.alignment = _right()
             # Coluna "Usado no Cálculo": destaque extra
-            if col == 15:
+            if col == 16:
                 c.font = _font(
                     size=9, bold=True,
                     color=("1A6B3C" if usado else "C0392B")
@@ -1141,6 +1214,7 @@ def get_config():
         base = {"c1": best_row[1], "c2": best_row[2], "c3": best_row[3], "c4": best_row[4]}
         mult_rows[key] = mult_override.get(key, base)
     cfg["mult_rows"] = mult_rows
+    cfg["macro_categorias"] = MACRO_CATEGORIAS
     return jsonify(cfg)
 
 

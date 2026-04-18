@@ -424,7 +424,7 @@ input[type=number]{font-family:'DM Mono',monospace}
       <div class="progl" id="pc-lbl">0 preços preenchidos</div>
       <div class="ptwrap" style="margin-top:12px">
         <table class="pt">
-          <thead><tr><th style="width:70px">Cód. BP</th><th>Descrição</th><th>Categoria</th><th>Ref. Tabela 2026</th><th>Preço Vigente (R$/kg) ✏</th></tr></thead>
+          <thead><tr><th style="width:70px">Cód. BP</th><th>Descrição</th><th>Categoria</th><th style="width:160px">Macro Categoria ✏</th><th>Ref. Tabela 2026</th><th>Preço Vigente (R$/kg) ✏</th></tr></thead>
           <tbody id="pc-tbody"></tbody>
         </table>
       </div>
@@ -573,6 +573,18 @@ input[type=number]{font-family:'DM Mono',monospace}
           <option value="CLASSICO">CLÁSSICO</option>
           <option value="RESERVA">RESERVA</option>
           <option value="SUPREME">SUPREME</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--navy)">Macro Categoria</label>
+        <select id="np-macro" style="width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:13px">
+          <option value="">— opcional —</option>
+          <option value="Nobre">Nobre</option>
+          <option value="Comercial">Comercial</option>
+          <option value="Fast Food e Alto Volume">Fast Food e Alto Volume</option>
+          <option value="Industrial">Industrial</option>
+          <option value="Gordura">Gordura</option>
+          <option value="Pele e Osso">Pele e Osso</option>
         </select>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
@@ -788,7 +800,8 @@ async function init(){
   if (CFG.produtos && CFG.produtos.length) {
     PRODUTOS = CFG.produtos.map(p => ({
       key: p.key, desc: p.desc, cat: p.cat,
-      ref: p.ref_2026, cod_bp: p.cod_bp || ''
+      ref: p.ref_2026, cod_bp: p.cod_bp || '',
+      macro_categoria: p.macro_categoria || ''
     }));
   }
   buildVGrid();
@@ -1612,10 +1625,20 @@ function buildPriceTable(filtro=''){
           style="width:58px;text-align:center;font-size:10px;font-family:'DM Mono',monospace"
           onchange="onCodBP('${p.key}',this.value)"></td>`
       : `<td style="font-size:10px;font-family:'DM Mono',monospace;text-align:center;color:var(--muted)">${p.cod_bp||'—'}</td>`;
+    const macros = CFG.macro_categorias || ["Nobre","Comercial","Fast Food e Alto Volume","Industrial","Gordura","Pele e Osso"];
+    const macroOpts = macros.map(m => `<option value="${m}" ${p.macro_categoria===m?'selected':''}>${m}</option>`).join('');
+    const macroCell = PRECOS_DESBLOQUEADO
+      ? `<td><select onchange="onMacroCat('${p.key}',this.value)"
+          style="width:100%;padding:3px 6px;border:1.5px solid var(--border);border-radius:5px;font-size:10px;background:#fff">
+          <option value="" ${!p.macro_categoria?'selected':''}>—</option>
+          ${macroOpts}
+        </select></td>`
+      : `<td style="font-size:10px;text-align:center;color:${p.macro_categoria?'var(--navy)':'var(--muted)'}">${p.macro_categoria||'—'}</td>`;
     return `<tr id="pr-${p.key.replace('|','-')}" data-d="${p.desc.toLowerCase()}" data-cat="${p.cat}">
       ${codCell}
       <td style="font-size:11px;font-weight:500">${p.desc}</td>
       <td style="text-align:center"><span style="${CAT_STYLE[p.cat]||''}">${p.cat}</span></td>
+      ${macroCell}
       <td class="mono tr" style="font-size:10px;color:var(--muted)">${p.ref ? 'R$ '+N(p.ref) : '—'}</td>
       <td><input type="number" class="pinp ${val?'ok':''}" id="pi-${p.key.replace('|','-')}"
         step="0.01" min="0" placeholder="0,00"
@@ -1640,10 +1663,17 @@ function onCodBP(key, val) {
   syncProdutosToCfg();
 }
 
+function onMacroCat(key, val) {
+  const p = PRODUTOS.find(p => p.key === key);
+  if (p) p.macro_categoria = val;
+  syncProdutosToCfg();
+}
+
 function syncProdutosToCfg() {
   CFG.produtos = PRODUTOS.map(p => ({
     key: p.key, desc: p.desc, cat: p.cat,
-    ref_2026: p.ref, cod_bp: p.cod_bp || ''
+    ref_2026: p.ref, cod_bp: p.cod_bp || '',
+    macro_categoria: p.macro_categoria || ''
   }));
 }
 
@@ -1651,6 +1681,7 @@ function abrirAddProduto() {
   document.getElementById('np-cod').value = '';
   document.getElementById('np-desc').value = '';
   document.getElementById('np-cat').value = '';
+  document.getElementById('np-macro').value = '';
   document.getElementById('np-pj').value = '';
   document.getElementById('np-pf').value = '';
   document.getElementById('np-erro').textContent = '';
@@ -1663,12 +1694,13 @@ function fecharAddProduto() {
 }
 
 function salvarNovoProduto() {
-  const cod  = document.getElementById('np-cod').value.trim();
-  const desc = document.getElementById('np-desc').value.trim().toUpperCase();
-  const cat  = document.getElementById('np-cat').value;
-  const pj   = parseFloat(document.getElementById('np-pj').value) || 0;
-  const pf   = parseFloat(document.getElementById('np-pf').value) || 0;
-  const erro = document.getElementById('np-erro');
+  const cod   = document.getElementById('np-cod').value.trim();
+  const desc  = document.getElementById('np-desc').value.trim().toUpperCase();
+  const cat   = document.getElementById('np-cat').value;
+  const macro = document.getElementById('np-macro').value;
+  const pj    = parseFloat(document.getElementById('np-pj').value) || 0;
+  const pf    = parseFloat(document.getElementById('np-pf').value) || 0;
+  const erro  = document.getElementById('np-erro');
 
   if (!desc) { erro.textContent = 'Descrição é obrigatória.'; return; }
   if (!cat)  { erro.textContent = 'Selecione uma categoria.'; return; }
@@ -1680,7 +1712,7 @@ function salvarNovoProduto() {
     return;
   }
 
-  PRODUTOS.push({ key, desc, cat, ref: 0, cod_bp: cod });
+  PRODUTOS.push({ key, desc, cat, ref: 0, cod_bp: cod, macro_categoria: macro });
   if (pj > 0) { if (!CFG.precos_pj) CFG.precos_pj = {}; CFG.precos_pj[key] = pj; }
   if (pf > 0) { if (!CFG.precos_pf) CFG.precos_pf = {}; CFG.precos_pf[key] = pf; }
   syncProdutosToCfg();

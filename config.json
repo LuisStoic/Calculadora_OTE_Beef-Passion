@@ -315,1078 +315,1232 @@
       "desc": "DENVER PASSION",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "61"
+      "cod_bp": "61",
+      "macro_categoria": ""
     },
     {
       "key": "BISTECA FIORENTINA -Sob encomenda|CLASSICO",
       "desc": "BISTECA FIORENTINA -Sob encomenda",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "950"
+      "cod_bp": "950",
+      "macro_categoria": ""
     },
     {
       "key": "TOMAHAWK - SOB ENCOMENDA|CLASSICO",
       "desc": "TOMAHAWK - SOB ENCOMENDA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "465"
+      "cod_bp": "465",
+      "macro_categoria": ""
     },
     {
       "key": "PICANHA PASSION BP 2|CLASSICO",
       "desc": "PICANHA PASSION BP 2",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "111"
+      "cod_bp": "111",
+      "macro_categoria": ""
     },
     {
       "key": "FRALDINHA  STEAK CG|CLASSICO",
       "desc": "FRALDINHA  STEAK CG",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "374"
+      "cod_bp": "374",
+      "macro_categoria": ""
     },
     {
       "key": "FILÉ MIGNON MEDALHÃO|CLASSICO",
       "desc": "FILÉ MIGNON MEDALHÃO",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "201"
+      "cod_bp": "201",
+      "macro_categoria": ""
     },
     {
       "key": "FRALDINHA RED PÇ|CLASSICO",
       "desc": "FRALDINHA RED PÇ",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "213"
+      "cod_bp": "213",
+      "macro_categoria": ""
     },
     {
       "key": "FLAT IRON PASSION|CLASSICO",
       "desc": "FLAT IRON PASSION",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "221"
+      "cod_bp": "221",
+      "macro_categoria": ""
     },
     {
       "key": "FILÉ MIGNON PEÇA|CLASSICO",
       "desc": "FILÉ MIGNON PEÇA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "197"
+      "cod_bp": "197",
+      "macro_categoria": ""
     },
     {
       "key": "TBONE - SOB ENCOMENDA|CLASSICO",
       "desc": "TBONE - SOB ENCOMENDA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "362"
+      "cod_bp": "362",
+      "macro_categoria": ""
     },
     {
       "key": "BISTECA PASSION-SHORT RIB S/O|CLASSICO",
       "desc": "BISTECA PASSION-SHORT RIB S/O",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "79"
+      "cod_bp": "79",
+      "macro_categoria": ""
     },
     {
       "key": "FILÉ DE COSTELA (PEÇA)|CLASSICO",
       "desc": "FILÉ DE COSTELA (PEÇA)",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "150"
+      "cod_bp": "150",
+      "macro_categoria": ""
     },
     {
       "key": "ANCHO STEAK BP 2|CLASSICO",
       "desc": "ANCHO STEAK BP 2",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "154"
+      "cod_bp": "154",
+      "macro_categoria": ""
     },
     {
       "key": "CHORIZO BP 2|CLASSICO",
       "desc": "CHORIZO BP 2",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "129"
+      "cod_bp": "129",
+      "macro_categoria": ""
     },
     {
       "key": "CONTRAFILÉ BP 2|CLASSICO",
       "desc": "CONTRAFILÉ BP 2",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "125"
+      "cod_bp": "125",
+      "macro_categoria": ""
     },
     {
       "key": "ASSADO DE TIRA DIANTEIRO|CLASSICO",
       "desc": "ASSADO DE TIRA DIANTEIRO",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "182"
+      "cod_bp": "182",
+      "macro_categoria": ""
     },
     {
       "key": "ENTRANHA PASSION|CLASSICO",
       "desc": "ENTRANHA PASSION",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "220"
+      "cod_bp": "220",
+      "macro_categoria": ""
     },
     {
       "key": "BANANINHA|CLASSICO",
       "desc": "BANANINHA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "496"
+      "cod_bp": "496",
+      "macro_categoria": ""
     },
     {
       "key": "BOMBOM DA ALCATRA|CLASSICO",
       "desc": "BOMBOM DA ALCATRA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "94"
+      "cod_bp": "94",
+      "macro_categoria": ""
     },
     {
       "key": "ISCAS MIGNON|CLASSICO",
       "desc": "ISCAS MIGNON",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "206"
+      "cod_bp": "206",
+      "macro_categoria": ""
     },
     {
       "key": "COSTELA DE JANELA - sob encomenda|CLASSICO",
       "desc": "COSTELA DE JANELA - sob encomenda",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "80"
+      "cod_bp": "80",
+      "macro_categoria": ""
     },
     {
       "key": "CAPA DE FILÉ STEAK|CLASSICO",
       "desc": "CAPA DE FILÉ STEAK",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "145"
+      "cod_bp": "145",
+      "macro_categoria": ""
     },
     {
       "key": "COSTELA DO DIANTEIRO|CLASSICO",
       "desc": "COSTELA DO DIANTEIRO",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "419"
+      "cod_bp": "419",
+      "macro_categoria": ""
     },
     {
       "key": "COSTELA DO DIANTEIRO C/OSSO|CLASSICO",
       "desc": "COSTELA DO DIANTEIRO C/OSSO",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "188"
+      "cod_bp": "188",
+      "macro_categoria": ""
     },
     {
       "key": "MAMINHA|CLASSICO",
       "desc": "MAMINHA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "97"
+      "cod_bp": "97",
+      "macro_categoria": ""
     },
     {
       "key": "RABADA|CLASSICO",
       "desc": "RABADA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "452"
+      "cod_bp": "452",
+      "macro_categoria": ""
     },
     {
       "key": "BIFE DO VAZIO|CLASSICO",
       "desc": "BIFE DO VAZIO",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "497"
+      "cod_bp": "497",
+      "macro_categoria": ""
     },
     {
       "key": "CAPA DE FILÉ|CLASSICO",
       "desc": "CAPA DE FILÉ",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "146"
+      "cod_bp": "146",
+      "macro_categoria": ""
     },
     {
       "key": "ASSADO DE TIRA TRASEIRO|CLASSICO",
       "desc": "ASSADO DE TIRA TRASEIRO",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "170"
+      "cod_bp": "170",
+      "macro_categoria": ""
     },
     {
       "key": "SHOULDER STEAK|CLASSICO",
       "desc": "SHOULDER STEAK",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "234"
+      "cod_bp": "234",
+      "macro_categoria": ""
     },
     {
       "key": "STEAK DO ACÉM (Cowboy)|CLASSICO",
       "desc": "STEAK DO ACÉM (Cowboy)",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "51"
+      "cod_bp": "51",
+      "macro_categoria": ""
     },
     {
       "key": "ALCATRA PEÇA|CLASSICO",
       "desc": "ALCATRA PEÇA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "539"
+      "cod_bp": "539",
+      "macro_categoria": ""
     },
     {
       "key": "FRALDA INTERNA|CLASSICO",
       "desc": "FRALDA INTERNA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "377"
+      "cod_bp": "377",
+      "macro_categoria": ""
     },
     {
       "key": "BABY BEEF STEAK|CLASSICO",
       "desc": "BABY BEEF STEAK",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "90"
+      "cod_bp": "90",
+      "macro_categoria": ""
     },
     {
       "key": "BEEF STEAK|CLASSICO",
       "desc": "BEEF STEAK",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "119"
+      "cod_bp": "119",
+      "macro_categoria": ""
     },
     {
       "key": "LINGUA|CLASSICO",
       "desc": "LINGUA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "367"
+      "cod_bp": "367",
+      "macro_categoria": ""
     },
     {
       "key": "PALETA PEÇA|CLASSICO",
       "desc": "PALETA PEÇA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "233"
+      "cod_bp": "233",
+      "macro_categoria": ""
     },
     {
       "key": "PASSIONITOS|CLASSICO",
       "desc": "PASSIONITOS",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "316"
+      "cod_bp": "316",
+      "macro_categoria": ""
     },
     {
       "key": "ARANHA DA ALCATRA|CLASSICO",
       "desc": "ARANHA DA ALCATRA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "552"
+      "cod_bp": "552",
+      "macro_categoria": ""
     },
     {
       "key": "BOCHECHA|CLASSICO",
       "desc": "BOCHECHA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "364"
+      "cod_bp": "364",
+      "macro_categoria": ""
     },
     {
       "key": "MOIDA PATINHO|CLASSICO",
       "desc": "MOIDA PATINHO",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "320"
+      "cod_bp": "320",
+      "macro_categoria": ""
     },
     {
       "key": "STEAK DA CASA|CLASSICO",
       "desc": "STEAK DA CASA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "502"
+      "cod_bp": "502",
+      "macro_categoria": ""
     },
     {
       "key": "BIFITOS|CLASSICO",
       "desc": "BIFITOS",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "204"
+      "cod_bp": "204",
+      "macro_categoria": ""
     },
     {
       "key": "ISCAS PASSION|CLASSICO",
       "desc": "ISCAS PASSION",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "332"
+      "cod_bp": "332",
+      "macro_categoria": ""
     },
     {
       "key": "KNUCKLE PASSION STEAK|CLASSICO",
       "desc": "KNUCKLE PASSION STEAK",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "284"
+      "cod_bp": "284",
+      "macro_categoria": ""
     },
     {
       "key": "COXAO MOLE PEÇA|CLASSICO",
       "desc": "COXAO MOLE PEÇA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "439"
+      "cod_bp": "439",
+      "macro_categoria": ""
     },
     {
       "key": "CUBITOS|CLASSICO",
       "desc": "CUBITOS",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "319"
+      "cod_bp": "319",
+      "macro_categoria": ""
     },
     {
       "key": "MOIDA BLEND|CLASSICO",
       "desc": "MOIDA BLEND",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "358"
+      "cod_bp": "358",
+      "macro_categoria": ""
     },
     {
       "key": "LAGARTO|CLASSICO",
       "desc": "LAGARTO",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "449"
+      "cod_bp": "449",
+      "macro_categoria": ""
     },
     {
       "key": "PEIXINHO (PEÇA)|CLASSICO",
       "desc": "PEIXINHO (PEÇA)",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "446"
+      "cod_bp": "446",
+      "macro_categoria": ""
     },
     {
       "key": "COXÃO DURO PEÇA|CLASSICO",
       "desc": "COXÃO DURO PEÇA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "259"
+      "cod_bp": "259",
+      "macro_categoria": ""
     },
     {
       "key": "MUSCULO EM CUBOS|CLASSICO",
       "desc": "MUSCULO EM CUBOS",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "291"
+      "cod_bp": "291",
+      "macro_categoria": ""
     },
     {
       "key": "PEITO / BRISKET|CLASSICO",
       "desc": "PEITO / BRISKET",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "242"
+      "cod_bp": "242",
+      "macro_categoria": ""
     },
     {
       "key": "PATINHO PEÇA|CLASSICO",
       "desc": "PATINHO PEÇA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "271"
+      "cod_bp": "271",
+      "macro_categoria": ""
     },
     {
       "key": "CAPA DA PALETA|CLASSICO",
       "desc": "CAPA DA PALETA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "232"
+      "cod_bp": "232",
+      "macro_categoria": ""
     },
     {
       "key": "BUCHO - Sob encomenda|CLASSICO",
       "desc": "BUCHO - Sob encomenda",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "365"
+      "cod_bp": "365",
+      "macro_categoria": ""
     },
     {
       "key": "RECORTE PASSION|CLASSICO",
       "desc": "RECORTE PASSION",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "328"
+      "cod_bp": "328",
+      "macro_categoria": ""
     },
     {
       "key": "OSSOBUCO|CLASSICO",
       "desc": "OSSOBUCO",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "323"
+      "cod_bp": "323",
+      "macro_categoria": ""
     },
     {
       "key": "ACÉM PESCOÇO PEÇA|CLASSICO",
       "desc": "ACÉM PESCOÇO PEÇA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "58"
+      "cod_bp": "58",
+      "macro_categoria": ""
     },
     {
       "key": "COSTELA MINGA- sob encomenda|CLASSICO",
       "desc": "COSTELA MINGA- sob encomenda",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "349"
+      "cod_bp": "349",
+      "macro_categoria": ""
     },
     {
       "key": "MUSCULO PEÇA|CLASSICO",
       "desc": "MUSCULO PEÇA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "298"
+      "cod_bp": "298",
+      "macro_categoria": ""
     },
     {
       "key": "STEAK PASSION|CLASSICO",
       "desc": "STEAK PASSION",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "263"
+      "cod_bp": "263",
+      "macro_categoria": ""
     },
     {
       "key": "RECORTE DE COSTELA|CLASSICO",
       "desc": "RECORTE DE COSTELA",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "463"
+      "cod_bp": "463",
+      "macro_categoria": ""
     },
     {
       "key": "RECORTE G|CLASSICO",
       "desc": "RECORTE G",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "326"
+      "cod_bp": "326",
+      "macro_categoria": ""
     },
     {
       "key": "PRIME RIB CG|CLASSICO",
       "desc": "PRIME RIB CG",
       "cat": "CLASSICO",
       "ref_2026": 0,
-      "cod_bp": "147"
+      "cod_bp": "147",
+      "macro_categoria": ""
     },
     {
       "key": "DENVER PASSION|RESERVA",
       "desc": "DENVER PASSION",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "65"
+      "cod_bp": "65",
+      "macro_categoria": ""
     },
     {
       "key": "ANCHO STEAK BP Reserva|RESERVA",
       "desc": "ANCHO STEAK BP Reserva",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "156"
+      "cod_bp": "156",
+      "macro_categoria": ""
     },
     {
       "key": "BISTECA FIORENTINA -Sob encomenda|RESERVA",
       "desc": "BISTECA FIORENTINA -Sob encomenda",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "132"
+      "cod_bp": "132",
+      "macro_categoria": ""
     },
     {
       "key": "TBONE - SOB ENCOMENDA|RESERVA",
       "desc": "TBONE - SOB ENCOMENDA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "141"
+      "cod_bp": "141",
+      "macro_categoria": ""
     },
     {
       "key": "FILÉ DE COSTELA BP|RESERVA",
       "desc": "FILÉ DE COSTELA BP",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "152"
+      "cod_bp": "152",
+      "macro_categoria": ""
     },
     {
       "key": "PICANHA PASSION BP|RESERVA",
       "desc": "PICANHA PASSION BP",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "113"
+      "cod_bp": "113",
+      "macro_categoria": ""
     },
     {
       "key": "TOMAHAWK - SOB ENCOMENDA|RESERVA",
       "desc": "TOMAHAWK - SOB ENCOMENDA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "161"
+      "cod_bp": "161",
+      "macro_categoria": ""
     },
     {
       "key": "CHORIZO BP 2|RESERVA",
       "desc": "CHORIZO BP 2",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "131"
+      "cod_bp": "131",
+      "macro_categoria": ""
     },
     {
       "key": "CONTRAFILÉ|RESERVA",
       "desc": "CONTRAFILÉ",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "127"
+      "cod_bp": "127",
+      "macro_categoria": ""
     },
     {
       "key": "FRALDINHA PASSION STEAK BP 2|RESERVA",
       "desc": "FRALDINHA PASSION STEAK BP 2",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "376"
+      "cod_bp": "376",
+      "macro_categoria": ""
     },
     {
       "key": "FILÉ MIGNON MEDALHÃO|RESERVA",
       "desc": "FILÉ MIGNON MEDALHÃO",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "203"
+      "cod_bp": "203",
+      "macro_categoria": ""
     },
     {
       "key": "FILÉ MIGNON PEÇA|RESERVA",
       "desc": "FILÉ MIGNON PEÇA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "199"
+      "cod_bp": "199",
+      "macro_categoria": ""
     },
     {
       "key": "FRALDINHA PASSION BP|RESERVA",
       "desc": "FRALDINHA PASSION BP",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "215"
+      "cod_bp": "215",
+      "macro_categoria": ""
     },
     {
       "key": "FLAT IRON PASSION|RESERVA",
       "desc": "FLAT IRON PASSION",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "223"
+      "cod_bp": "223",
+      "macro_categoria": ""
     },
     {
       "key": "MAMINHA|RESERVA",
       "desc": "MAMINHA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "100"
+      "cod_bp": "100",
+      "macro_categoria": ""
     },
     {
       "key": "BISTECA PASSION-SHORT RIB S/O|RESERVA",
       "desc": "BISTECA PASSION-SHORT RIB S/O",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "79"
+      "cod_bp": "79",
+      "macro_categoria": ""
     },
     {
       "key": "ASSADO DE TIRA DIANTEIRO|RESERVA",
       "desc": "ASSADO DE TIRA DIANTEIRO",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "184"
+      "cod_bp": "184",
+      "macro_categoria": ""
     },
     {
       "key": "BOMBOM DA ALCATRA|RESERVA",
       "desc": "BOMBOM DA ALCATRA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "96"
+      "cod_bp": "96",
+      "macro_categoria": ""
     },
     {
       "key": "COSTELA DO DIANTEIRO C/OSSO|RESERVA",
       "desc": "COSTELA DO DIANTEIRO C/OSSO",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "188"
+      "cod_bp": "188",
+      "macro_categoria": ""
     },
     {
       "key": "COSTELA DE JANELA - sob encomenda|RESERVA",
       "desc": "COSTELA DE JANELA - sob encomenda",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "440"
+      "cod_bp": "440",
+      "macro_categoria": ""
     },
     {
       "key": "COSTELA DO DIANTEIRO|RESERVA",
       "desc": "COSTELA DO DIANTEIRO",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "461"
+      "cod_bp": "461",
+      "macro_categoria": ""
     },
     {
       "key": "BIFE DO VAZIO|RESERVA",
       "desc": "BIFE DO VAZIO",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "217"
+      "cod_bp": "217",
+      "macro_categoria": ""
     },
     {
       "key": "ENTRANHA PASSION|RESERVA",
       "desc": "ENTRANHA PASSION",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "246"
+      "cod_bp": "246",
+      "macro_categoria": ""
     },
     {
       "key": "FRALDA INTERNA|RESERVA",
       "desc": "FRALDA INTERNA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "312"
+      "cod_bp": "312",
+      "macro_categoria": ""
     },
     {
       "key": "BANANINHA|RESERVA",
       "desc": "BANANINHA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "122"
+      "cod_bp": "122",
+      "macro_categoria": ""
     },
     {
       "key": "STEAK DO ACÉM (Cowboy)|RESERVA",
       "desc": "STEAK DO ACÉM (Cowboy)",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "455"
+      "cod_bp": "455",
+      "macro_categoria": ""
     },
     {
       "key": "ASSADO DE TIRA TRASEIRO|RESERVA",
       "desc": "ASSADO DE TIRA TRASEIRO",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "180"
+      "cod_bp": "180",
+      "macro_categoria": ""
     },
     {
       "key": "BABY BEEF STEAK|RESERVA",
       "desc": "BABY BEEF STEAK",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "92"
+      "cod_bp": "92",
+      "macro_categoria": ""
     },
     {
       "key": "CAPA DE FILÉ|RESERVA",
       "desc": "CAPA DE FILÉ",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "360"
+      "cod_bp": "360",
+      "macro_categoria": ""
     },
     {
       "key": "SHOULDER STEAK|RESERVA",
       "desc": "SHOULDER STEAK",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "236"
+      "cod_bp": "236",
+      "macro_categoria": ""
     },
     {
       "key": "BEEF TALLOW 1,5KG|RESERVA",
       "desc": "BEEF TALLOW 1,5KG",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "342"
+      "cod_bp": "342",
+      "macro_categoria": ""
     },
     {
       "key": "ISCAS MIGNON|RESERVA",
       "desc": "ISCAS MIGNON",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "206"
+      "cod_bp": "206",
+      "macro_categoria": ""
     },
     {
       "key": "BEEF STEAK|RESERVA",
       "desc": "BEEF STEAK",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "121"
+      "cod_bp": "121",
+      "macro_categoria": ""
     },
     {
       "key": "PALETA PEÇA|RESERVA",
       "desc": "PALETA PEÇA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "230"
+      "cod_bp": "230",
+      "macro_categoria": ""
     },
     {
       "key": "CAPA DE FILÉ STEAK|RESERVA",
       "desc": "CAPA DE FILÉ STEAK",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "508"
+      "cod_bp": "508",
+      "macro_categoria": ""
     },
     {
       "key": "COXÃO DURO PEÇA|RESERVA",
       "desc": "COXÃO DURO PEÇA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "261"
+      "cod_bp": "261",
+      "macro_categoria": ""
     },
     {
       "key": "STEAK PASSION|RESERVA",
       "desc": "STEAK PASSION",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "263"
+      "cod_bp": "263",
+      "macro_categoria": ""
     },
     {
       "key": "KNUCKLE PASSION STEAK|RESERVA",
       "desc": "KNUCKLE PASSION STEAK",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "286"
+      "cod_bp": "286",
+      "macro_categoria": ""
     },
     {
       "key": "PATINHO PEÇA|RESERVA",
       "desc": "PATINHO PEÇA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "273"
+      "cod_bp": "273",
+      "macro_categoria": ""
     },
     {
       "key": "ALCATRA PEÇA|RESERVA",
       "desc": "ALCATRA PEÇA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "539"
+      "cod_bp": "539",
+      "macro_categoria": ""
     },
     {
       "key": "ARANHA DA ALCATRA|RESERVA",
       "desc": "ARANHA DA ALCATRA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "105"
+      "cod_bp": "105",
+      "macro_categoria": ""
     },
     {
       "key": "BIFITOS|RESERVA",
       "desc": "BIFITOS",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "205"
+      "cod_bp": "205",
+      "macro_categoria": ""
     },
     {
       "key": "HAMBURGUER 180g|RESERVA",
       "desc": "HAMBURGUER 180g",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "307"
+      "cod_bp": "307",
+      "macro_categoria": ""
     },
     {
       "key": "HAMBURGUER SMASH 50g|RESERVA",
       "desc": "HAMBURGUER SMASH 50g",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "424"
+      "cod_bp": "424",
+      "macro_categoria": ""
     },
     {
       "key": "LAGARTO|RESERVA",
       "desc": "LAGARTO",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "449"
+      "cod_bp": "449",
+      "macro_categoria": ""
     },
     {
       "key": "LINGUA|RESERVA",
       "desc": "LINGUA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "367"
+      "cod_bp": "367",
+      "macro_categoria": ""
     },
     {
       "key": "PEITO / BRISKET|RESERVA",
       "desc": "PEITO / BRISKET",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "238"
+      "cod_bp": "238",
+      "macro_categoria": ""
     },
     {
       "key": "LINGUIÇA BOVINA FINA|RESERVA",
       "desc": "LINGUIÇA BOVINA FINA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "303"
+      "cod_bp": "303",
+      "macro_categoria": ""
     },
     {
       "key": "BOCHECHA|RESERVA",
       "desc": "BOCHECHA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "364"
+      "cod_bp": "364",
+      "macro_categoria": ""
     },
     {
       "key": "BOICON BOVINO FATIADO|RESERVA",
       "desc": "BOICON BOVINO FATIADO",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "422"
+      "cod_bp": "422",
+      "macro_categoria": ""
     },
     {
       "key": "COXAO MOLE PEÇA|RESERVA",
       "desc": "COXAO MOLE PEÇA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "255"
+      "cod_bp": "255",
+      "macro_categoria": ""
     },
     {
       "key": "FIGADO|RESERVA",
       "desc": "FIGADO",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "366"
+      "cod_bp": "366",
+      "macro_categoria": ""
     },
     {
       "key": "MOIDA PATINHO|RESERVA",
       "desc": "MOIDA PATINHO",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "320"
+      "cod_bp": "320",
+      "macro_categoria": ""
     },
     {
       "key": "PASSIONITOS|RESERVA",
       "desc": "PASSIONITOS",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "317"
+      "cod_bp": "317",
+      "macro_categoria": ""
     },
     {
       "key": "RABADA|RESERVA",
       "desc": "RABADA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "287"
+      "cod_bp": "287",
+      "macro_categoria": ""
     },
     {
       "key": "STEAK DA CASA|RESERVA",
       "desc": "STEAK DA CASA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "255"
+      "cod_bp": "255",
+      "macro_categoria": ""
     },
     {
       "key": "HAMBURGUER DE COSTELA 180g|RESERVA",
       "desc": "HAMBURGUER DE COSTELA 180g",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "528"
+      "cod_bp": "528",
+      "macro_categoria": ""
     },
     {
       "key": "SALSICHA BOVINA|RESERVA",
       "desc": "SALSICHA BOVINA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "423"
+      "cod_bp": "423",
+      "macro_categoria": ""
     },
     {
       "key": "FIGADO ISCA|RESERVA",
       "desc": "FIGADO ISCA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "357"
+      "cod_bp": "357",
+      "macro_categoria": ""
     },
     {
       "key": "CAPA DA PALETA|RESERVA",
       "desc": "CAPA DA PALETA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "231"
+      "cod_bp": "231",
+      "macro_categoria": ""
     },
     {
       "key": "ISCAS PASSION|RESERVA",
       "desc": "ISCAS PASSION",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "332"
+      "cod_bp": "332",
+      "macro_categoria": ""
     },
     {
       "key": "PEIXINHO (PEÇA)|RESERVA",
       "desc": "PEIXINHO (PEÇA)",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "71"
+      "cod_bp": "71",
+      "macro_categoria": ""
     },
     {
       "key": "CUBITOS|RESERVA",
       "desc": "CUBITOS",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "319"
+      "cod_bp": "319",
+      "macro_categoria": ""
     },
     {
       "key": "CORAÇÃO - sob encomenda|RESERVA",
       "desc": "CORAÇÃO - sob encomenda",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "363"
+      "cod_bp": "363",
+      "macro_categoria": ""
     },
     {
       "key": "MOIDA BLEND 5 kg|RESERVA",
       "desc": "MOIDA BLEND 5 kg",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "305"
+      "cod_bp": "305",
+      "macro_categoria": ""
     },
     {
       "key": "OSSOBUCO|RESERVA",
       "desc": "OSSOBUCO",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "295"
+      "cod_bp": "295",
+      "macro_categoria": ""
     },
     {
       "key": "MUSCULO EM CUBOS|RESERVA",
       "desc": "MUSCULO EM CUBOS",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "353"
+      "cod_bp": "353",
+      "macro_categoria": ""
     },
     {
       "key": "BUCHO - Sob encomenda|RESERVA",
       "desc": "BUCHO - Sob encomenda",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "365"
+      "cod_bp": "365",
+      "macro_categoria": ""
     },
     {
       "key": "CECINA BRESAOLA|RESERVA",
       "desc": "CECINA BRESAOLA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "219"
+      "cod_bp": "219",
+      "macro_categoria": ""
     },
     {
       "key": "COSTELA MINGA- sob encomenda|RESERVA",
       "desc": "COSTELA MINGA- sob encomenda",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "186"
+      "cod_bp": "186",
+      "macro_categoria": ""
     },
     {
       "key": "MUSCULO PEÇA|RESERVA",
       "desc": "MUSCULO PEÇA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "290"
+      "cod_bp": "290",
+      "macro_categoria": ""
     },
     {
       "key": "RECORTE|RESERVA",
       "desc": "RECORTE",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "328"
+      "cod_bp": "328",
+      "macro_categoria": ""
     },
     {
       "key": "ACÉM PESCOÇO PEÇA|RESERVA",
       "desc": "ACÉM PESCOÇO PEÇA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "59"
+      "cod_bp": "59",
+      "macro_categoria": ""
     },
     {
       "key": "BEEF TALLOW 250g|RESERVA",
       "desc": "BEEF TALLOW 250g",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "348"
+      "cod_bp": "348",
+      "macro_categoria": ""
     },
     {
       "key": "GORDURA PEÇA|RESERVA",
       "desc": "GORDURA PEÇA",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "8200"
+      "cod_bp": "8200",
+      "macro_categoria": ""
     },
     {
       "key": "CALDO DE OSSO 100ml|RESERVA",
       "desc": "CALDO DE OSSO 100ml",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "405"
+      "cod_bp": "405",
+      "macro_categoria": ""
     },
     {
       "key": "OSSO MOCOTÓ|RESERVA",
       "desc": "OSSO MOCOTÓ",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "506"
+      "cod_bp": "506",
+      "macro_categoria": ""
     },
     {
       "key": "PRIME RIB|RESERVA",
       "desc": "PRIME RIB",
       "cat": "RESERVA",
       "ref_2026": 0,
-      "cod_bp": "157"
+      "cod_bp": "157",
+      "macro_categoria": ""
     },
     {
       "key": "FLAT IRON PASSION|SUPREME",
       "desc": "FLAT IRON PASSION",
       "cat": "SUPREME",
       "ref_2026": 0,
-      "cod_bp": "454"
+      "cod_bp": "454",
+      "macro_categoria": ""
     },
     {
       "key": "ANCHO SUPREME|SUPREME",
       "desc": "ANCHO SUPREME",
       "cat": "SUPREME",
       "ref_2026": 0,
-      "cod_bp": "488"
+      "cod_bp": "488",
+      "macro_categoria": ""
     },
     {
       "key": "CHORIZO SUPREME|SUPREME",
       "desc": "CHORIZO SUPREME",
       "cat": "SUPREME",
       "ref_2026": 0,
-      "cod_bp": "487"
+      "cod_bp": "487",
+      "macro_categoria": ""
     },
     {
       "key": "DENVER SUPREME|SUPREME",
       "desc": "DENVER SUPREME",
       "cat": "SUPREME",
       "ref_2026": 0,
-      "cod_bp": "456"
+      "cod_bp": "456",
+      "macro_categoria": ""
     },
     {
       "key": "PICANHA SUPREME|SUPREME",
       "desc": "PICANHA SUPREME",
       "cat": "SUPREME",
       "ref_2026": 0,
-      "cod_bp": "492"
+      "cod_bp": "492",
+      "macro_categoria": ""
     },
     {
       "key": "BISTECA SUPREME|SUPREME",
       "desc": "BISTECA SUPREME",
       "cat": "SUPREME",
       "ref_2026": 0,
-      "cod_bp": "489"
+      "cod_bp": "489",
+      "macro_categoria": ""
     },
     {
       "key": "MAMINHA SUPREME|SUPREME",
       "desc": "MAMINHA SUPREME",
       "cat": "SUPREME",
       "ref_2026": 0,
-      "cod_bp": "99"
+      "cod_bp": "99",
+      "macro_categoria": ""
     },
     {
       "key": "FRALDINHA STEAK SUPREME|SUPREME",
       "desc": "FRALDINHA STEAK SUPREME",
       "cat": "SUPREME",
       "ref_2026": 0,
-      "cod_bp": "505"
+      "cod_bp": "505",
+      "macro_categoria": ""
     },
     {
       "key": "FRALDINHA PÇ SUPREME|SUPREME",
       "desc": "FRALDINHA PÇ SUPREME",
       "cat": "SUPREME",
       "ref_2026": 0,
-      "cod_bp": "490"
+      "cod_bp": "490",
+      "macro_categoria": ""
     },
     {
       "key": "STEAK PASSION SUPREME|SUPREME",
       "desc": "STEAK PASSION SUPREME",
       "cat": "SUPREME",
       "ref_2026": 0,
-      "cod_bp": "495"
+      "cod_bp": "495",
+      "macro_categoria": ""
     },
     {
       "key": "TIMO|SUPREME",
       "desc": "TIMO",
       "cat": "SUPREME",
       "ref_2026": 0,
-      "cod_bp": "369"
+      "cod_bp": "369",
+      "macro_categoria": ""
     }
   ],
   "vendedores": [
