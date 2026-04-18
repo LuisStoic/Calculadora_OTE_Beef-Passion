@@ -898,7 +898,7 @@ function renderExtPreview(data){
       <td class="mono">${it.pedido}</td>
       <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px">${it.cliente}</td>
       <td><span class="cod">${it.cod}</span></td>
-      <td style="font-size:11px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${it.desc}</td>
+      <td style="font-size:11px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${it.desc}">${it.desc}</td>
       <td class="mono tr">${N(it.peso,3)} kg</td>
       <td class="mono tr">${R(it.preco)}</td>
       <td class="mono tr"><strong>${R(it.total)}</strong></td>
@@ -1075,7 +1075,7 @@ function renderGrupoA(GA) {
       <td class="mono">${it.nf}</td>
       <td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px">${it.cliente}</td>
       <td><span class="cod">${it.cod}</span></td>
-      <td style="font-size:10px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${it.desc}${viaTag}</td>
+      <td style="font-size:10px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${it.desc}">${it.desc}${viaTag}</td>
       <td id="cat-a-${it.idx}"><span style="${catS};border-radius:8px;padding:1px 7px;font-size:9px;font-weight:700">${it.categoria}</span></td>
       <td>
         <select style="font-size:10px;padding:2px 4px;border:1px solid var(--border);border-radius:4px;max-width:180px"
@@ -1187,7 +1187,7 @@ function renderGrupoB(GB) {
       <td class="mono">${it.nf}</td>
       <td style="max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px">${it.cliente}</td>
       <td><span class="cod">${it.cod}</span></td>
-      <td style="font-size:10px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;color:var(--red)">${it.desc}</td>
+      <td style="font-size:10px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;color:var(--red)" title="${it.desc}">${it.desc}</td>
       <td style="min-width:160px">
         <div style="margin-bottom:4px;font-size:9px;color:var(--muted);font-weight:600">Sugestões:</div>
         <div id="sug-${it.idx}">${sugestoes}</div>
@@ -1287,7 +1287,7 @@ function renderGrupoC(GC, mes, ano) {
       <td class="mono">${it.nf}</td>
       <td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px">${it.cliente}</td>
       <td><span class="cod">${it.cod}</span></td>
-      <td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${it.desc}</td>
+      <td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${it.desc}">${it.desc}</td>
       <td class="mono tr">${R(it.preco)}</td>
       <td class="mono tr"><strong>${R(it.total)}</strong></td>
       <td><span style="background:#eee;color:#888;border-radius:6px;padding:2px 8px;font-size:10px">
@@ -1431,7 +1431,7 @@ function renderResultado(res){
       <td class="mono" style="color:${used?'inherit':'#999'}">${it.nf}</td>
       <td style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;color:${used?'inherit':'#999'}">${it.cliente}</td>
       <td><span class="cod">${it.cod}</span></td>
-      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px">${it.desc}</td>
+      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px" title="${it.desc}">${it.desc}</td>
       <td style="text-align:center">${used?`<span style="${catStyle};border-radius:8px;padding:1px 6px;font-size:9px;font-weight:700">${catLabel}</span>`:'<span style="color:#bbb;font-size:9px">—</span>'}</td>
       <td class="mono tr" style="color:${used?'inherit':'#999'}">${N(it.peso,3)}</td>
       <td class="mono tr" style="color:${used?'inherit':'#999'}">${R(it.preco)}</td>
