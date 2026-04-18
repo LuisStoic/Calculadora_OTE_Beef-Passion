@@ -173,7 +173,10 @@ PRECOS_TABELA_2026 = {
 # ── Catálogo de produtos (gerado a partir da tabela de preços) ─────────────────
 # Macro categorias válidas (para classificação de análise)
 MACRO_CATEGORIAS = ["Nobre", "Comercial", "Fast Food e Alto Volume",
-                    "Industrial", "Gordura", "Pele e Osso"]
+                    "Industrial", "Gordura", "Pele e Osso", "Diversos"]
+
+# Categorias (linha) válidas — padrão da tabela de preços Beef Passion
+CATEGORIAS_VALIDAS = ["CLASSICO", "RESERVA", "SUPREME", "BP", "DIVERSOS"]
 
 DEFAULT_PRODUTOS = []
 _seen_keys = set()
@@ -621,6 +624,9 @@ def _match_preco(desc_pdf: str, precos: dict, canal: str = "PJ",
     Prioridade: (1) cod_bp exato, (2) fuzzy por tokens (threshold=0.45).
     """
     # Prioridade 1: match exato pelo código Omega (cod_bp)
+    # Se o cod_bp identifica o produto mas ele não tem preço no canal ativo
+    # (null / chave ausente), retorna "sem match" — produto não vendido
+    # neste canal. NÃO faz fallback fuzzy pois cod_bp é identificador confiável.
     if cod_pdf and produtos:
         for prod in produtos:
             if prod.get("cod_bp") and prod["cod_bp"] == cod_pdf:
@@ -628,6 +634,8 @@ def _match_preco(desc_pdf: str, precos: dict, canal: str = "PJ",
                 preco = precos.get(chave)
                 if preco and preco > 0:
                     return preco, chave, prod["cat"], 1.0
+                # cod_bp bateu mas produto sem preço no canal → respeita null
+                return None, None, None, 0
 
     # Prioridade 2: fuzzy match por tokens de descrição
     global _MATCH_INDEX
@@ -641,7 +649,9 @@ def _match_preco(desc_pdf: str, precos: dict, canal: str = "PJ",
 
     idx = _MATCH_INDEX[canal]
     melhor = (None, None, None, 0)
-    for cat_try in [cat_inf] + [c for c in ("CLASSICO","RESERVA","SUPREME") if c != cat_inf]:
+    # Itera todas as categorias válidas (inclui BP e DIVERSOS)
+    outras_cats = [c for c in CATEGORIAS_VALIDAS if c != cat_inf]
+    for cat_try in [cat_inf] + outras_cats:
         for tks_tab, desc_tab, chave, preco in idx.get(cat_try, []):
             inter = len(tks_pdf & tks_tab)
             if inter == 0:
@@ -1215,6 +1225,7 @@ def get_config():
         mult_rows[key] = mult_override.get(key, base)
     cfg["mult_rows"] = mult_rows
     cfg["macro_categorias"] = MACRO_CATEGORIAS
+    cfg["categorias_validas"] = CATEGORIAS_VALIDAS
     return jsonify(cfg)
 
 

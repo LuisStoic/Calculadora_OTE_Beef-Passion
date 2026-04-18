@@ -415,6 +415,8 @@ input[type=number]{font-family:'DM Mono',monospace}
           <option value="CLASSICO">Clássico</option>
           <option value="RESERVA">Reserva</option>
           <option value="SUPREME">Supreme</option>
+          <option value="BP">BP</option>
+          <option value="DIVERSOS">Diversos</option>
         </select>
         <button class="btn btn-o btn-sm" onclick="fillRef()">Preencher com Tabela 2026</button>
         <button class="btn btn-o btn-sm" onclick="clearPrecos()">Limpar tudo</button>
@@ -573,6 +575,8 @@ input[type=number]{font-family:'DM Mono',monospace}
           <option value="CLASSICO">CLÁSSICO</option>
           <option value="RESERVA">RESERVA</option>
           <option value="SUPREME">SUPREME</option>
+          <option value="BP">BP</option>
+          <option value="DIVERSOS">DIVERSOS</option>
         </select>
       </div>
       <div>
@@ -585,6 +589,7 @@ input[type=number]{font-family:'DM Mono',monospace}
           <option value="Industrial">Industrial</option>
           <option value="Gordura">Gordura</option>
           <option value="Pele e Osso">Pele e Osso</option>
+          <option value="Diversos">Diversos</option>
         </select>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
@@ -967,7 +972,8 @@ function matchFrontend(descPdf, threshold=0.45, codPdf='') {
   if (!tPdf.size) return null;
   const catInf = inferCat(descPdf);
   let best = null, bestScore = 0;
-  const catOrder = [catInf, ...["CLASSICO","RESERVA","SUPREME"].filter(c=>c!==catInf)];
+  const catsValidas = CFG.categorias_validas || ["CLASSICO","RESERVA","SUPREME","BP","DIVERSOS"];
+  const catOrder = [catInf, ...catsValidas.filter(c=>c!==catInf)];
   for (const cat of catOrder) {
     for (const p of PRODUTOS) {
       if (p.cat !== cat) continue;
@@ -1078,7 +1084,9 @@ function abrirRevisao() {
 const CAT_STYLE = {
   CLASSICO:'background:#EAF3FB;color:#1F4E79',
   RESERVA: 'background:#F0EDE6;color:#5C4A1E',
-  SUPREME: 'background:#FFF0C8;color:#7B4500'
+  SUPREME: 'background:#FFF0C8;color:#7B4500',
+  BP:      'background:#E7F5E9;color:#1A6B3C',
+  DIVERSOS:'background:#F3F4F6;color:#374151'
 };
 
 function renderGrupoA(GA) {
@@ -1118,7 +1126,7 @@ function renderGrupoA(GA) {
 }
 
 function buildProdOptions(selectedKey) {
-  const cats = ['CLASSICO','RESERVA','SUPREME'];
+  const cats = CFG.categorias_validas || ['CLASSICO','RESERVA','SUPREME','BP','DIVERSOS'];
   const canal = VEND_ATIVO ? VEND_ATIVO.canal : 'PJ';
   const precos = canal === 'PJ' ? (CFG.precos_pj||{}) : (CFG.precos_pf||{});
   let out = '<option value="">— selecionar —</option>';
@@ -1619,6 +1627,8 @@ function buildPriceTable(filtro=''){
       CLASSICO: 'background:#EAF3FB;color:#1F4E79;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700',
       RESERVA:  'background:#F0EDE6;color:#5C4A1E;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700',
       SUPREME:  'background:#FFF0C8;color:#7B4500;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700',
+      BP:       'background:#E7F5E9;color:#1A6B3C;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700',
+      DIVERSOS: 'background:#F3F4F6;color:#374151;border-radius:10px;padding:2px 8px;font-size:10px;font-weight:700',
     };
     const codCell = PRECOS_DESBLOQUEADO
       ? `<td><input type="text" class="pinp" maxlength="5" value="${p.cod_bp||''}" placeholder="—"
