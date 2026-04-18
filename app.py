@@ -355,6 +355,8 @@ def extrair_itens(pdf_path: str) -> dict:
     avisos = []
     paginas_ok = 0
     paginas_sem_item = 0
+    # Contexto compartilhado entre páginas — preserva data/pedido/nf/cliente
+    ctx = {"data": "", "pedido": "", "nf": "", "cliente": ""}
 
     with pdfplumber.open(pdf_path) as pdf:
         total_pags = len(pdf.pages)
@@ -371,7 +373,7 @@ def extrair_itens(pdf_path: str) -> dict:
                     "min_words_vertical": 1,
                 })
 
-                itens_pag = _parse_tables(tables, num_pag)
+                itens_pag = _parse_tables(tables, num_pag, ctx)
 
                 # Fallback: extração por texto se tabelas não produziram resultado
                 if not itens_pag:
@@ -379,7 +381,7 @@ def extrair_itens(pdf_path: str) -> dict:
                         x_tolerance=3, y_tolerance=3,
                         keep_blank_chars=False, use_text_flow=False
                     )
-                    itens_pag = _parse_words(words, num_pag)
+                    itens_pag = _parse_words(words, num_pag, ctx)
 
                 if itens_pag:
                     itens.extend(itens_pag)
@@ -398,6 +400,29 @@ def extrair_itens(pdf_path: str) -> dict:
         if chave not in vistos:
             vistos.add(chave)
             itens_dedup.append(it)
+
+    # Validação aritmética: peso × preço ≈ total
+    for it in itens_dedup:
+        peso  = it.get("peso", 0)
+        preco = it.get("preco", 0)
+        total = it.get("total", 0)
+        if peso > 0 and preco > 0 and total > 0:
+            esperado = peso * preco
+            tol = max(3.0, total * 0.005)  # R$ 3 ou 0.5%
+            diff = abs(esperado - total)
+            if diff > tol:
+                avisos.append(
+                    f"Cod {it.get('cod','?')}: peso*preco ({esperado:.2f}) "
+                    f"vs total ({total:.2f}) — diff R$ {diff:.2f}"
+                )
+
+    # Pós-processamento: preencher datas vazias com última data vista
+    ultima_data = ""
+    for it in itens_dedup:
+        if it.get("data"):
+            ultima_data = it["data"]
+        elif ultima_data:
+            it["data"] = ultima_data
 
     return {
         "itens": itens_dedup,
@@ -419,8 +444,10 @@ def _parse_valor_br(s: str) -> float:
         return 0.0
 
 
-def _parse_tables(tables, num_pag: int) -> list:
+def _parse_tables(tables, num_pag: int, ctx: dict = None) -> list:
     """Tenta extrair itens de estrutura de tabela detectada pelo pdfplumber."""
+    if ctx is None:
+        ctx = {"data": "", "pedido": "", "nf": "", "cliente": ""}
     itens = []
     if not tables:
         return itens
@@ -428,12 +455,19 @@ def _parse_tables(tables, num_pag: int) -> list:
     # Padrões de código de produto: 5 dígitos
     cod_re = re.compile(r"^\d{5}$")
     valor_re = re.compile(r"^[\d]{1,3}(?:\.\d{3})*,\d{2}$")
+    date_re = re.compile(r"\b(\d{2}/\d{2}/\d{4})\b")
 
     for table in tables:
         for row in table:
             if not row:
                 continue
             cells = [str(c).strip() if c else "" for c in row]
+            # Tentar capturar data de qualquer célula da linha
+            for c in cells:
+                dm = date_re.search(c)
+                if dm:
+                    ctx["data"] = dm.group(1)
+                    break
             # Identificar linha de item: primeira célula é código 5 dígitos
             if len(cells) >= 5 and cod_re.match(cells[0]):
                 try:
@@ -451,7 +485,8 @@ def _parse_tables(tables, num_pag: int) -> list:
                         if total > 0:
                             itens.append({
                                 "pag": num_pag,
-                                "data": "", "pedido": "", "nf": "", "cliente": "",
+                                "data": ctx["data"], "pedido": ctx["pedido"],
+                                "nf": ctx["nf"], "cliente": ctx["cliente"],
                                 "cod": cod, "desc": desc,
                                 "peso": peso, "preco": preco, "total": total,
                             })
@@ -460,11 +495,13 @@ def _parse_tables(tables, num_pag: int) -> list:
     return itens
 
 
-def _parse_words(words: list, num_pag: int) -> list:
+def _parse_words(words: list, num_pag: int, ctx: dict = None) -> list:
     """
     Extração por posição de palavras (fallback).
     Agrupa palavras por linha (Y) e tenta identificar padrões de item.
     """
+    if ctx is None:
+        ctx = {"data": "", "pedido": "", "nf": "", "cliente": ""}
     itens = []
     if not words:
         return itens
@@ -477,8 +514,6 @@ def _parse_words(words: list, num_pag: int) -> list:
 
     cod_re = re.compile(r"^\d{5}$")
     val_re = re.compile(r"^[\d\.]+,\d{2}$")
-
-    ctx = {"data": "", "pedido": "", "nf": "", "cliente": ""}
 
     for y in sorted(linhas.keys()):
         tokens = sorted(linhas[y], key=lambda w: w["x0"])
@@ -538,7 +573,7 @@ FAIXA_LABELS = {
 # ── Stopwords para matching de descrições do PDF ────────────────────────────────
 # Palavras que aparecem nas descrições do ERP mas NÃO nas chaves da tabela de preços
 _MATCH_STOP = {
-    "CONG","CG","WAGYU","PASSION","B","S","SOB","ENCOMENDA",
+    "CONG","CG","PASSION","B","S","SOB","ENCOMENDA",
     "FATIADO","PICADO","CLASSICO","/","(",")","-","E","DA","DE","DO","DAS","DOS","EM","A"
 }
 

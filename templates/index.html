@@ -291,6 +291,9 @@ input[type=number]{font-family:'DM Mono',monospace}
   <div class="ptitle">Revisão de Itens</div>
   <div class="psub">Confirme os lançamentos antes de calcular. Itens sem referência de preço precisam de ação antes de prosseguir.</div>
 
+  <!-- Alerta de competência divergente -->
+  <div id="alerta-competencia" style="display:none;margin-bottom:12px"></div>
+
   <!-- Contador geral -->
   <div id="rev-counter" class="card" style="padding:16px 22px">
     <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:center">
@@ -928,7 +931,7 @@ function matchFrontend(descPdf, threshold=0.45, codPdf='') {
   }
 
   // Prioridade 2: fuzzy match por tokens
-  const STOP = new Set(["CONG","CG","WAGYU","PASSION","B","S","SOB","ENCOMENDA",
+  const STOP = new Set(["CONG","CG","PASSION","B","S","SOB","ENCOMENDA",
     "FATIADO","PICADO","CLASSICO","E","DA","DE","DO","DAS","DOS","EM","A"]);
   const toks = s => new Set(
     s.toUpperCase().replace(/[/()\\-]/g,' ').split(/\s+/)
@@ -961,7 +964,7 @@ function matchFrontend(descPdf, threshold=0.45, codPdf='') {
 
 // Retorna top-N candidatos com score para sugestões do Grupo B
 function topCandidatos(descPdf, n=3) {
-  const STOP = new Set(["CONG","CG","WAGYU","PASSION","B","S","SOB","ENCOMENDA",
+  const STOP = new Set(["CONG","CG","PASSION","B","S","SOB","ENCOMENDA",
     "FATIADO","PICADO","CLASSICO","E","DA","DE","DO","DAS","DOS","EM","A"]);
   const toks = s => new Set(
     s.toUpperCase().replace(/[/()\\-]/g,' ').split(/\s+/)
@@ -1025,6 +1028,26 @@ function abrirRevisao() {
 
   document.getElementById('rev-gb-card').style.display = GB.length ? 'block' : 'none';
   document.getElementById('rev-gc-card').style.display = GC.length ? 'block' : 'none';
+
+  // S1: Alerta de competência divergente
+  const totalItens = GA.length + GB.length + GC.length;
+  const alertComp = document.getElementById('alerta-competencia');
+  if (alertComp) {
+    if (GC.length > 0 && GC.length > GA.length + GB.length) {
+      const MESES_PT = ["","Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+      alertComp.innerHTML = `<div class="al al-w" style="border-left:4px solid var(--red);background:#FEE2E2">
+        <span style="font-size:18px">&#9888;</span>
+        <div>
+          <strong>${GC.length} de ${totalItens} itens</strong> estao fora da competencia <strong>${MESES_PT[mes]}/${ano}</strong>.
+          Verifique se o periodo selecionado na Tab 1 esta correto.
+          <br><button onclick="goTab(1)" class="btn btn-o btn-sm" style="margin-top:6px">Alterar competencia</button>
+        </div>
+      </div>`;
+      alertComp.style.display = 'block';
+    } else {
+      alertComp.style.display = 'none';
+    }
+  }
 
   verificarPodeCalcular();
   goTab(3);
@@ -1143,17 +1166,19 @@ function alterarMatchA(idx, key) {
 
 // ── GRUPO B ──────────────────────────────────────────────────────────────────
 function renderGrupoB(GB) {
+  const precosCanal = (VEND_ATIVO?.canal === 'PJ') ? (CFG.precos_pj||{}) : (CFG.precos_pf||{});
   document.getElementById('rev-gb-tbody').innerHTML = GB.map(it => {
     const tops = topCandidatos(it.desc, 3);
     const sugestoes = tops.length
-      ? tops.map(({p,score}) =>
-          `<button onclick="aplicarSugestaoB(${it.idx},'${p.key.replace(/'/g,"\\'")}',${p.ref},'${p.cat}')"
+      ? tops.map(({p,score}) => {
+          const precoReal = precosCanal[p.key] || 0;
+          return `<button onclick="aplicarSugestaoB(${it.idx},'${p.key.replace(/'/g,"\\'")}',${precoReal},'${p.cat}')"
             style="font-size:9px;background:#F0F5FF;border:1px solid #4A90E2;color:#1F4E79;border-radius:6px;
                    padding:2px 8px;cursor:pointer;margin:1px;white-space:nowrap"
             title="Score: ${(score*100).toFixed(0)}%">
-            ${p.desc} <span style="color:#4A90E2">(${p.cat[0]}) ${R(p.ref)}</span>
-          </button>`
-        ).join('')
+            ${p.desc} <span style="color:#4A90E2">(${p.cat[0]}) ${R(precoReal)}</span>
+          </button>`;
+        }).join('')
       : '<span style="font-size:9px;color:#bbb">Nenhuma sugestão encontrada</span>';
 
     return `<tr id="gb-row-${it.idx}">
