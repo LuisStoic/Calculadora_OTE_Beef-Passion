@@ -1075,13 +1075,16 @@ function renderGrupoA(GA) {
 
 function buildProdOptions(selectedKey) {
   const cats = ['CLASSICO','RESERVA','SUPREME'];
+  const canal = VEND_ATIVO ? VEND_ATIVO.canal : 'PJ';
+  const precos = canal === 'PJ' ? (CFG.precos_pj||{}) : (CFG.precos_pf||{});
   let out = '<option value="">— selecionar —</option>';
   cats.forEach(cat => {
-    const prods = PRODUTOS.filter(p=>p.cat===cat);
+    const prods = PRODUTOS.filter(p=>p.cat===cat).sort((a,b)=>a.desc.localeCompare(b.desc));
     out += `<optgroup label="${cat}">`;
     prods.forEach(p => {
       const codLbl = p.cod_bp ? `[${p.cod_bp}] ` : '';
-      out += `<option value="${p.key}" ${p.key===selectedKey?'selected':''}>${codLbl}${p.desc} — ${R(p.ref)}/kg</option>`;
+      const preco = precos[p.key] || 0;
+      out += `<option value="${p.key}" ${p.key===selectedKey?'selected':''}>${codLbl}${p.desc} — ${preco > 0 ? R(preco) : 'R$ 0,00'}/kg</option>`;
     });
     out += '</optgroup>';
   });
