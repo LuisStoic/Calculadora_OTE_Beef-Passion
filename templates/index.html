@@ -309,6 +309,10 @@ input[type=number]{font-family:'DM Mono',monospace}
         <div style="width:10px;height:10px;border-radius:50%;background:#aaa"></div>
         <span style="font-size:12px"><strong id="rc-fora">0</strong> fora da competência</span>
       </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:10px;height:10px;border-radius:50%;background:#6B4C9A"></div>
+        <span style="font-size:12px"><strong id="rc-intra">0</strong> intragrupo</span>
+      </div>
       <div style="margin-left:auto">
         <button class="btn btn-o btn-sm" onclick="confirmarTodosA()">✓ Confirmar Todos Reconhecidos</button>
       </div>
@@ -360,6 +364,21 @@ input[type=number]{font-family:'DM Mono',monospace}
           <th class="tr">Praticado</th><th class="tr">Total</th><th>Motivo</th>
         </tr></thead>
         <tbody id="rev-gc-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- GRUPO D: intragrupo (transferências internas Beef Passion) -->
+  <div class="card" id="rev-gd-card" style="display:none">
+    <div class="ctitle" style="color:#6B4C9A">⇄ Intragrupo — Transferências Internas <span id="gd-badge" style="margin-left:6px;background:#6B4C9A;color:#fff;border-radius:8px;padding:1px 8px;font-size:10px;font-weight:700"></span> <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted)">— vendas para Beef Passion, não entram no cálculo do variável</span></div>
+    <div class="twrap" style="max-height:220px">
+      <table class="dt" id="rev-gd-table">
+        <thead><tr>
+          <th>Data</th><th>Pedido</th><th>NF</th><th>Cliente</th>
+          <th>Cód.</th><th>Descrição PDF</th>
+          <th class="tr">Praticado</th><th class="tr">Total</th><th>Motivo</th>
+        </tr></thead>
+        <tbody id="rev-gd-tbody"></tbody>
       </table>
     </div>
   </div>
@@ -1015,9 +1034,16 @@ function abrirRevisao() {
   const ano = parseInt(document.getElementById('inp-ano').value);
   DEPARA    = (CFG.depara || {});
   REV_STATE = {};
-  const GA=[], GB=[], GC=[];
+  const GA=[], GB=[], GC=[], GD=[];
 
   ITENS.forEach((it, idx) => {
+    // Grupo D — Intragrupo: cliente é a própria Beef Passion (transferência interna)
+    const clienteUp = String(it.cliente || '').toUpperCase();
+    if (clienteUp.includes('BEEF PASSION')) {
+      GD.push({...it, idx});
+      REV_STATE[idx] = {acao:'intragrupo', motivo:'intragrupo', confirmado:true, usado:false};
+      return;
+    }
     const {mes:mIt, ano:aIt} = parseMesItem(it.data);
     const foraComp = (mIt && aIt) && (mIt !== mes || aIt !== ano);
     if (foraComp) {
@@ -1045,19 +1071,24 @@ function abrirRevisao() {
   document.getElementById('rc-ok').textContent    = GA.length;
   document.getElementById('rc-pend').textContent  = GB.length;
   document.getElementById('rc-fora').textContent  = GC.length;
+  const rcIntra = document.getElementById('rc-intra'); if (rcIntra) rcIntra.textContent = GD.length;
   document.getElementById('ga-badge').textContent = GA.length;
   document.getElementById('gb-badge').textContent = GB.length;
   document.getElementById('gc-badge').textContent = GC.length;
+  const gdBadge = document.getElementById('gd-badge'); if (gdBadge) gdBadge.textContent = GD.length;
 
   renderGrupoA(GA);
   renderGrupoB(GB);
   renderGrupoC(GC, mes, ano);
+  renderGrupoD(GD);
 
   document.getElementById('rev-gb-card').style.display = GB.length ? 'block' : 'none';
   document.getElementById('rev-gc-card').style.display = GC.length ? 'block' : 'none';
+  const gdCard = document.getElementById('rev-gd-card');
+  if (gdCard) gdCard.style.display = GD.length ? 'block' : 'none';
 
   // S1: Alerta de competência divergente
-  const totalItens = GA.length + GB.length + GC.length;
+  const totalItens = GA.length + GB.length + GC.length + GD.length;
   const alertComp = document.getElementById('alerta-competencia');
   if (alertComp) {
     if (GC.length > 0 && GC.length > GA.length + GB.length) {
@@ -1327,6 +1358,26 @@ function renderGrupoC(GC, mes, ano) {
     </tr>`).join('');
 }
 
+// ── GRUPO D — INTRAGRUPO (TRANSFERÊNCIAS INTERNAS BEEF PASSION) ──────────────
+function renderGrupoD(GD) {
+  const tbody = document.getElementById('rev-gd-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = GD.map(it => `
+    <tr style="opacity:0.75;background:#F6F2FA">
+      <td class="mono" style="font-size:10px">${it.data}</td>
+      <td class="mono">${it.pedido}</td>
+      <td class="mono">${it.nf}</td>
+      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;font-weight:600;color:#6B4C9A" title="${it.cliente}">${it.cliente}</td>
+      <td><span class="cod">${it.cod}</span></td>
+      <td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${it.desc}">${it.desc}</td>
+      <td class="mono tr">${R(it.preco)}</td>
+      <td class="mono tr"><strong>${R(it.total)}</strong></td>
+      <td><span style="background:#E8E0F0;color:#6B4C9A;border-radius:6px;padding:2px 8px;font-size:10px;font-weight:600">
+        ⇄ Intragrupo
+      </span></td>
+    </tr>`).join('');
+}
+
 // ── CONTROLE GERAL ───────────────────────────────────────────────────────────
 function verificarPodeCalcular() {
   const pendentes = Object.values(REV_STATE).filter(st => !st.acao).length;
@@ -1355,6 +1406,10 @@ async function calcular(){
   const novoDepara = {...(CFG.depara||{})};
   const itensEnriquecidos = ITENS.map((it, idx) => {
     const st = REV_STATE[idx] || {};
+    // Itens intragrupo (cliente Beef Passion): marcar para exclusão
+    if (st.motivo === 'intragrupo') {
+      return {...it, _excluir: true, _motivo: 'intragrupo'};
+    }
     // Itens fora da competência: marcar para exclusão
     if (st.motivo === 'fora_competencia') {
       return {...it, _excluir: true, _motivo: 'fora_competencia'};

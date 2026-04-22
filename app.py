@@ -579,6 +579,7 @@ FAIXA_LABELS = {
     "ideal":   "Tabela Ideal (≤3%)",
     "acima":   "Acima da Tabela",
     "sem_ref": "Sem Referência",
+    "intragrupo": "Intragrupo (transferência)",
 }
 
 # ── Stopwords para matching de descrições do PDF ────────────────────────────────
@@ -690,11 +691,16 @@ def classificar_item(item: dict, precos: dict, canal: str = "PJ",
       _preco_ref_override → usa este preço como referência em vez do match automático
       _match_key        → chave explícita da tabela escolhida pelo operador
     """
-    # ── Exclusões explícitas do operador / competência ───────────────────────
+    # ── Exclusões explícitas do operador / competência / intragrupo ──────────
     if item.get("_excluir"):
         motivo = item.get("_motivo", "excluido_operador")
-        faixa  = "fora_comp" if motivo == "fora_competencia" else "excluido"
-        macro  = _macro_por_key(produtos, item.get("_match_key", ""))
+        if motivo == "fora_competencia":
+            faixa = "fora_comp"
+        elif motivo == "intragrupo":
+            faixa = "intragrupo"
+        else:
+            faixa = "excluido"
+        macro = _macro_por_key(produtos, item.get("_match_key", ""))
         return {**item, "faixa": faixa, "desvio": None, "preco_ref": None,
                 "preco_key": None, "categoria": _inferir_categoria(item.get("desc","")),
                 "match_score": 0.0, "_motivo": motivo, "macro_categoria": macro}
@@ -759,7 +765,7 @@ def calcular_ote(itens: list, ote_row: dict, precos: dict, canal: str = "PJ",
     # Faixas que entram no cálculo do variável
     FAIXAS_COMP = ["abaixo", "desconto", "ideal", "acima"]
     # Faixas excluídas — aparecem no extrato mas não contam
-    FAIXAS_EXCL = ["sem_ref", "excluido", "fora_comp"]
+    FAIXAS_EXCL = ["sem_ref", "excluido", "fora_comp", "intragrupo"]
 
     fx = {f: {"fat": 0.0, "itens": []} for f in FAIXAS_COMP + FAIXAS_EXCL}
     for it in classified:
@@ -787,9 +793,10 @@ def calcular_ote(itens: list, ote_row: dict, precos: dict, canal: str = "PJ",
         r[nome] = {"fat": fat, "pct": prop, "var_fx": prop * ote_row["var"] * mult, "mult": mult}
 
     # Grupo de excluídos consolidado para o relatório
-    r["sem_ref"]  = {"fat": fx["sem_ref"]["fat"],  "pct": 0.0, "var_fx": 0.0, "mult": 0.0}
-    r["excluido"] = {"fat": fx["excluido"]["fat"],  "pct": 0.0, "var_fx": 0.0, "mult": 0.0}
-    r["fora_comp"]= {"fat": fx["fora_comp"]["fat"], "pct": 0.0, "var_fx": 0.0, "mult": 0.0}
+    r["sem_ref"]    = {"fat": fx["sem_ref"]["fat"],    "pct": 0.0, "var_fx": 0.0, "mult": 0.0}
+    r["excluido"]   = {"fat": fx["excluido"]["fat"],   "pct": 0.0, "var_fx": 0.0, "mult": 0.0}
+    r["fora_comp"]  = {"fat": fx["fora_comp"]["fat"],  "pct": 0.0, "var_fx": 0.0, "mult": 0.0}
+    r["intragrupo"] = {"fat": fx["intragrupo"]["fat"], "pct": 0.0, "var_fx": 0.0, "mult": 0.0}
 
     var_total  = sum(r[f]["var_fx"] for f in FAIXAS_COMP)
     var_final  = max(var_total, 0.0)
@@ -801,6 +808,7 @@ def calcular_ote(itens: list, ote_row: dict, precos: dict, canal: str = "PJ",
     n_fora  = sum(1 for it in classified if it["faixa"] == "fora_comp")
     n_op    = sum(1 for it in classified if it["faixa"] == "excluido")
     n_semref= sum(1 for it in classified if it["faixa"] == "sem_ref")
+    n_intra = sum(1 for it in classified if it["faixa"] == "intragrupo")
 
     return {
         "classified":   classified,
@@ -822,6 +830,7 @@ def calcular_ote(itens: list, ote_row: dict, precos: dict, canal: str = "PJ",
             "fora_comp":    n_fora,
             "excl_operador":n_op,
             "sem_ref":      n_semref,
+            "intragrupo":   n_intra,
         }
     }
 
@@ -952,6 +961,7 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
         ("sem_ref",  "— Sem Referência",    "888888"),
         ("fora_comp","⊘ Fora da Competência","AAAAAA"),
         ("excluido", "✗ Excluído pelo Operador","AAAAAA"),
+        ("intragrupo","⇄ Intragrupo (transferência)","888888"),
     ]
     for i, (faixa, label, cor) in enumerate(FAIXA_DISPLAY):
         rr = row_fx + 1 + i
@@ -1097,18 +1107,20 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
     ws2.auto_filter.ref = f"A4:{get_column_letter(len(cols))}4"
 
     FAIXA_FILL = {
-        "abaixo":   ("FFE8E8", RED),
-        "desconto": ("FEF3E8", ORANGE),
-        "ideal":    ("E8F0FE", BLUE3),
-        "acima":    ("E8F5EE", GREEN),
-        "sem_ref":  ("F0F0F0", "999999"),
-        "excluido": ("F4F4F4", "AAAAAA"),
-        "fora_comp":("EFEFEF", "AAAAAA"),
+        "abaixo":    ("FFE8E8", RED),
+        "desconto":  ("FEF3E8", ORANGE),
+        "ideal":     ("E8F0FE", BLUE3),
+        "acima":     ("E8F5EE", GREEN),
+        "sem_ref":   ("F0F0F0", "999999"),
+        "excluido":  ("F4F4F4", "AAAAAA"),
+        "fora_comp": ("EFEFEF", "AAAAAA"),
+        "intragrupo":("E8E0F0", "6B4C9A"),
     }
     MOTIVO_LABEL = {
-        "sem_ref":   "Sem referência de preço",
-        "excluido":  "Excluído pelo operador",
-        "fora_comp": "Fora da competência",
+        "sem_ref":    "Sem referência de preço",
+        "excluido":   "Excluído pelo operador",
+        "fora_comp":  "Fora da competência",
+        "intragrupo": "Venda intragrupo (transferência)",
     }
 
     n_usado = 0
@@ -1117,7 +1129,7 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
     for i, it in enumerate(resultado["classified"]):
         rr = 5 + i
         faixa  = it["faixa"]
-        usado  = faixa not in ("sem_ref", "excluido", "fora_comp")
+        usado  = faixa not in ("sem_ref", "excluido", "fora_comp", "intragrupo")
         bg, fc = FAIXA_FILL.get(faixa, (WHITE, "000000"))
         if usado: n_usado += 1
         else:     n_excluido += 1
@@ -1181,6 +1193,7 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
         f"Sem referência: {aud.get('sem_ref', 0)} | "
         f"Excluídos pelo operador: {aud.get('excl_operador', 0)} | "
         f"Fora da competência: {aud.get('fora_comp', 0)} | "
+        f"Intragrupo: {aud.get('intragrupo', 0)} | "
         f"Fat. computável: R$ {resultado['fat_comp']:,.2f} | "
         f"Fat. total: R$ {resultado['fat_total']:,.2f} | "
         f"BeefPassion OTE v1.4 · Stoic Capital"
