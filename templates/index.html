@@ -69,7 +69,7 @@ input[type=number]{font-family:'DM Mono',monospace}
 
 /* OTE BOX */
 .ote-box{background:var(--navy);border-radius:8px;padding:16px;margin-top:10px}
-.ote-params{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.ote-params{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
 .op-lbl{font-size:9px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:2px}
 .op-val{font-family:'Bebas Neue',sans-serif;font-size:24px;line-height:1;color:#fff}
 
@@ -228,6 +228,10 @@ input[type=number]{font-family:'DM Mono',monospace}
         <div><div class="op-lbl">Fixo</div><div class="op-val" id="op-fixo">—</div></div>
         <div><div class="op-lbl">Variável</div><div class="op-val" id="op-var">—</div></div>
         <div><div class="op-lbl">Meta</div><div class="op-val" id="op-meta">—</div></div>
+        <div><div class="op-lbl">Meta Mínima (70%)</div><div class="op-val" id="op-meta-min">—</div></div>
+      </div>
+      <div style="margin-top:14px;padding:10px 12px;border-left:3px solid var(--gold);background:rgba(220,198,151,0.08);font-size:11px;line-height:1.5;color:#e5e7eb">
+        <strong style="color:var(--gold)">Gatilho de variável:</strong> a Meta Mínima corresponde a <strong>70% da meta do período</strong>. Faturamento computável abaixo desse valor <strong>não gera remuneração variável</strong> — apenas o fixo é pago. A partir dos 70%, os multiplicadores por faixa de preço começam a valer e crescem conforme o atingimento.
       </div>
     </div>
   </div>
@@ -873,6 +877,7 @@ function updateOTEBox(){
   document.getElementById('op-fixo').textContent = R(row.fixo);
   document.getElementById('op-var').textContent  = R(row.var);
   document.getElementById('op-meta').textContent = R(row.meta);
+  document.getElementById('op-meta-min').textContent = R(row.meta * 0.70);
 }
 
 // ══ TAB 2: UPLOAD ════════════════════════════════════════════════════════════
