@@ -1,0 +1,1997 @@
+{
+  "precos_pj": {
+    "ACÉM PESCOÇO PEÇA|CLASSICO": 35.0,
+    "ACÉM PESCOÇO PEÇA|RESERVA": 55.0,
+    "ALCATRA PEÇA|CLASSICO": 89.0,
+    "ALCATRA PEÇA|RESERVA": 95.0,
+    "ANCHO STEAK BP 2|CLASSICO": 189.0,
+    "ANCHO STEAK BP Reserva|RESERVA": 380.0,
+    "ANCHO SUPREME|SUPREME": 721.0,
+    "ARANHA DA ALCATRA|CLASSICO": 60.0,
+    "ARANHA DA ALCATRA|RESERVA": 75.0,
+    "ASSADO DE TIRA DIANTEIRO|CLASSICO": 161.0,
+    "ASSADO DE TIRA DIANTEIRO|RESERVA": 218.0,
+    "ASSADO DE TIRA TRASEIRO|CLASSICO": 110.0,
+    "ASSADO DE TIRA TRASEIRO|RESERVA": 145.0,
+    "AZEITE DE TRUFAS|DIVERSOS": 89.0,
+    "BABY BEEF STEAK|CLASSICO": 89.0,
+    "BABY BEEF STEAK|RESERVA": 142.0,
+    "BANANINHA|CLASSICO": 132.0,
+    "BANANINHA|RESERVA": 150.0,
+    "BEEF STEAK|CLASSICO": 89.0,
+    "BEEF STEAK|RESERVA": 125.0,
+    "BEEF TALLOW 1,5KG|RESERVA": 170.0,
+    "BEEF TALLOW 250g|RESERVA": 30.0,
+    "BIFE DO VAZIO|CLASSICO": 120.0,
+    "BIFE DO VAZIO|RESERVA": 172.0,
+    "BIFITOS|CLASSICO": 69.0,
+    "BIFITOS|RESERVA": 80.0,
+    "BISTECA FIORENTINA -Sob encomenda|CLASSICO": 280.0,
+    "BISTECA FIORENTINA -Sob encomenda|RESERVA": 437.0,
+    "BISTECA PASSION-SHORT RIB S/O|CLASSICO": 194.0,
+    "BISTECA PASSION-SHORT RIB S/O|RESERVA": 253.0,
+    "BISTECA SUPREME|SUPREME": 644.0,
+    "BOCHECHA|CLASSICO": 69.0,
+    "BOCHECHA|RESERVA": 80.0,
+    "BOICON BOVINO FATIADO|RESERVA": 80.0,
+    "BOLSA TERMICA 12LT|DIVERSOS": 110.0,
+    "BOLSA TERMICA 18LT|DIVERSOS": 150.0,
+    "BOMBOM DA ALCATRA|CLASSICO": 131.0,
+    "BOMBOM DA ALCATRA|RESERVA": 207.0,
+    "BUCHO - Sob encomenda|CLASSICO": 45.0,
+    "BUCHO - Sob encomenda|RESERVA": 69.0,
+    "CAIXA DE PRESENTE PRETA|DIVERSOS": 100.0,
+    "CALDO DE OSSO 100ml|RESERVA": 20.0,
+    "CAPA DA PALETA|CLASSICO": 55.0,
+    "CAPA DA PALETA|RESERVA": 70.0,
+    "CAPA DE FILÉ STEAK|CLASSICO": 125.0,
+    "CAPA DE FILÉ STEAK|RESERVA": 155.0,
+    "CAPA DE FILÉ|CLASSICO": 115.0,
+    "CAPA DE FILÉ|RESERVA": 140.0,
+    "CARVÃO 4 KG|DIVERSOS": 60.0,
+    "CARVÃO 8 KG|DIVERSOS": 80.0,
+    "CECINA BRESAOLA|RESERVA": 60.0,
+    "CEPO DE FACAS|DIVERSOS": 599.0,
+    "CHORIZO BP 2|CLASSICO": 169.0,
+    "CHORIZO BP 2|RESERVA": 380.0,
+    "CHORIZO SUPREME|SUPREME": 721.0,
+    "CONTRAFILÉ BP 2|CLASSICO": 160.0,
+    "CONTRAFILÉ|RESERVA": 350.0,
+    "CORAÇÃO - sob encomenda|RESERVA": 55.0,
+    "COSTELA DE JANELA - sob encomenda|CLASSICO": 145.0,
+    "COSTELA DE JANELA - sob encomenda|RESERVA": 182.0,
+    "COSTELA DO DIANTEIRO C/OSSO|CLASSICO": 135.0,
+    "COSTELA DO DIANTEIRO C/OSSO|RESERVA": 210.0,
+    "COSTELA DO DIANTEIRO|CLASSICO": 120.0,
+    "COSTELA DO DIANTEIRO|RESERVA": 178.0,
+    "COSTELA MINGA- sob encomenda|CLASSICO": 30.0,
+    "COSTELA MINGA- sob encomenda|RESERVA": 45.0,
+    "COXAO MOLE PEÇA|CLASSICO": 65.0,
+    "COXAO MOLE PEÇA|RESERVA": 80.0,
+    "COXÃO DURO PEÇA|CLASSICO": 56.0,
+    "COXÃO DURO PEÇA|RESERVA": 110.0,
+    "CUBITOS|CLASSICO": 59.0,
+    "CUBITOS|RESERVA": 79.0,
+    "DENVER PASSION|CLASSICO": 390.0,
+    "DENVER PASSION|RESERVA": 530.0,
+    "DENVER SUPREME|SUPREME": 721.0,
+    "ENTRANHA PASSION|CLASSICO": 140.0,
+    "ENTRANHA PASSION|RESERVA": 166.0,
+    "FACA ARTESANAL|DIVERSOS": 239.0,
+    "FIGADO ISCA|RESERVA": 65.0,
+    "FIGADO|RESERVA": 79.0,
+    "FILÉ DE COSTELA (PEÇA)|CLASSICO": 179.0,
+    "FILÉ DE COSTELA BP|RESERVA": 380.0,
+    "FILÉ MIGNON MEDALHÃO|CLASSICO": 253.0,
+    "FILÉ MIGNON MEDALHÃO|RESERVA": 360.0,
+    "FILÉ MIGNON PEÇA|CLASSICO": 241.0,
+    "FILÉ MIGNON PEÇA|RESERVA": 322.0,
+    "FLAT IRON PASSION|CLASSICO": 224.0,
+    "FLAT IRON PASSION|RESERVA": 264.0,
+    "FLAT IRON PASSION|SUPREME": 688.0,
+    "FRALDA INTERNA|CLASSICO": 89.0,
+    "FRALDA INTERNA|RESERVA": 159.0,
+    "FRALDINHA PASSION BP|RESERVA": 286.0,
+    "FRALDINHA PASSION STEAK BP 2|RESERVA": 310.0,
+    "FRALDINHA PÇ SUPREME|SUPREME": 490.0,
+    "FRALDINHA RED PÇ|CLASSICO": 212.0,
+    "FRALDINHA STEAK CG|CLASSICO": 212.0,
+    "FRALDINHA STEAK SUPREME|SUPREME": 489.0,
+    "GIN ARAPURU|DIVERSOS": 125.0,
+    "GORDURA PEÇA|RESERVA": 20.0,
+    "HAMBURGUER 180g|RESERVA": 49.0,
+    "HAMBURGUER DE COSTELA 180g|RESERVA": 40.0,
+    "HAMBURGUER SMASH 50g|RESERVA": 45.0,
+    "ISCAS MIGNON|CLASSICO": 115.0,
+    "ISCAS MIGNON|RESERVA": 132.0,
+    "ISCAS PASSION|CLASSICO": 60.0,
+    "ISCAS PASSION|RESERVA": 74.0,
+    "KNUCKLE PASSION STEAK|CLASSICO": 69.0,
+    "KNUCKLE PASSION STEAK|RESERVA": 113.0,
+    "LAGARTO|CLASSICO": 60.0,
+    "LAGARTO|RESERVA": 89.0,
+    "LINGUA|CLASSICO": 60.0,
+    "LINGUA|RESERVA": 90.0,
+    "LINGUIÇA BOVINA FINA|RESERVA": 50.0,
+    "MAMINHA SUPREME|SUPREME": 500.0,
+    "MAMINHA|CLASSICO": 170.0,
+    "MAMINHA|RESERVA": 253.0,
+    "MIX DE PIMENTA|DIVERSOS": 89.0,
+    "MOIDA BLEND 5 kg|RESERVA": 60.0,
+    "MOIDA BLEND|CLASSICO": 40.0,
+    "MOIDA PATINHO|CLASSICO": 65.0,
+    "MOIDA PATINHO|RESERVA": 74.0,
+    "MUSCULO EM CUBOS|CLASSICO": 35.0,
+    "MUSCULO EM CUBOS|RESERVA": 55.0,
+    "MUSCULO PEÇA|CLASSICO": 30.0,
+    "MUSCULO PEÇA|RESERVA": 44.0,
+    "OSSO MOCOTÓ|RESERVA": 18.0,
+    "OSSOBUCO|CLASSICO": 59.0,
+    "OSSOBUCO|RESERVA": 59.0,
+    "PALETA PEÇA|CLASSICO": 89.0,
+    "PALETA PEÇA|RESERVA": 128.0,
+    "PASSIONITOS|CLASSICO": 69.0,
+    "PASSIONITOS|RESERVA": 80.0,
+    "PATINHO PEÇA|CLASSICO": 57.0,
+    "PATINHO PEÇA|RESERVA": 99.0,
+    "PEITO / BRISKET|CLASSICO": 59.0,
+    "PEITO / BRISKET|RESERVA": 89.0,
+    "PEIXINHO (PEÇA)|CLASSICO": 59.0,
+    "PEIXINHO (PEÇA)|RESERVA": 70.0,
+    "PICANHA PASSION BP 2|CLASSICO": 289.0,
+    "PICANHA PASSION BP|RESERVA": 499.0,
+    "PICANHA SUPREME|SUPREME": 721.0,
+    "PRIME RIB CG|CLASSICO": 227.0,
+    "PRIME RIB|RESERVA": 378.0,
+    "RABADA|CLASSICO": 55.0,
+    "RABADA|RESERVA": 79.0,
+    "RECORTE DE COSTELA|CLASSICO": 30.0,
+    "RECORTE G|CLASSICO": 30.0,
+    "RECORTE PASSION|CLASSICO": 39.0,
+    "RECORTE|RESERVA": 39.0,
+    "SAL MALDON DEFUMADO|DIVERSOS": 59.0,
+    "SAL MALDON TRADICINAL|DIVERSOS": 69.0,
+    "SALSICHA BOVINA|RESERVA": 60.0,
+    "SHOULDER STEAK|CLASSICO": 99.0,
+    "SHOULDER STEAK|RESERVA": 135.0,
+    "STEAK DA CASA|CLASSICO": 75.0,
+    "STEAK DA CASA|RESERVA": 95.0,
+    "STEAK DO ACÉM (Cowboy)|CLASSICO": 99.0,
+    "STEAK DO ACÉM (Cowboy)|RESERVA": 149.0,
+    "STEAK PASSION SUPREME|SUPREME": 252.0,
+    "STEAK PASSION|CLASSICO": 65.0,
+    "STEAK PASSION|RESERVA": 119.0,
+    "TBONE - SOB ENCOMENDA|CLASSICO": 210.0,
+    "TBONE - SOB ENCOMENDA|RESERVA": 437.0,
+    "TIMO|BP": 98.0,
+    "TOMAHAWK - SOB ENCOMENDA|CLASSICO": 210.0,
+    "TOMAHAWK - SOB ENCOMENDA|RESERVA": 417.0
+  },
+  "precos_pf": {
+    "ACÉM PESCOÇO PEÇA|CLASSICO": 45.5,
+    "ACÉM PESCOÇO PEÇA|RESERVA": 45.5,
+    "ALCATRA PEÇA|CLASSICO": 115.7,
+    "ALCATRA PEÇA|RESERVA": 115.7,
+    "ANCHO STEAK BP 2|CLASSICO": 245.0,
+    "ANCHO STEAK BP Reserva|RESERVA": 568.0,
+    "ANCHO SUPREME|SUPREME": 1000.3,
+    "ARANHA DA ALCATRA|CLASSICO": 110.0,
+    "ARANHA DA ALCATRA|RESERVA": 115.0,
+    "ASSADO DE TIRA DIANTEIRO|CLASSICO": 209.0,
+    "ASSADO DE TIRA DIANTEIRO|RESERVA": 283.0,
+    "ASSADO DE TIRA TRASEIRO|CLASSICO": 143.0,
+    "ASSADO DE TIRA TRASEIRO|RESERVA": 190.0,
+    "AZEITE DE TRUFAS|DIVERSOS": 89.0,
+    "BABY BEEF STEAK|CLASSICO": 115.0,
+    "BABY BEEF STEAK|RESERVA": 185.0,
+    "BANANINHA|CLASSICO": 170.0,
+    "BANANINHA|RESERVA": 195.0,
+    "BEEF STEAK|CLASSICO": 115.0,
+    "BEEF STEAK|RESERVA": 160.0,
+    "BEEF TALLOW 1,5KG|RESERVA": 170.0,
+    "BEEF TALLOW 250g|RESERVA": 30.0,
+    "BIFE DO VAZIO|CLASSICO": 156.0,
+    "BIFE DO VAZIO|RESERVA": 220.0,
+    "BIFITOS|CLASSICO": 90.0,
+    "BIFITOS|RESERVA": 115.0,
+    "BISTECA FIORENTINA -Sob encomenda|CLASSICO": 364.0,
+    "BISTECA FIORENTINA -Sob encomenda|RESERVA": 568.0,
+    "BISTECA PASSION-SHORT RIB S/O|CLASSICO": 250.0,
+    "BISTECA PASSION-SHORT RIB S/O|RESERVA": 330.0,
+    "BISTECA SUPREME|SUPREME": 920.0,
+    "BOCHECHA|CLASSICO": 105.0,
+    "BOCHECHA|RESERVA": 105.0,
+    "BOICON BOVINO FATIADO|RESERVA": 105.0,
+    "BOLSA TERMICA 12LT|DIVERSOS": 110.0,
+    "BOLSA TERMICA 18LT|DIVERSOS": 150.0,
+    "BOMBOM DA ALCATRA|CLASSICO": 170.0,
+    "BOMBOM DA ALCATRA|RESERVA": 270.0,
+    "BUCHO - Sob encomenda|CLASSICO": 59.0,
+    "BUCHO - Sob encomenda|RESERVA": 69.0,
+    "CAIXA DE PRESENTE PRETA|DIVERSOS": 100.0,
+    "CALDO DE OSSO 100ml|RESERVA": 20.0,
+    "CAPA DA PALETA|CLASSICO": 64.0,
+    "CAPA DA PALETA|RESERVA": 90.0,
+    "CAPA DE FILÉ STEAK|CLASSICO": 160.0,
+    "CAPA DE FILÉ STEAK|RESERVA": 155.0,
+    "CAPA DE FILÉ|CLASSICO": 149.5,
+    "CAPA DE FILÉ|RESERVA": 180.0,
+    "CARVÃO 4 KG|DIVERSOS": 60.0,
+    "CARVÃO 8 KG|DIVERSOS": 80.0,
+    "CECINA BRESAOLA|RESERVA": 60.0,
+    "CEPO DE FACAS|DIVERSOS": 599.0,
+    "CHORIZO BP 2|CLASSICO": 220.0,
+    "CHORIZO BP 2|RESERVA": 520.0,
+    "CHORIZO SUPREME|SUPREME": 1000.3,
+    "CONTRAFILÉ BP 2|CLASSICO": 210.0,
+    "CONTRAFILÉ|RESERVA": 510.0,
+    "CORAÇÃO - sob encomenda|RESERVA": 80.0,
+    "COSTELA DE JANELA - sob encomenda|CLASSICO": 165.0,
+    "COSTELA DE JANELA - sob encomenda|RESERVA": 236.6,
+    "COSTELA DO DIANTEIRO C/OSSO|CLASSICO": 160.0,
+    "COSTELA DO DIANTEIRO C/OSSO|RESERVA": 250.0,
+    "COSTELA DO DIANTEIRO|CLASSICO": 160.0,
+    "COSTELA DO DIANTEIRO|RESERVA": 230.0,
+    "COSTELA MINGA- sob encomenda|CLASSICO": 39.0,
+    "COSTELA MINGA- sob encomenda|RESERVA": 60.0,
+    "COXAO MOLE PEÇA|CLASSICO": 85.0,
+    "COXAO MOLE PEÇA|RESERVA": 100.0,
+    "COXÃO DURO PEÇA|CLASSICO": 75.0,
+    "COXÃO DURO PEÇA|RESERVA": 150.0,
+    "CUBITOS|CLASSICO": 85.0,
+    "CUBITOS|RESERVA": 85.0,
+    "DENVER PASSION|CLASSICO": 507.0,
+    "DENVER PASSION|RESERVA": 600.0,
+    "DENVER SUPREME|SUPREME": 1000.3,
+    "ENTRANHA PASSION|CLASSICO": 182.0,
+    "ENTRANHA PASSION|RESERVA": 215.0,
+    "FACA ARTESANAL|DIVERSOS": 239.0,
+    "FIGADO ISCA|RESERVA": 95.0,
+    "FIGADO|RESERVA": 100.0,
+    "FILÉ DE COSTELA (PEÇA)|CLASSICO": 250.0,
+    "FILÉ DE COSTELA BP|RESERVA": 550.0,
+    "FILÉ MIGNON MEDALHÃO|CLASSICO": 300.0,
+    "FILÉ MIGNON MEDALHÃO|RESERVA": 390.0,
+    "FILÉ MIGNON PEÇA|CLASSICO": 285.0,
+    "FILÉ MIGNON PEÇA|RESERVA": 380.0,
+    "FLAT IRON PASSION|CLASSICO": 290.0,
+    "FLAT IRON PASSION|RESERVA": 345.0,
+    "FLAT IRON PASSION|SUPREME": 830.0,
+    "FRALDA INTERNA|CLASSICO": 115.7,
+    "FRALDA INTERNA|RESERVA": 205.0,
+    "FRALDINHA PASSION BP|RESERVA": 380.0,
+    "FRALDINHA PASSION STEAK BP 2|RESERVA": 400.0,
+    "FRALDINHA PÇ SUPREME|SUPREME": 670.0,
+    "FRALDINHA RED PÇ|CLASSICO": 300.0,
+    "FRALDINHA STEAK CG|CLASSICO": 310.0,
+    "FRALDINHA STEAK SUPREME|SUPREME": 699.0,
+    "GIN ARAPURU|DIVERSOS": 125.0,
+    "GORDURA PEÇA|RESERVA": 26.0,
+    "HAMBURGUER 180g|RESERVA": 115.0,
+    "HAMBURGUER DE COSTELA 180g|RESERVA": 99.0,
+    "HAMBURGUER SMASH 50g|RESERVA": 115.0,
+    "ISCAS MIGNON|CLASSICO": 170.0,
+    "ISCAS MIGNON|RESERVA": 170.0,
+    "ISCAS PASSION|CLASSICO": 90.0,
+    "ISCAS PASSION|RESERVA": 90.0,
+    "KNUCKLE PASSION STEAK|CLASSICO": 89.0,
+    "KNUCKLE PASSION STEAK|RESERVA": 145.0,
+    "LAGARTO|CLASSICO": 78.0,
+    "LAGARTO|RESERVA": 115.0,
+    "LINGUA|CLASSICO": 115.0,
+    "LINGUA|RESERVA": 115.0,
+    "LINGUIÇA BOVINA FINA|RESERVA": 110.0,
+    "MAMINHA SUPREME|SUPREME": 700.0,
+    "MAMINHA|CLASSICO": 160.0,
+    "MAMINHA|RESERVA": 330.0,
+    "MIX DE PIMENTA|DIVERSOS": 89.0,
+    "MOIDA BLEND 5 kg|RESERVA": 80.0,
+    "MOIDA BLEND|CLASSICO": 80.0,
+    "MOIDA PATINHO|CLASSICO": 100.0,
+    "MOIDA PATINHO|RESERVA": 100.0,
+    "MUSCULO EM CUBOS|CLASSICO": 75.0,
+    "MUSCULO EM CUBOS|RESERVA": 75.0,
+    "MUSCULO PEÇA|CLASSICO": 39.0,
+    "MUSCULO PEÇA|RESERVA": 60.0,
+    "OSSO MOCOTÓ|RESERVA": 18.0,
+    "OSSOBUCO|CLASSICO": 55.0,
+    "OSSOBUCO|RESERVA": 80.0,
+    "PALETA PEÇA|CLASSICO": 115.0,
+    "PALETA PEÇA|RESERVA": 160.0,
+    "PASSIONITOS|CLASSICO": 110.0,
+    "PASSIONITOS|RESERVA": 100.0,
+    "PATINHO PEÇA|CLASSICO": 74.0,
+    "PATINHO PEÇA|RESERVA": 130.0,
+    "PEITO / BRISKET|CLASSICO": 75.0,
+    "PEITO / BRISKET|RESERVA": 115.0,
+    "PEIXINHO (PEÇA)|CLASSICO": 76.7,
+    "PEIXINHO (PEÇA)|RESERVA": 90.0,
+    "PICANHA PASSION BP 2|CLASSICO": 320.0,
+    "PICANHA PASSION BP|RESERVA": 550.0,
+    "PICANHA SUPREME|SUPREME": 1000.3,
+    "PRIME RIB CG|CLASSICO": 325.0,
+    "PRIME RIB|RESERVA": 540.0,
+    "RABADA|CLASSICO": 160.0,
+    "RABADA|RESERVA": 100.0,
+    "RECORTE PASSION|CLASSICO": 58.5,
+    "RECORTE|RESERVA": 58.5,
+    "SAL MALDON DEFUMADO|DIVERSOS": 59.0,
+    "SAL MALDON TRADICINAL|DIVERSOS": 69.0,
+    "SALSICHA BOVINA|RESERVA": 98.0,
+    "SHOULDER STEAK|CLASSICO": 130.0,
+    "SHOULDER STEAK|RESERVA": 180.0,
+    "STEAK DA CASA|CLASSICO": 95.0,
+    "STEAK DA CASA|RESERVA": 100.0,
+    "STEAK DO ACÉM (Cowboy)|CLASSICO": 128.0,
+    "STEAK DO ACÉM (Cowboy)|RESERVA": 195.0,
+    "STEAK PASSION SUPREME|SUPREME": 360.0,
+    "STEAK PASSION|CLASSICO": 15.0,
+    "STEAK PASSION|RESERVA": 150.0,
+    "TBONE - SOB ENCOMENDA|CLASSICO": 273.0,
+    "TBONE - SOB ENCOMENDA|RESERVA": 560.0,
+    "TIMO|BP": 140.0,
+    "TOMAHAWK - SOB ENCOMENDA|CLASSICO": 325.0,
+    "TOMAHAWK - SOB ENCOMENDA|RESERVA": 540.0
+  },
+  "produtos": [
+    {
+      "key": "ACÉM PESCOÇO PEÇA|CLASSICO",
+      "desc": "ACÉM PESCOÇO PEÇA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "58",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "ACÉM PESCOÇO PEÇA|RESERVA",
+      "desc": "ACÉM PESCOÇO PEÇA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "59",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "ALCATRA PEÇA|CLASSICO",
+      "desc": "ALCATRA PEÇA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "539",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "ALCATRA PEÇA|RESERVA",
+      "desc": "ALCATRA PEÇA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "539",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "ANCHO STEAK BP 2|CLASSICO",
+      "desc": "ANCHO STEAK BP 2",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "154",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "ANCHO STEAK BP Reserva|RESERVA",
+      "desc": "ANCHO STEAK BP Reserva",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "156",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "ANCHO SUPREME|SUPREME",
+      "desc": "ANCHO SUPREME",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "488",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "ARANHA DA ALCATRA|CLASSICO",
+      "desc": "ARANHA DA ALCATRA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "552",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "ARANHA DA ALCATRA|RESERVA",
+      "desc": "ARANHA DA ALCATRA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "105",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "ASSADO DE TIRA DIANTEIRO|CLASSICO",
+      "desc": "ASSADO DE TIRA DIANTEIRO",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "182",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "ASSADO DE TIRA DIANTEIRO|RESERVA",
+      "desc": "ASSADO DE TIRA DIANTEIRO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "184",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "ASSADO DE TIRA TRASEIRO|CLASSICO",
+      "desc": "ASSADO DE TIRA TRASEIRO",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "170",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "ASSADO DE TIRA TRASEIRO|RESERVA",
+      "desc": "ASSADO DE TIRA TRASEIRO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "180",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "AZEITE DE TRUFAS|DIVERSOS",
+      "desc": "AZEITE DE TRUFAS",
+      "cat": "DIVERSOS",
+      "ref_2026": 0,
+      "cod_bp": "9",
+      "macro_categoria": "Diversos"
+    },
+    {
+      "key": "BABY BEEF STEAK|CLASSICO",
+      "desc": "BABY BEEF STEAK",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "90",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "BABY BEEF STEAK|RESERVA",
+      "desc": "BABY BEEF STEAK",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "92",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "BANANINHA|CLASSICO",
+      "desc": "BANANINHA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "496",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "BANANINHA|RESERVA",
+      "desc": "BANANINHA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "122",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "BEEF STEAK|CLASSICO",
+      "desc": "BEEF STEAK",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "119",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "BEEF STEAK|RESERVA",
+      "desc": "BEEF STEAK",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "121",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "BEEF TALLOW 1,5KG|RESERVA",
+      "desc": "BEEF TALLOW 1,5KG",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "342",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "BEEF TALLOW 250g|RESERVA",
+      "desc": "BEEF TALLOW 250g",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "348",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "BIFE DO VAZIO|CLASSICO",
+      "desc": "BIFE DO VAZIO",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "497",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "BIFE DO VAZIO|RESERVA",
+      "desc": "BIFE DO VAZIO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "217",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "BIFITOS|CLASSICO",
+      "desc": "BIFITOS",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "204",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "BIFITOS|RESERVA",
+      "desc": "BIFITOS",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "205",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "BISTECA FIORENTINA -Sob encomenda|CLASSICO",
+      "desc": "BISTECA FIORENTINA -Sob encomenda",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "950",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "BISTECA FIORENTINA -Sob encomenda|RESERVA",
+      "desc": "BISTECA FIORENTINA -Sob encomenda",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "132",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "BISTECA PASSION-SHORT RIB S/O|CLASSICO",
+      "desc": "BISTECA PASSION-SHORT RIB S/O",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "79",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "BISTECA PASSION-SHORT RIB S/O|RESERVA",
+      "desc": "BISTECA PASSION-SHORT RIB S/O",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "79",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "BISTECA SUPREME|SUPREME",
+      "desc": "BISTECA SUPREME",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "489",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "BOCHECHA|CLASSICO",
+      "desc": "BOCHECHA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "364",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "BOCHECHA|RESERVA",
+      "desc": "BOCHECHA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "364",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "BOICON BOVINO FATIADO|RESERVA",
+      "desc": "BOICON BOVINO FATIADO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "422",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "BOLSA TERMICA 12LT|DIVERSOS",
+      "desc": "BOLSA TERMICA 12LT",
+      "cat": "DIVERSOS",
+      "ref_2026": 0,
+      "cod_bp": "41",
+      "macro_categoria": "Diversos"
+    },
+    {
+      "key": "BOLSA TERMICA 18LT|DIVERSOS",
+      "desc": "BOLSA TERMICA 18LT",
+      "cat": "DIVERSOS",
+      "ref_2026": 0,
+      "cod_bp": "42",
+      "macro_categoria": "Diversos"
+    },
+    {
+      "key": "BOMBOM DA ALCATRA|CLASSICO",
+      "desc": "BOMBOM DA ALCATRA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "94",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "BOMBOM DA ALCATRA|RESERVA",
+      "desc": "BOMBOM DA ALCATRA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "96",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "BUCHO - Sob encomenda|CLASSICO",
+      "desc": "BUCHO - Sob encomenda",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "365",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "BUCHO - Sob encomenda|RESERVA",
+      "desc": "BUCHO - Sob encomenda",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "365",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "CAIXA DE PRESENTE PRETA|DIVERSOS",
+      "desc": "CAIXA DE PRESENTE PRETA",
+      "cat": "DIVERSOS",
+      "ref_2026": 0,
+      "cod_bp": "504",
+      "macro_categoria": "Diversos"
+    },
+    {
+      "key": "CALDO DE OSSO 100ml|RESERVA",
+      "desc": "CALDO DE OSSO 100ml",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "405",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "CAPA DA PALETA|CLASSICO",
+      "desc": "CAPA DA PALETA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "232",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "CAPA DA PALETA|RESERVA",
+      "desc": "CAPA DA PALETA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "231",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "CAPA DE FILÉ STEAK|CLASSICO",
+      "desc": "CAPA DE FILÉ STEAK",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "145",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "CAPA DE FILÉ STEAK|RESERVA",
+      "desc": "CAPA DE FILÉ STEAK",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "508",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "CAPA DE FILÉ|CLASSICO",
+      "desc": "CAPA DE FILÉ",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "146",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "CAPA DE FILÉ|RESERVA",
+      "desc": "CAPA DE FILÉ",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "360",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "CARVÃO 4 KG|DIVERSOS",
+      "desc": "CARVÃO 4 KG",
+      "cat": "DIVERSOS",
+      "ref_2026": 0,
+      "cod_bp": "18",
+      "macro_categoria": "Diversos"
+    },
+    {
+      "key": "CARVÃO 8 KG|DIVERSOS",
+      "desc": "CARVÃO 8 KG",
+      "cat": "DIVERSOS",
+      "ref_2026": 0,
+      "cod_bp": "19",
+      "macro_categoria": "Diversos"
+    },
+    {
+      "key": "CECINA BRESAOLA|RESERVA",
+      "desc": "CECINA BRESAOLA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "219",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "CEPO DE FACAS|DIVERSOS",
+      "desc": "CEPO DE FACAS",
+      "cat": "DIVERSOS",
+      "ref_2026": 0,
+      "cod_bp": "534",
+      "macro_categoria": "Diversos"
+    },
+    {
+      "key": "CHORIZO BP 2|CLASSICO",
+      "desc": "CHORIZO BP 2",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "129",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "CHORIZO BP 2|RESERVA",
+      "desc": "CHORIZO BP 2",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "131",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "CHORIZO SUPREME|SUPREME",
+      "desc": "CHORIZO SUPREME",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "487",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "CONTRAFILÉ BP 2|CLASSICO",
+      "desc": "CONTRAFILÉ BP 2",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "125",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "CONTRAFILÉ|RESERVA",
+      "desc": "CONTRAFILÉ",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "127",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "CORAÇÃO - sob encomenda|RESERVA",
+      "desc": "CORAÇÃO - sob encomenda",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "363",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "COSTELA DE JANELA - sob encomenda|CLASSICO",
+      "desc": "COSTELA DE JANELA - sob encomenda",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "80",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "COSTELA DE JANELA - sob encomenda|RESERVA",
+      "desc": "COSTELA DE JANELA - sob encomenda",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "440",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "COSTELA DO DIANTEIRO C/OSSO|CLASSICO",
+      "desc": "COSTELA DO DIANTEIRO C/OSSO",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "188",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "COSTELA DO DIANTEIRO C/OSSO|RESERVA",
+      "desc": "COSTELA DO DIANTEIRO C/OSSO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "188",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "COSTELA DO DIANTEIRO|CLASSICO",
+      "desc": "COSTELA DO DIANTEIRO",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "419",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "COSTELA DO DIANTEIRO|RESERVA",
+      "desc": "COSTELA DO DIANTEIRO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "461",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "COSTELA MINGA- sob encomenda|CLASSICO",
+      "desc": "COSTELA MINGA- sob encomenda",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "349",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "COSTELA MINGA- sob encomenda|RESERVA",
+      "desc": "COSTELA MINGA- sob encomenda",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "186",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "COXAO MOLE PEÇA|CLASSICO",
+      "desc": "COXAO MOLE PEÇA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "439",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "COXAO MOLE PEÇA|RESERVA",
+      "desc": "COXAO MOLE PEÇA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "255",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "COXÃO DURO PEÇA|CLASSICO",
+      "desc": "COXÃO DURO PEÇA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "259",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "COXÃO DURO PEÇA|RESERVA",
+      "desc": "COXÃO DURO PEÇA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "261",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "CUBITOS|CLASSICO",
+      "desc": "CUBITOS",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "319",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "CUBITOS|RESERVA",
+      "desc": "CUBITOS",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "319",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "DENVER PASSION|CLASSICO",
+      "desc": "DENVER PASSION",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "61",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "DENVER PASSION|RESERVA",
+      "desc": "DENVER PASSION",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "65",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "DENVER SUPREME|SUPREME",
+      "desc": "DENVER SUPREME",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "456",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "ENTRANHA PASSION|CLASSICO",
+      "desc": "ENTRANHA PASSION",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "220",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "ENTRANHA PASSION|RESERVA",
+      "desc": "ENTRANHA PASSION",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "246",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "FACA ARTESANAL|DIVERSOS",
+      "desc": "FACA ARTESANAL",
+      "cat": "DIVERSOS",
+      "ref_2026": 0,
+      "cod_bp": "467",
+      "macro_categoria": "Diversos"
+    },
+    {
+      "key": "FIGADO ISCA|RESERVA",
+      "desc": "FIGADO ISCA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "357",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "FIGADO|RESERVA",
+      "desc": "FIGADO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "366",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "FILÉ DE COSTELA (PEÇA)|CLASSICO",
+      "desc": "FILÉ DE COSTELA (PEÇA)",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "150",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "FILÉ DE COSTELA BP|RESERVA",
+      "desc": "FILÉ DE COSTELA BP",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "152",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "FILÉ MIGNON MEDALHÃO|CLASSICO",
+      "desc": "FILÉ MIGNON MEDALHÃO",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "201",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "FILÉ MIGNON MEDALHÃO|RESERVA",
+      "desc": "FILÉ MIGNON MEDALHÃO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "203",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "FILÉ MIGNON PEÇA|CLASSICO",
+      "desc": "FILÉ MIGNON PEÇA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "197",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "FILÉ MIGNON PEÇA|RESERVA",
+      "desc": "FILÉ MIGNON PEÇA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "199",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "FLAT IRON PASSION|CLASSICO",
+      "desc": "FLAT IRON PASSION",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "221",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "FLAT IRON PASSION|RESERVA",
+      "desc": "FLAT IRON PASSION",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "223",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "FLAT IRON PASSION|SUPREME",
+      "desc": "FLAT IRON PASSION",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "454",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "FRALDA INTERNA|CLASSICO",
+      "desc": "FRALDA INTERNA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "377",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "FRALDA INTERNA|RESERVA",
+      "desc": "FRALDA INTERNA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "312",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "FRALDINHA PASSION BP|RESERVA",
+      "desc": "FRALDINHA PASSION BP",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "215",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "FRALDINHA PASSION STEAK BP 2|RESERVA",
+      "desc": "FRALDINHA PASSION STEAK BP 2",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "376",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "FRALDINHA PÇ SUPREME|SUPREME",
+      "desc": "FRALDINHA PÇ SUPREME",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "490",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "FRALDINHA RED PÇ|CLASSICO",
+      "desc": "FRALDINHA RED PÇ",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "213",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "FRALDINHA STEAK CG|CLASSICO",
+      "desc": "FRALDINHA STEAK CG",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "374",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "FRALDINHA STEAK SUPREME|SUPREME",
+      "desc": "FRALDINHA STEAK SUPREME",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "505",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "GIN ARAPURU|DIVERSOS",
+      "desc": "GIN ARAPURU",
+      "cat": "DIVERSOS",
+      "ref_2026": 0,
+      "cod_bp": "404",
+      "macro_categoria": "Diversos"
+    },
+    {
+      "key": "GORDURA PEÇA|RESERVA",
+      "desc": "GORDURA PEÇA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "8200",
+      "macro_categoria": "Industrial"
+    },
+    {
+      "key": "HAMBURGUER 180g|RESERVA",
+      "desc": "HAMBURGUER 180g",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "307",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "HAMBURGUER DE COSTELA 180g|RESERVA",
+      "desc": "HAMBURGUER DE COSTELA 180g",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "528",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "HAMBURGUER SMASH 50g|RESERVA",
+      "desc": "HAMBURGUER SMASH 50g",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "424",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "ISCAS MIGNON|CLASSICO",
+      "desc": "ISCAS MIGNON",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "206",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "ISCAS MIGNON|RESERVA",
+      "desc": "ISCAS MIGNON",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "206",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "ISCAS PASSION|CLASSICO",
+      "desc": "ISCAS PASSION",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "332",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "ISCAS PASSION|RESERVA",
+      "desc": "ISCAS PASSION",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "332",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "KNUCKLE PASSION STEAK|CLASSICO",
+      "desc": "KNUCKLE PASSION STEAK",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "284",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "KNUCKLE PASSION STEAK|RESERVA",
+      "desc": "KNUCKLE PASSION STEAK",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "286",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "LAGARTO|CLASSICO",
+      "desc": "LAGARTO",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "449",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "LAGARTO|RESERVA",
+      "desc": "LAGARTO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "267",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "LINGUA|CLASSICO",
+      "desc": "LINGUA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "367",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "LINGUA|RESERVA",
+      "desc": "LINGUA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "367",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "LINGUIÇA BOVINA FINA|RESERVA",
+      "desc": "LINGUIÇA BOVINA FINA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "303",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "MAMINHA SUPREME|SUPREME",
+      "desc": "MAMINHA SUPREME",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "99",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "MAMINHA|CLASSICO",
+      "desc": "MAMINHA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "97",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "MAMINHA|RESERVA",
+      "desc": "MAMINHA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "100",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "MIX DE PIMENTA|DIVERSOS",
+      "desc": "MIX DE PIMENTA",
+      "cat": "DIVERSOS",
+      "ref_2026": 0,
+      "cod_bp": "11",
+      "macro_categoria": "Diversos"
+    },
+    {
+      "key": "MOIDA BLEND 5 kg|RESERVA",
+      "desc": "MOIDA BLEND 5 kg",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "305",
+      "macro_categoria": "Industrial"
+    },
+    {
+      "key": "MOIDA BLEND|CLASSICO",
+      "desc": "MOIDA BLEND",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "358",
+      "macro_categoria": "Industrial"
+    },
+    {
+      "key": "MOIDA PATINHO|CLASSICO",
+      "desc": "MOIDA PATINHO",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "320",
+      "macro_categoria": "Industrial"
+    },
+    {
+      "key": "MOIDA PATINHO|RESERVA",
+      "desc": "MOIDA PATINHO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "320-",
+      "macro_categoria": "Industrial"
+    },
+    {
+      "key": "MUSCULO EM CUBOS|CLASSICO",
+      "desc": "MUSCULO EM CUBOS",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "291",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "MUSCULO EM CUBOS|RESERVA",
+      "desc": "MUSCULO EM CUBOS",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "353",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "MUSCULO PEÇA|CLASSICO",
+      "desc": "MUSCULO PEÇA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "298",
+      "macro_categoria": "Industrial"
+    },
+    {
+      "key": "MUSCULO PEÇA|RESERVA",
+      "desc": "MUSCULO PEÇA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "290",
+      "macro_categoria": "Industrial"
+    },
+    {
+      "key": "OSSO MOCOTÓ|RESERVA",
+      "desc": "OSSO MOCOTÓ",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "506",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "OSSOBUCO|CLASSICO",
+      "desc": "OSSOBUCO",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "323",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "OSSOBUCO|RESERVA",
+      "desc": "OSSOBUCO",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "295",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "PALETA PEÇA|CLASSICO",
+      "desc": "PALETA PEÇA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "233",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "PALETA PEÇA|RESERVA",
+      "desc": "PALETA PEÇA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "230",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "PASSIONITOS|CLASSICO",
+      "desc": "PASSIONITOS",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "316",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "PASSIONITOS|RESERVA",
+      "desc": "PASSIONITOS",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "317",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "PATINHO PEÇA|CLASSICO",
+      "desc": "PATINHO PEÇA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "271",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "PATINHO PEÇA|RESERVA",
+      "desc": "PATINHO PEÇA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "273",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "PEITO / BRISKET|CLASSICO",
+      "desc": "PEITO / BRISKET",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "242",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "PEITO / BRISKET|RESERVA",
+      "desc": "PEITO / BRISKET",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "238",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "PEIXINHO (PEÇA)|CLASSICO",
+      "desc": "PEIXINHO (PEÇA)",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "446",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "PEIXINHO (PEÇA)|RESERVA",
+      "desc": "PEIXINHO (PEÇA)",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "71",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "PICANHA PASSION BP 2|CLASSICO",
+      "desc": "PICANHA PASSION BP 2",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "111",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "PICANHA PASSION BP|RESERVA",
+      "desc": "PICANHA PASSION BP",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "113",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "PICANHA SUPREME|SUPREME",
+      "desc": "PICANHA SUPREME",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "492",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "PRIME RIB CG|CLASSICO",
+      "desc": "PRIME RIB CG",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "147",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "PRIME RIB|RESERVA",
+      "desc": "PRIME RIB",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "157",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "RABADA|CLASSICO",
+      "desc": "RABADA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "452",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "RABADA|RESERVA",
+      "desc": "RABADA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "287",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "RECORTE DE COSTELA|CLASSICO",
+      "desc": "RECORTE DE COSTELA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "463",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "RECORTE G|CLASSICO",
+      "desc": "RECORTE G",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "326",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "RECORTE PASSION|CLASSICO",
+      "desc": "RECORTE PASSION",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "328",
+      "macro_categoria": "Industrial"
+    },
+    {
+      "key": "RECORTE|RESERVA",
+      "desc": "RECORTE",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "328",
+      "macro_categoria": "Industrial"
+    },
+    {
+      "key": "SAL MALDON DEFUMADO|DIVERSOS",
+      "desc": "SAL MALDON DEFUMADO",
+      "cat": "DIVERSOS",
+      "ref_2026": 0,
+      "cod_bp": "7",
+      "macro_categoria": "Diversos"
+    },
+    {
+      "key": "SAL MALDON TRADICINAL|DIVERSOS",
+      "desc": "SAL MALDON TRADICINAL",
+      "cat": "DIVERSOS",
+      "ref_2026": 0,
+      "cod_bp": "6",
+      "macro_categoria": "Diversos"
+    },
+    {
+      "key": "SALSICHA BOVINA|RESERVA",
+      "desc": "SALSICHA BOVINA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "423",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "SHOULDER STEAK|CLASSICO",
+      "desc": "SHOULDER STEAK",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "234",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "SHOULDER STEAK|RESERVA",
+      "desc": "SHOULDER STEAK",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "236",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "STEAK DA CASA|CLASSICO",
+      "desc": "STEAK DA CASA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "502",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "STEAK DA CASA|RESERVA",
+      "desc": "STEAK DA CASA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "255",
+      "macro_categoria": "Comercial"
+    },
+    {
+      "key": "STEAK DO ACÉM (Cowboy)|CLASSICO",
+      "desc": "STEAK DO ACÉM (Cowboy)",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "51",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "STEAK DO ACÉM (Cowboy)|RESERVA",
+      "desc": "STEAK DO ACÉM (Cowboy)",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "455",
+      "macro_categoria": "Fast Food e Alto Volume"
+    },
+    {
+      "key": "STEAK PASSION SUPREME|SUPREME",
+      "desc": "STEAK PASSION SUPREME",
+      "cat": "SUPREME",
+      "ref_2026": 0,
+      "cod_bp": "495",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "STEAK PASSION|CLASSICO",
+      "desc": "STEAK PASSION",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "263",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "STEAK PASSION|RESERVA",
+      "desc": "STEAK PASSION",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "263",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "TBONE - SOB ENCOMENDA|CLASSICO",
+      "desc": "TBONE - SOB ENCOMENDA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "362",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "TBONE - SOB ENCOMENDA|RESERVA",
+      "desc": "TBONE - SOB ENCOMENDA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "141",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "TIMO|BP",
+      "desc": "TIMO",
+      "cat": "BP",
+      "ref_2026": 0,
+      "cod_bp": "369",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "TOMAHAWK - SOB ENCOMENDA|CLASSICO",
+      "desc": "TOMAHAWK - SOB ENCOMENDA",
+      "cat": "CLASSICO",
+      "ref_2026": 0,
+      "cod_bp": "465",
+      "macro_categoria": "Nobre"
+    },
+    {
+      "key": "TOMAHAWK - SOB ENCOMENDA|RESERVA",
+      "desc": "TOMAHAWK - SOB ENCOMENDA",
+      "cat": "RESERVA",
+      "ref_2026": 0,
+      "cod_bp": "161",
+      "macro_categoria": "Nobre"
+    }
+  ],
+  "vendedores": [
+    {
+      "canal": "PJ",
+      "cargo": "Comercial PJ",
+      "nivel_padrao": 3,
+      "nome": "Bruno"
+    },
+    {
+      "canal": "PF",
+      "cargo": "Gerente / Vendedor PF",
+      "nivel_padrao": 3,
+      "nome": "Anderson"
+    },
+    {
+      "canal": "ADMIN",
+      "cargo": "Auxiliar Adm. e Comercial",
+      "nivel_padrao": 3,
+      "nome": "Geovanna"
+    }
+  ],
+  "ote": {
+    "ADMIN": [
+      {
+        "corte": 192500,
+        "fixo": 1636.25,
+        "meta": 275000,
+        "n": 1,
+        "ote": 2337.5,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 701.25
+      },
+      {
+        "corte": 245000,
+        "fixo": 2009,
+        "meta": 350000,
+        "n": 2,
+        "ote": 2870,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 861
+      },
+      {
+        "corte": 297500,
+        "fixo": 2350.25,
+        "meta": 425000,
+        "n": 3,
+        "ote": 3357.5,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 1007.25
+      },
+      {
+        "corte": 350000,
+        "fixo": 2660,
+        "meta": 500000,
+        "n": 4,
+        "ote": 3800,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 1140
+      },
+      {
+        "corte": 437500,
+        "fixo": 3193.75,
+        "meta": 625000,
+        "n": 5,
+        "ote": 4562.5,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 1368.75
+      },
+      {
+        "corte": 525000,
+        "fixo": 3675,
+        "meta": 750000,
+        "n": 6,
+        "ote": 5250,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 1575
+      },
+      {
+        "corte": 612500,
+        "fixo": 4103.75,
+        "meta": 875000,
+        "n": 7,
+        "ote": 5862.5,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 1758.75
+      },
+      {
+        "corte": 700000,
+        "fixo": 4480,
+        "meta": 1000000,
+        "n": 8,
+        "ote": 6400,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 1920
+      },
+      {
+        "corte": 822500,
+        "fixo": 5017.25,
+        "meta": 1175000,
+        "n": 9,
+        "ote": 7167.5,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 2150.25
+      },
+      {
+        "corte": 945000,
+        "fixo": 5481,
+        "meta": 1350000,
+        "n": 10,
+        "ote": 7830,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 2349
+      }
+    ],
+    "PF": [
+      {
+        "corte": 52500,
+        "fixo": 2100,
+        "meta": 75000,
+        "n": 1,
+        "ote": 3000,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 900
+      },
+      {
+        "corte": 70000,
+        "fixo": 2765,
+        "meta": 100000,
+        "n": 2,
+        "ote": 3950,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 1185
+      },
+      {
+        "corte": 87500,
+        "fixo": 3412.5,
+        "meta": 125000,
+        "n": 3,
+        "ote": 4875,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 1462.5
+      },
+      {
+        "corte": 105000,
+        "fixo": 4042.5,
+        "meta": 150000,
+        "n": 4,
+        "ote": 5775,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 1732.5
+      },
+      {
+        "corte": 122500,
+        "fixo": 4655,
+        "meta": 175000,
+        "n": 5,
+        "ote": 6650,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 1995
+      },
+      {
+        "corte": 140000,
+        "fixo": 5250,
+        "meta": 200000,
+        "n": 6,
+        "ote": 7500,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 2250
+      },
+      {
+        "corte": 157500,
+        "fixo": 5827.5,
+        "meta": 225000,
+        "n": 7,
+        "ote": 8325,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 2497.5
+      },
+      {
+        "corte": 175000,
+        "fixo": 6387.5,
+        "meta": 250000,
+        "n": 8,
+        "ote": 9125,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 2737.5
+      },
+      {
+        "corte": 192500,
+        "fixo": 6930,
+        "meta": 275000,
+        "n": 9,
+        "ote": 9900,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 2970
+      },
+      {
+        "corte": 210000,
+        "fixo": 7455,
+        "meta": 300000,
+        "n": 10,
+        "ote": 10650,
+        "pf": 0.7,
+        "pv": 0.3,
+        "var": 3195
+      }
+    ],
+    "PJ": [
+      {
+        "corte": 140000,
+        "fixo": 2520,
+        "meta": 200000,
+        "n": 1,
+        "ote": 4200,
+        "pf": 0.6,
+        "pv": 0.4,
+        "var": 1680
+      },
+      {
+        "corte": 175000,
+        "fixo": 3075,
+        "meta": 250000,
+        "n": 2,
+        "ote": 5125,
+        "pf": 0.6,
+        "pv": 0.4,
+        "var": 2050
+      },
+      {
+        "corte": 210000,
+        "fixo": 3600,
+        "meta": 300000,
+        "n": 3,
+        "ote": 6000,
+        "pf": 0.6,
+        "pv": 0.4,
+        "var": 2400
+      },
+      {
+        "corte": 245000,
+        "fixo": 4095,
+        "meta": 350000,
+        "n": 4,
+        "ote": 6825,
+        "pf": 0.6,
+        "pv": 0.4,
+        "var": 2730
+      },
+      {
+        "corte": 315000,
+        "fixo": 5197.5,
+        "meta": 450000,
+        "n": 5,
+        "ote": 8662.5,
+        "pf": 0.6,
+        "pv": 0.4,
+        "var": 3465
+      },
+      {
+        "corte": 385000,
+        "fixo": 6270,
+        "meta": 550000,
+        "n": 6,
+        "ote": 10450,
+        "pf": 0.6,
+        "pv": 0.4,
+        "var": 4180
+      },
+      {
+        "corte": 455000,
+        "fixo": 7312.5,
+        "meta": 650000,
+        "n": 7,
+        "ote": 12187.5,
+        "pf": 0.6,
+        "pv": 0.4,
+        "var": 4875
+      },
+      {
+        "corte": 525000,
+        "fixo": 8325,
+        "meta": 750000,
+        "n": 8,
+        "ote": 13875,
+        "pf": 0.6,
+        "pv": 0.4,
+        "var": 5550
+      },
+      {
+        "corte": 630000,
+        "fixo": 9855,
+        "meta": 900000,
+        "n": 9,
+        "ote": 16425,
+        "pf": 0.6,
+        "pv": 0.4,
+        "var": 6570
+      },
+      {
+        "corte": 735000,
+        "fixo": 11340,
+        "meta": 1050000,
+        "n": 10,
+        "ote": 18900,
+        "pf": 0.6,
+        "pv": 0.4,
+        "var": 7560
+      }
+    ]
+  },
+  "senha": "beefpassion",
+  "mult_table": {},
+  "depara": {}
+}
