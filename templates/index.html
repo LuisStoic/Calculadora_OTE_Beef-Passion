@@ -221,6 +221,13 @@ input[type=number]{font-family:'DM Mono',monospace}
         <input type="number" id="inp-ano" value="2026" min="2024" max="2035">
       </div>
     </div>
+    <div class="frow">
+      <div class="fg">
+        <label>Tabela de Preços (versão)</label>
+        <select id="sel-tabela"></select>
+        <span style="font-size:10px;color:var(--muted);margin-top:3px">Padrão: versão atual. Escolha uma anterior para recalcular um período passado.</span>
+      </div>
+    </div>
     <div class="ote-box">
       <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px">Parâmetros do Nível Selecionado</div>
       <div class="ote-params" id="ote-params">
@@ -834,8 +841,25 @@ async function init(){
   }
   buildVGrid();
   buildPriceTable();
+  buildTabelaSel();
   document.getElementById('sel-mes').value = new Date().getMonth()+1 || 2;
   document.getElementById('pc-tot').textContent = PRODUTOS.length;
+}
+
+// Seletor de versão de tabela (default = atual, primeira da lista)
+function buildTabelaSel(){
+  const sel = document.getElementById('sel-tabela');
+  if(!sel) return;
+  const versoes = CFG.tabelas_meta || [];
+  if(!versoes.length){
+    sel.innerHTML = '<option value="">Atual</option>';
+    return;
+  }
+  sel.innerHTML = versoes.map(t=>{
+    const lbl = t.atual ? `${t.rotulo} (atual)` : `${t.rotulo}`;
+    const periodo = (t.inicio && t.fim) ? ` — ${t.inicio} a ${t.fim}` : '';
+    return `<option value="${t.id}"${t.atual?' selected':''}>${lbl}${periodo}</option>`;
+  }).join('');
 }
 
 // ══ TAB 1 ════════════════════════════════════════════════════════════════════
@@ -1457,7 +1481,8 @@ async function calcular(){
         itens: itensEnriquecidos,
         canal: VEND_ATIVO.canal,
         nivel, mes, ano,
-        vendedor: VEND_ATIVO.nome
+        vendedor: VEND_ATIVO.nome,
+        tabela_id: (document.getElementById('sel-tabela')||{}).value || null
       })
     });
     RESULTADO = await resp.json();
@@ -1643,7 +1668,7 @@ async function exportarXLSX(){
   const resp = await fetch('/api/exportar_xlsx',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({itens:ITENS,canal:VEND_ATIVO.canal,nivel,mes,ano,vendedor:VEND_ATIVO.nome})
+    body:JSON.stringify({itens:ITENS,canal:VEND_ATIVO.canal,nivel,mes,ano,vendedor:VEND_ATIVO.nome,tabela_id:(document.getElementById('sel-tabela')||{}).value||null})
   });
   if(!resp.ok){alert('Erro ao gerar Excel.');return;}
   const blob = await resp.blob();

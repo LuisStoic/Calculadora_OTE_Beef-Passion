@@ -238,7 +238,16 @@ DEFAULT_CFG = {
         ],
     },
     "senha": "beefpassion",
-    "mult_table": {}  # sobrescritas do usuário — chave "1.00" → {c1,c2,c3,c4}
+    "mult_table": {},  # sobrescritas do usuário — chave "1.00" → {c1,c2,c3,c4}
+    # Versionamento de tabelas (Fase 1): precos_pj/precos_pf no topo = tabela ATUAL.
+    # tabela_atual = metadados da atual; tabelas = arquivo de versões passadas
+    # (cada uma com seus próprios precos_pj/precos_pf).
+    "tabela_atual": {
+        "id": "22026", "rotulo": "Mai/Jun 2026",
+        "inicio": "2026-05-01", "fim": "2026-06-30",
+        "fonte": "default", "criado_em": "2026-06-02",
+    },
+    "tabelas": []
 }
 
 # Tabela de multiplicadores exata
@@ -344,6 +353,11 @@ def load_cfg() -> dict:
             for p in cfg.get("produtos", []):
                 if "macro_categoria" not in p:
                     p["macro_categoria"] = ""
+            # Migration (versionamento): garantir tabela_atual e arquivo tabelas[]
+            if "tabela_atual" not in cfg:
+                cfg["tabela_atual"] = dict(DEFAULT_CFG["tabela_atual"])
+            if "tabelas" not in cfg or not isinstance(cfg.get("tabelas"), list):
+                cfg["tabelas"] = []
             return cfg
         except Exception:
             pass
@@ -353,6 +367,40 @@ def load_cfg() -> dict:
 def save_cfg(cfg: dict):
     with open(CFG_PATH, "w", encoding="utf-8") as f:
         json.dump(cfg, f, ensure_ascii=False, indent=2)
+
+
+def listar_tabelas(cfg: dict) -> list:
+    """Lista de versões para o seletor: a ATUAL (default) + as arquivadas.
+    Retorna só metadados (sem preços), com a atual marcada e em primeiro lugar."""
+    atual = cfg.get("tabela_atual", {}) or {}
+    meta = [{
+        "id": atual.get("id", "atual"),
+        "rotulo": atual.get("rotulo", "Atual"),
+        "inicio": atual.get("inicio", ""), "fim": atual.get("fim", ""),
+        "fonte": atual.get("fonte", ""), "atual": True,
+    }]
+    for t in cfg.get("tabelas", []):
+        meta.append({
+            "id": t.get("id"), "rotulo": t.get("rotulo", t.get("id", "")),
+            "inicio": t.get("inicio", ""), "fim": t.get("fim", ""),
+            "fonte": t.get("fonte", ""), "atual": False,
+        })
+    return meta
+
+
+def precos_da_versao(cfg: dict, canal: str, tabela_id: str = None) -> dict:
+    """Resolve a tabela de preços para o canal e versão escolhida.
+    Default (tabela_id vazio ou == atual): usa os preços do topo (tabela atual),
+    garantindo comportamento idêntico ao anterior. Versão arquivada: usa tabelas[].
+    Fallback seguro para a atual se o id não existir."""
+    key = "precos_pj" if canal == "PJ" else "precos_pf"
+    atual_id = (cfg.get("tabela_atual", {}) or {}).get("id")
+    if not tabela_id or tabela_id == atual_id:
+        return cfg.get(key, {})
+    for t in cfg.get("tabelas", []):
+        if t.get("id") == tabela_id:
+            return t.get(key, {}) or cfg.get(key, {})
+    return cfg.get(key, {})
 
 
 # ── PDF Extraction ─────────────────────────────────────────────────────────────
@@ -618,7 +666,7 @@ def _inferir_categoria(desc: str) -> str:
     return "CLASSICO"
 
 def _match_preco(desc_pdf: str, precos: dict, canal: str = "PJ",
-                 cod_pdf: str = "", produtos: list = None):
+                 cod_pdf: str = "", produtos: list = None, cache_key: str = None):
     """
     Encontra o melhor match na tabela de preços para uma descrição do PDF.
     Retorna (preco_ref, chave_match, categoria, score) ou (None, None, None, 0).
@@ -639,16 +687,18 @@ def _match_preco(desc_pdf: str, precos: dict, canal: str = "PJ",
                 return None, None, None, 0
 
     # Prioridade 2: fuzzy match por tokens de descrição
+    # Cache keyed por (canal + versão) para não devolver preço de outra tabela.
     global _MATCH_INDEX
-    if canal not in _MATCH_INDEX:
-        _MATCH_INDEX[canal] = _build_match_index(precos)
+    ck = cache_key or canal
+    if ck not in _MATCH_INDEX:
+        _MATCH_INDEX[ck] = _build_match_index(precos)
 
     cat_inf = _inferir_categoria(desc_pdf)
     tks_pdf = _tokens(desc_pdf)
     if not tks_pdf:
         return None, None, None, 0
 
-    idx = _MATCH_INDEX[canal]
+    idx = _MATCH_INDEX[ck]
     melhor = (None, None, None, 0)
     # Itera todas as categorias válidas (inclui BP e DIVERSOS)
     outras_cats = [c for c in CATEGORIAS_VALIDAS if c != cat_inf]
@@ -682,7 +732,7 @@ def _macro_por_key(produtos: list, key: str) -> str:
 
 
 def classificar_item(item: dict, precos: dict, canal: str = "PJ",
-                     produtos: list = None) -> dict:
+                     produtos: list = None, cache_key: str = None) -> dict:
     """
     Classifica um item por faixa de preço.
     Respeita overrides vindos do frontend (revisão manual):
@@ -729,13 +779,13 @@ def classificar_item(item: dict, precos: dict, canal: str = "PJ",
             desc_pdf = item.get("desc", "")
             ref, chave_match, cat_match, score = _match_preco(
                 desc_pdf, precos, canal,
-                cod_pdf=item.get("cod", ""), produtos=produtos)
+                cod_pdf=item.get("cod", ""), produtos=produtos, cache_key=cache_key)
     else:
         # Match automático
         desc_pdf = item.get("desc", "")
         ref, chave_match, cat_match, score = _match_preco(
             desc_pdf, precos, canal,
-            cod_pdf=item.get("cod", ""), produtos=produtos)
+            cod_pdf=item.get("cod", ""), produtos=produtos, cache_key=cache_key)
 
     if not ref or ref <= 0:
         return {**item, "faixa": "sem_ref", "desvio": None, "preco_ref": None,
@@ -759,8 +809,8 @@ def classificar_item(item: dict, precos: dict, canal: str = "PJ",
 
 
 def calcular_ote(itens: list, ote_row: dict, precos: dict, canal: str = "PJ",
-                 produtos: list = None) -> dict:
-    classified = [classificar_item(it, precos, canal, produtos) for it in itens]
+                 produtos: list = None, cache_key: str = None) -> dict:
+    classified = [classificar_item(it, precos, canal, produtos, cache_key) for it in itens]
 
     # Faixas que entram no cálculo do variável
     FAIXAS_COMP = ["abaixo", "desconto", "ideal", "acima"]
@@ -1239,7 +1289,16 @@ def get_config():
     cfg["mult_rows"] = mult_rows
     cfg["macro_categorias"] = MACRO_CATEGORIAS
     cfg["categorias_validas"] = CATEGORIAS_VALIDAS
+    # Versionamento: enviar só metadados das versões (não os preços arquivados)
+    cfg["tabelas_meta"] = listar_tabelas(cfg)
+    cfg.pop("tabelas", None)
     return jsonify(cfg)
+
+
+@app.route("/api/tabelas", methods=["GET"])
+def get_tabelas():
+    """Lista de versões de tabela (metadados) para o seletor."""
+    return jsonify({"tabelas": listar_tabelas(load_cfg())})
 
 
 @app.route("/api/config", methods=["POST"])
@@ -1303,6 +1362,7 @@ def calcular_route():
     mes      = int(data.get("mes", 1))
     ano      = int(data.get("ano", 2026))
     nome_vend= data.get("vendedor", "")
+    tabela_id= data.get("tabela_id")  # versão escolhida; None = atual (default)
 
     cfg = load_cfg()
 
@@ -1315,16 +1375,18 @@ def calcular_route():
     if not vendedor:
         vendedor = {"nome": nome_vend, "canal": canal, "cargo": canal}
 
-    # Seleciona tabela de preços pelo canal do vendedor
-    precos_canal = cfg.get("precos_pj", {}) if canal == "PJ" else cfg.get("precos_pf", {})
+    # Seleciona tabela de preços pelo canal e pela versão escolhida (default = atual)
+    precos_canal = precos_da_versao(cfg, canal, tabela_id)
     produtos = cfg.get("produtos", [])
+    cache_key = f"{canal}:{tabela_id or 'atual'}"
 
-    resultado = calcular_ote(itens, ote_row, precos_canal, canal, produtos)
+    resultado = calcular_ote(itens, ote_row, precos_canal, canal, produtos, cache_key)
     resultado["ote_row"] = ote_row
     resultado["vendedor"] = vendedor
     resultado["mes"] = mes
     resultado["ano"] = ano
     resultado["nivel"] = nivel
+    resultado["tabela_id"] = tabela_id or (cfg.get("tabela_atual", {}) or {}).get("id")
 
     # Serializar (remover itens completos para não pesar demais — frontend já tem)
     resultado_json = {k: v for k, v in resultado.items() if k != "classified"}
@@ -1348,6 +1410,7 @@ def exportar_xlsx():
     ano      = int(data.get("ano", 2026))
     nome_vend= data.get("vendedor", "")
     itens    = data.get("itens", [])
+    tabela_id= data.get("tabela_id")  # versão escolhida; None = atual (default)
 
     ote_tabela = cfg["ote"].get(canal, [])
     ote_row = next((r for r in ote_tabela if r["n"] == nivel), None)
@@ -1357,11 +1420,12 @@ def exportar_xlsx():
     vendedor = next((v for v in cfg["vendedores"] if v["nome"] == nome_vend),
                     {"nome": nome_vend, "canal": canal, "cargo": canal})
 
-    # Seleciona tabela de preços pelo canal do vendedor
-    precos_canal = cfg.get("precos_pj", {}) if canal == "PJ" else cfg.get("precos_pf", {})
+    # Seleciona tabela de preços pelo canal e pela versão escolhida (default = atual)
+    precos_canal = precos_da_versao(cfg, canal, tabela_id)
     produtos = cfg.get("produtos", [])
+    cache_key = f"{canal}:{tabela_id or 'atual'}"
 
-    resultado = calcular_ote(itens, ote_row, precos_canal, canal, produtos)
+    resultado = calcular_ote(itens, ote_row, precos_canal, canal, produtos, cache_key)
     resultado["ote_row"] = ote_row
 
     xlsx_path = gerar_xlsx(resultado, vendedor, nivel, mes, ano)
