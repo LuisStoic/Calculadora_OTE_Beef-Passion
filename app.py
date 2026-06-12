@@ -8,7 +8,10 @@ import os
 import json
 import re
 import shutil
+import base64
 import tempfile
+import urllib.request
+import urllib.error
 from datetime import datetime
 from pathlib import Path
 from flask import Flask, request, jsonify, render_template, send_file
@@ -34,6 +37,17 @@ except Exception:
     _DATA_DIR = _BASE_DIR
 CFG_PATH = _DATA_DIR / "config.json"
 BACKUP_DIR = _DATA_DIR / "backup"
+
+# ── Persistência durável: o app commita o config.json no GitHub ────────────────
+# No Render o disco é efêmero; com um token, cada mudança estrutural é gravada no
+# repositório (o histórico do git vira o backup). Sem token = só disco local (dev).
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "").strip()
+GITHUB_REPO = os.environ.get("GITHUB_REPO", "LuisStoic/Calculadora_OTE_Beef-Passion").strip()
+GITHUB_BRANCH = os.environ.get("GITHUB_BRANCH", "main").strip()
+GITHUB_PATH = os.environ.get("GITHUB_CONFIG_PATH", "config.json").strip()
+# Status do último save (exposto para a UI avisar se a persistência falhou)
+_PERSIST_STATUS = {"modo": "github" if GITHUB_TOKEN else "local",
+                   "ok": True, "detalhe": "", "ts": ""}
 # Primeiro boot em disco vazio: semeia com o config.json versionado do repo.
 if not CFG_PATH.exists() and _BUNDLED_CFG.exists() and _BUNDLED_CFG.resolve() != CFG_PATH.resolve():
     try:
@@ -406,9 +420,77 @@ def load_cfg() -> dict:
     return json.loads(json.dumps(DEFAULT_CFG))
 
 
-def save_cfg(cfg: dict):
+def _gh_api(method: str, url: str, payload: dict = None):
+    """Chamada à API do GitHub (stdlib). Retorna (status, json). Lança em erro de rede."""
+    data = json.dumps(payload).encode("utf-8") if payload is not None else None
+    req = urllib.request.Request(url, data=data, method=method)
+    req.add_header("Authorization", f"Bearer {GITHUB_TOKEN}")
+    req.add_header("Accept", "application/vnd.github+json")
+    req.add_header("X-GitHub-Api-Version", "2022-11-28")
+    req.add_header("User-Agent", "ote-beef-passion-app")
+    if data is not None:
+        req.add_header("Content-Type", "application/json")
+    try:
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            return resp.status, json.loads(resp.read().decode("utf-8") or "{}")
+    except urllib.error.HTTPError as e:
+        body = {}
+        try:
+            body = json.loads(e.read().decode("utf-8") or "{}")
+        except Exception:
+            pass
+        return e.code, body
+
+
+def _commit_github(cfg: dict):
+    """Grava o config.json no repositório via API. Retorna (ok, detalhe).
+    Mensagem de commit derivada do último evento do audit_log."""
+    api = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{GITHUB_PATH}"
+    conteudo = json.dumps(cfg, ensure_ascii=False, indent=2).encode("utf-8")
+    b64 = base64.b64encode(conteudo).decode("ascii")
+    ult = (cfg.get("audit_log") or [])[-1:]
+    acao = ult[0].get("acao", "update") if ult else "update"
+    oper = ult[0].get("operador", "") if ult else ""
+    msg = f"chore(config): {acao} via app"
+    if oper and oper != "(não informado)":
+        msg += f" [{oper}]"
+
+    def _put(sha):
+        payload = {"message": msg, "content": b64, "branch": GITHUB_BRANCH}
+        if sha:
+            payload["sha"] = sha
+        return _gh_api("PUT", api, payload)
+
+    try:
+        # SHA atual do arquivo (necessário para atualizar; ausente se não existe)
+        st, body = _gh_api("GET", f"{api}?ref={GITHUB_BRANCH}")
+        sha = body.get("sha") if st == 200 else None
+        st, body = _put(sha)
+        if st in (200, 201):
+            return True, (body.get("commit", {}) or {}).get("sha", "")[:7]
+        if st == 409:  # conflito de sha: refaz o GET e tenta uma vez
+            st2, body2 = _gh_api("GET", f"{api}?ref={GITHUB_BRANCH}")
+            st, body = _put(body2.get("sha") if st2 == 200 else None)
+            if st in (200, 201):
+                return True, (body.get("commit", {}) or {}).get("sha", "")[:7]
+        return False, f"HTTP {st}: {body.get('message', '')}"
+    except Exception as e:
+        return False, str(e)
+
+
+def save_cfg(cfg: dict, push: bool = True):
+    """Grava o config no disco e (se push e houver token) commita no GitHub.
+    push=False para escritas não estruturais (ex.: cache de De-Para no cálculo),
+    evitando disparar redeploy a cada cálculo."""
+    global _PERSIST_STATUS
     with open(CFG_PATH, "w", encoding="utf-8") as f:
         json.dump(cfg, f, ensure_ascii=False, indent=2)
+    ts = datetime.now().isoformat(timespec="seconds")
+    if push and GITHUB_TOKEN:
+        ok, detalhe = _commit_github(cfg)
+        _PERSIST_STATUS = {"modo": "github", "ok": ok, "detalhe": detalhe, "ts": ts}
+    elif push:
+        _PERSIST_STATUS = {"modo": "local", "ok": True, "detalhe": "disco local", "ts": ts}
 
 
 def listar_tabelas(cfg: dict) -> list:
@@ -1429,6 +1511,8 @@ def get_config():
     # Segurança: não vazar a senha em texto plano (validação é server-side agora)
     cfg["senha_definida"] = bool(cfg.get("senha"))
     cfg.pop("senha", None)
+    # Saúde da persistência (modo local vs github; último commit ok?)
+    cfg["persistencia"] = _PERSIST_STATUS
     return jsonify(cfg)
 
 
@@ -1630,8 +1714,9 @@ def post_config():
     if toca_sensivel:
         campos = ", ".join(k for k in SENSIVEIS if k in data)
         registrar_log(cfg, "editar_config", "", data.get("operador", ""), f"campos: {campos}")
-    save_cfg(cfg)
-    return jsonify({"ok": True})
+    # De-Para (não sensível) não dispara commit/redeploy; só estrutural persiste no git
+    save_cfg(cfg, push=toca_sensivel)
+    return jsonify({"ok": True, "persistencia": _PERSIST_STATUS})
 
 
 @app.route("/api/produtos/codigo", methods=["POST"])

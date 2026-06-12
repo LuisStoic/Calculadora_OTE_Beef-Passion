@@ -483,7 +483,10 @@ input[type=number]{font-family:'DM Mono',monospace}
 
     <!-- Histórico de atividades -->
     <div class="card">
-      <div class="ctitle" style="margin:0 0 12px 0">Histórico de Atividades</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin:0 0 12px 0;flex-wrap:wrap;gap:8px">
+        <div class="ctitle" style="margin:0">Histórico de Atividades</div>
+        <span id="persist-status" style="font-size:11px"></span>
+      </div>
       <div style="overflow:auto;max-height:280px;border:1px solid var(--border);border-radius:8px">
         <table class="dt" style="width:100%">
           <thead><tr><th style="width:140px">Data</th><th style="width:120px">Ação</th><th style="width:90px">Tabela</th><th style="width:110px">Operador</th><th>Detalhe</th></tr></thead>
@@ -958,6 +961,7 @@ async function init(){
   buildTabelaSel();
   buildCfgTabelaSel();
   buildAuditLog();
+  renderPersistencia();
   document.getElementById('sel-mes').value = new Date().getMonth()+1 || 2;
   document.getElementById('pc-tot').textContent = PRODUTOS.length;
 }
@@ -2087,7 +2091,25 @@ async function salvarPrecosVersao(){
 
 async function recarregarLog(){
   try { const r=await fetch('/api/config'); const c=await r.json();
-    CFG.audit_log=c.audit_log||[]; buildAuditLog(); } catch(e){}
+    CFG.audit_log=c.audit_log||[]; CFG.persistencia=c.persistencia||CFG.persistencia;
+    buildAuditLog(); renderPersistencia();
+    const p=c.persistencia;
+    if(p && p.modo==='github' && p.ok===false) toast('⚠ Falha ao gravar no GitHub: '+(p.detalhe||'verifique o token'));
+  } catch(e){}
+}
+
+// Indicador de persistência (modo local / GitHub e saúde do último commit)
+function renderPersistencia(){
+  const el=document.getElementById('persist-status');
+  if(!el) return;
+  const p=CFG.persistencia||{modo:'local',ok:true};
+  if(p.modo!=='github'){
+    el.innerHTML='<span style="color:var(--muted)">💾 Local (disco)</span>';
+  } else if(p.ok){
+    el.innerHTML=`<span style="color:var(--green)">☁ Sincronizado com GitHub${p.detalhe?' · '+p.detalhe:''}</span>`;
+  } else {
+    el.innerHTML=`<span style="color:var(--red)">⚠ Falha ao sincronizar com GitHub${p.detalhe?' · '+p.detalhe:''}</span>`;
+  }
 }
 
 // ══ GESTÃO DE VERSÕES ════════════════════════════════════════════════════════

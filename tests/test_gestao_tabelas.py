@@ -149,6 +149,35 @@ check("migração string-list → objetos",
       cfg["intragrupo_termos"] == [{"texto": "BEEF PASSION", "modo": "contem"},
                                    {"texto": "OUTRA EMPRESA", "modo": "contem"}])
 
+# 12c. Persistência local (sem token) reportada no GET
+check("persistencia modo local sem token",
+      c.get("/api/config").get_json().get("persistencia", {}).get("modo") == "local")
+
+# 12d. Commit no GitHub: fluxo SHA->PUT, retry em conflito e erro (API mockada)
+_orig_api, _orig_tok = app._gh_api, app.GITHUB_TOKEN
+app.GITHUB_TOKEN = "fake-token"
+def _fake_api_factory(respostas):
+    chamadas = []
+    def fake(method, url, payload=None):
+        chamadas.append((method, payload is not None))
+        return respostas.pop(0)
+    fake.chamadas = chamadas
+    return fake
+# happy path: GET sha -> PUT 200
+app._gh_api = _fake_api_factory([(200, {"sha": "abc"}), (200, {"commit": {"sha": "deadbeef0"}})])
+ok, det = app._commit_github(app.load_cfg())
+check("commit github happy path", ok is True and det == "deadbee")
+# conflito: PUT 409 -> GET novo sha -> PUT 200
+app._gh_api = _fake_api_factory([(200, {"sha": "old"}), (409, {"message": "conflict"}),
+                                 (200, {"sha": "new"}), (201, {"commit": {"sha": "1234567x"}})])
+ok, det = app._commit_github(app.load_cfg())
+check("commit github retry em conflito", ok is True and det == "1234567")
+# erro de credencial: PUT 401 -> ok False
+app._gh_api = _fake_api_factory([(200, {"sha": "x"}), (401, {"message": "Bad credentials"})])
+ok, det = app._commit_github(app.load_cfg())
+check("commit github erro 401 -> ok False", ok is False and "401" in det)
+app._gh_api, app.GITHUB_TOKEN = _orig_api, _orig_tok
+
 # 13. Backups pré-escrita criados
 n_bk = len(list((app.BACKUP_DIR).glob("config_*.json"))) if app.BACKUP_DIR.exists() else 0
 check("snapshots de backup criados", n_bk >= 4, f"n={n_bk}")

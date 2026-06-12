@@ -1,21 +1,23 @@
 # Render Blueprint — Calculadora OTE Beef Passion
-# Persistência: o disco em /var/data sobrevive a redeploys (sem ele, as edições
-# de tabela e o audit_log somem). DATA_DIR aponta o app para esse disco; no
-# primeiro boot o config.json versionado é copiado para lá (seed) e a partir daí
-# o disco passa a ser a fonte de verdade dos preços.
-# Obs.: Persistent Disk exige plano pago (Starter+) e mantém 1 instância.
+# Persistência (Opção A): o disco do Render é efêmero, então o app grava o
+# config.json de volta no GitHub a cada mudança estrutural (preços, tabelas,
+# intragrupo, OTE, vendedores, código). O histórico do git vira o backup.
+# No próximo deploy o app carrega o config.json já atualizado do repositório.
+#
+# Setup único (uma vez): no painel do Render, em Environment, cole o token em
+# GITHUB_TOKEN. Use um Fine-grained PAT com permissão "Contents: Read and write"
+# apenas neste repositório, sem expiração (set-and-forget). Nunca commite o token.
 services:
   - type: web
     name: calculadora-ote-beef-passion
     runtime: python
-    plan: starter
+    plan: free
     buildCommand: pip install -r requirements.txt
-    # worker único: serializa as gravações de config.json (1-3 usuários)
     startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120
     envVars:
-      - key: DATA_DIR
-        value: /var/data
-    disk:
-      name: ote-data
-      mountPath: /var/data
-      sizeGB: 1
+      - key: GITHUB_TOKEN
+        sync: false            # secret: cole no painel do Render, não no repo
+      - key: GITHUB_REPO
+        value: LuisStoic/Calculadora_OTE_Beef-Passion
+      - key: GITHUB_BRANCH
+        value: main
