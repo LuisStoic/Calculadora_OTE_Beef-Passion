@@ -856,16 +856,27 @@ _MATCH_STOP = {
 # Construído na primeira chamada de cada canal e cacheado
 _MATCH_INDEX: dict = {}
 
-def _tokens(s: str) -> set:
-    """Tokeniza string para matching: uppercase, remove ACENTOS, pontuação e
-    stopwords. A remoção de acentos é essencial: o PDF do ERP vem sem acento
-    (ACEM PESCOCO) e a tabela tem acento (ACÉM PESCOÇO); sem normalizar, cortes
-    válidos caíam em 'Sem Referência' e ficavam fora do cálculo."""
-    import re, unicodedata
+# Limiar mínimo de confiança para aceitar um match automático. Abaixo disso, o
+# item NÃO é casado automaticamente: vai para a etapa de verificação (Grupo B)
+# para o operador categorizar/vincular na mão. Conservador por desenho.
+MATCH_THRESHOLD = 0.60
+
+def _normaliza(s: str) -> str:
+    """Uppercase + remove acentos (NFD) + troca pontuação por espaço."""
+    import unicodedata
     s = unicodedata.normalize("NFD", s.upper())
     s = "".join(c for c in s if unicodedata.category(c) != "Mn")  # tira diacríticos
-    s = re.sub(r"[/()\-]", " ", s)
-    return {w for w in s.split() if w not in _MATCH_STOP and len(w) > 1}
+    return re.sub(r"[/()\-]", " ", s)
+
+def _tokens_lista(s: str) -> list:
+    """Tokens em ORDEM (para identificar a 'cabeça' do nome do corte)."""
+    return [w for w in _normaliza(s).split() if w not in _MATCH_STOP and len(w) > 1]
+
+def _tokens(s: str) -> set:
+    """Tokeniza para matching: uppercase, SEM acento, sem pontuação e stopwords.
+    O PDF do ERP vem sem acento (ACEM PESCOCO) e a tabela tem acento
+    (ACÉM PESCOÇO); sem normalizar, cortes válidos caíam em 'Sem Referência'."""
+    return set(_tokens_lista(s))
 
 def _build_match_index(precos: dict) -> dict:
     idx: dict = {}
@@ -914,9 +925,12 @@ def _match_preco(desc_pdf: str, precos: dict, canal: str = "PJ",
         _MATCH_INDEX[ck] = _build_match_index(precos)
 
     cat_inf = _inferir_categoria(desc_pdf)
-    tks_pdf = _tokens(desc_pdf)
+    toks_lista = _tokens_lista(desc_pdf)
+    tks_pdf = set(toks_lista)
     if not tks_pdf:
         return None, None, None, 0
+    cabeca = toks_lista[0] if toks_lista else None   # 1ª palavra = "cabeça" do corte
+    pdf_wagyu = "WAGYU" in tks_pdf
 
     idx = _MATCH_INDEX[ck]
     melhor = (None, None, None, 0)
@@ -924,19 +938,31 @@ def _match_preco(desc_pdf: str, precos: dict, canal: str = "PJ",
     outras_cats = [c for c in CATEGORIAS_VALIDAS if c != cat_inf]
     for cat_try in [cat_inf] + outras_cats:
         for tks_tab, desc_tab, chave, preco in idx.get(cat_try, []):
+            # WAGYU (premium) só casa com WAGYU. Como a tabela não tem entradas
+            # WAGYU, esses itens ficam sem match e vão à verificação (manual).
+            if ("WAGYU" in tks_tab) != pdf_wagyu:
+                continue
             inter = len(tks_pdf & tks_tab)
             if inter == 0:
                 continue
             cob_tab = inter / max(len(tks_tab), 1)
             cob_pdf = inter / max(len(tks_pdf), 1)
             score   = cob_tab * 0.7 + cob_pdf * 0.3
+            # Categoria divergente (ex.: CG casando com RESERVA) é penalizada,
+            # tendendo a cair abaixo do limiar e ir para a verificação.
+            if cat_try != cat_inf:
+                score *= 0.6
+            # Desempate: prefere o corte que contém a "cabeça" do nome do PDF
+            # (evita BOMBOM DA ALCATRA cair em ALCATRA PEÇA num empate).
+            if cabeca and cabeca in tks_tab:
+                score += 0.001
             if score > melhor[3]:
                 melhor = (preco, chave, cat_try, score)
         # Se já encontrou bom match na categoria inferida, não forçar fallback
         if melhor[3] >= 0.70 and cat_try == cat_inf:
             break
 
-    if melhor[3] >= 0.45:
+    if melhor[3] >= MATCH_THRESHOLD:
         return melhor[0], melhor[1], melhor[2], melhor[3]
     return None, None, None, 0
 

@@ -1119,7 +1119,11 @@ function precoRealPorKey(key) {
   return precos[key] || 0;
 }
 
-function matchFrontend(descPdf, threshold=0.45, codPdf='') {
+// Matcher do frontend — DEVE espelhar _match_preco do backend (app.py).
+// Regras: sem acento, limiar 0.60, categoria divergente penalizada, WAGYU só
+// casa com WAGYU, desempate pela "cabeça" do nome. O que não casa com confiança
+// vai para a verificação manual (Grupo B), não é adivinhado.
+function matchFrontend(descPdf, threshold=0.60, codPdf='') {
   // Prioridade 1: match exato por código Omega (cod_bp)
   if (codPdf) {
     const byCode = PRODUTOS.find(p => p.cod_bp && p.cod_bp === codPdf);
@@ -1129,18 +1133,21 @@ function matchFrontend(descPdf, threshold=0.45, codPdf='') {
   // Prioridade 2: fuzzy match por tokens
   const STOP = new Set(["CONG","CG","PASSION","B","S","SOB","ENCOMENDA",
     "FATIADO","PICADO","CLASSICO","E","DA","DE","DO","DAS","DOS","EM","A"]);
-  const toks = s => new Set(
+  const toksLista = s =>
     s.toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[/()\\-]/g,' ').split(/\s+/)
-     .filter(w => w.length>1 && !STOP.has(w))
-  );
+     .filter(w => w.length>1 && !STOP.has(w));
+  const toks = s => new Set(toksLista(s));
   const inferCat = d => {
     const u = d.toUpperCase();
     if (u.includes("SUPREME")) return "SUPREME";
     if (/RESERVA|RES |BP [3456]|BP[3456]| RES/.test(u)) return "RESERVA";
     return "CLASSICO";
   };
-  const tPdf = toks(descPdf);
+  const lPdf = toksLista(descPdf);
+  const tPdf = new Set(lPdf);
   if (!tPdf.size) return null;
+  const cabeca = lPdf[0] || null;            // "cabeça" do nome do corte
+  const pdfWagyu = tPdf.has("WAGYU");
   const catInf = inferCat(descPdf);
   let best = null, bestScore = 0;
   const catsValidas = CFG.categorias_validas || ["CLASSICO","RESERVA","SUPREME","BP","DIVERSOS"];
@@ -1149,9 +1156,13 @@ function matchFrontend(descPdf, threshold=0.45, codPdf='') {
     for (const p of PRODUTOS) {
       if (p.cat !== cat) continue;
       const tTab = toks(p.desc);
+      // WAGYU (premium) só casa com WAGYU -> demais vão à verificação
+      if (tTab.has("WAGYU") !== pdfWagyu) continue;
       const inter = [...tPdf].filter(t=>tTab.has(t)).length;
       if (!inter) continue;
-      const score = (inter/tTab.size)*0.7 + (inter/tPdf.size)*0.3;
+      let score = (inter/tTab.size)*0.7 + (inter/tPdf.size)*0.3;
+      if (cat !== catInf) score *= 0.6;        // categoria divergente penalizada
+      if (cabeca && tTab.has(cabeca)) score += 0.001;  // desempate pela cabeça
       if (score > bestScore) { bestScore = score; best = {p, score, cat}; }
     }
     if (best && bestScore >= 0.70 && cat === catInf) break;
@@ -1213,7 +1224,7 @@ function abrirRevisao() {
       REV_STATE[idx] = {confirmado:false, acao:'reconhecido', vinculo_key:dp.key, preco_ref:dp.preco_ref, categoria:dp.cat};
       return;
     }
-    const m = matchFrontend(it.desc, 0.45, it.cod || '');
+    const m = matchFrontend(it.desc, 0.60, it.cod || '');
     if (m) {
       const precoReal = precoRealPorKey(m.p.key);
       GA.push({...it, idx, match:m.p.key, preco_ref:precoReal, categoria:m.p.cat, score:m.score, via:'auto'});

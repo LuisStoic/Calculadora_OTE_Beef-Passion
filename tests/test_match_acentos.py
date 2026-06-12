@@ -38,6 +38,20 @@ app._MATCH_INDEX = {}
 p, ch, cat, sc = app._match_preco("PICANHA CG", precos, "PJ", "", produtos, cache_key="t")
 check("não-regressão: PICANHA CG casa", ch == "PICANHA CG|CLASSICO", f"-> {ch}")
 
+# 4. Matcher conservador: WAGYU não casa com corte comum -> vai à verificação
+app._MATCH_INDEX = {}
+p, ch, cat, sc = app._match_preco("FILE MIGNON WAGYU", precos, "PJ", "", produtos, cache_key="t")
+check("WAGYU não casa com comum (vai à verificação)", ch is None, f"-> {ch} (score {round(sc,2)})")
+
+# 5. Limiar 0.60: match fraco (score < 0.60) não é aceito
+check("limiar configurado em 0.60", app.MATCH_THRESHOLD == 0.60)
+
+# 6. Desempate pela cabeça: BOMBOM DA ALCATRA prefere o próprio corte
+app._MATCH_INDEX = {}
+p, ch, cat, sc = app._match_preco("BOMBOM DA ALCATRA PECA RESERVA", precos, "PJ", "", produtos, cache_key="t")
+check("desempate: BOMBOM DA ALCATRA não vira ALCATRA PEÇA",
+      ch is not None and "BOMBOM" in ch, f"-> {ch}")
+
 print()
 if falhas:
     print(f"RESULTADO: {len(falhas)} FALHA(S) -> {falhas}")
