@@ -1130,7 +1130,7 @@ function matchFrontend(descPdf, threshold=0.45, codPdf='') {
   const STOP = new Set(["CONG","CG","PASSION","B","S","SOB","ENCOMENDA",
     "FATIADO","PICADO","CLASSICO","E","DA","DE","DO","DAS","DOS","EM","A"]);
   const toks = s => new Set(
-    s.toUpperCase().replace(/[/()\\-]/g,' ').split(/\s+/)
+    s.toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[/()\\-]/g,' ').split(/\s+/)
      .filter(w => w.length>1 && !STOP.has(w))
   );
   const inferCat = d => {
@@ -1164,7 +1164,7 @@ function topCandidatos(descPdf, n=3) {
   const STOP = new Set(["CONG","CG","PASSION","B","S","SOB","ENCOMENDA",
     "FATIADO","PICADO","CLASSICO","E","DA","DE","DO","DAS","DOS","EM","A"]);
   const toks = s => new Set(
-    s.toUpperCase().replace(/[/()\\-]/g,' ').split(/\s+/)
+    s.toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[/()\\-]/g,' ').split(/\s+/)
      .filter(w => w.length>1 && !STOP.has(w))
   );
   const tPdf = toks(descPdf);
