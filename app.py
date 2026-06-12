@@ -857,9 +857,14 @@ _MATCH_STOP = {
 _MATCH_INDEX: dict = {}
 
 def _tokens(s: str) -> set:
-    """Tokeniza string para matching: uppercase, remove pontuação e stopwords."""
-    import re
-    s = re.sub(r"[/()\-]", " ", s.upper())
+    """Tokeniza string para matching: uppercase, remove ACENTOS, pontuação e
+    stopwords. A remoção de acentos é essencial: o PDF do ERP vem sem acento
+    (ACEM PESCOCO) e a tabela tem acento (ACÉM PESCOÇO); sem normalizar, cortes
+    válidos caíam em 'Sem Referência' e ficavam fora do cálculo."""
+    import re, unicodedata
+    s = unicodedata.normalize("NFD", s.upper())
+    s = "".join(c for c in s if unicodedata.category(c) != "Mn")  # tira diacríticos
+    s = re.sub(r"[/()\-]", " ", s)
     return {w for w in s.split() if w not in _MATCH_STOP and len(w) > 1}
 
 def _build_match_index(precos: dict) -> dict:
