@@ -425,9 +425,26 @@ input[type=number]{font-family:'DM Mono',monospace}
 
   <!-- PREÇOS -->
   <div id="cfg-precos">
+    <!-- Gestão de versões -->
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px">
+        <div class="ctitle" style="margin:0">Versões de Tabela</div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-o btn-sm" onclick="abrirNovaTabela()" style="background:#D1FAE5;color:#065F46;border-color:#27AE60">+ Nova versão</button>
+          <button class="btn btn-o btn-sm" onclick="definirAtual()">Definir como atual</button>
+          <button class="btn btn-o btn-sm" onclick="excluirVersao()" style="color:var(--red);border-color:var(--red)">Excluir versão</button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <label style="font-size:12px;color:var(--muted)">Editando a versão:</label>
+        <select id="cfg-sel-tabela" onchange="selecionarTabelaEdit(this.value)" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:13px;background:#fff;min-width:240px"></select>
+        <span id="cfg-tabela-badge"></span>
+      </div>
+    </div>
+
     <div class="card">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
-        <div class="ctitle" style="margin:0">Preços de Referência — <span id="pc-n">0</span> / <span id="pc-tot">105</span> preenchidos</div>
+        <div class="ctitle" style="margin:0">Preços — <span id="pc-n">0</span> / <span id="pc-tot">105</span> preenchidos</div>
         <div style="display:flex;align-items:center;gap:10px">
           <div style="display:flex;border:1.5px solid var(--border);border-radius:6px;overflow:hidden">
             <button class="btn btn-sm" id="btn-preco-pj" onclick="switchPrecoCanal('PJ')" style="border:none;border-radius:0;font-size:11px;font-weight:700;padding:5px 14px;background:var(--navy);color:#fff">PJ</button>
@@ -437,7 +454,7 @@ input[type=number]{font-family:'DM Mono',monospace}
           <button class="btn btn-o btn-sm" onclick="solicitarSenha('precos', buildPriceTable)">Desbloquear</button>
         </div>
       </div>
-      <div class="al al-w"><span>⚠</span><span>Preencha com a tabela de precificação vigente da BeefPassion. Produtos sem preço serão classificados como <strong>Sem Referência</strong> e excluídos do cálculo do variável.</span></div>
+      <div class="al al-w"><span>⚠</span><span>Preencha com a tabela de precificação da versão selecionada. Produtos sem preço serão classificados como <strong>Sem Referência</strong> e excluídos do cálculo do variável.</span></div>
       <div style="display:flex;gap:9px;margin-bottom:12px;flex-wrap:wrap;align-items:center">
         <div class="srch" style="flex:1;min-width:180px;margin:0"><span class="si">🔍</span><input type="text" placeholder="Buscar produto..." oninput="filterP(this.value)"></div>
         <select id="cat-filter" onchange="filterCat(this.value)" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;background:#fff">
@@ -451,13 +468,25 @@ input[type=number]{font-family:'DM Mono',monospace}
         <button class="btn btn-o btn-sm" onclick="fillRef()">Preencher com Tabela 2026</button>
         <button class="btn btn-o btn-sm" onclick="clearPrecos()">Limpar tudo</button>
         <button class="btn btn-o btn-sm" onclick="abrirAddProduto()" style="background:#D1FAE5;color:#065F46;border-color:#27AE60">+ Novo Produto</button>
+        <button class="btn btn-p btn-sm" onclick="salvarPrecosVersao()">💾 Salvar tabela</button>
       </div>
       <div class="progw"><div class="progb" id="pc-prog" style="width:0%"></div></div>
       <div class="progl" id="pc-lbl">0 preços preenchidos</div>
       <div class="ptwrap" style="margin-top:12px">
         <table class="pt">
-          <thead><tr><th style="width:70px">Cód. BP</th><th>Descrição</th><th>Categoria</th><th style="width:160px">Macro Categoria ✏</th><th>Ref. Tabela 2026</th><th>Preço Vigente (R$/kg) ✏</th></tr></thead>
+          <thead><tr><th style="width:70px">Cód. BP</th><th>Descrição</th><th>Categoria</th><th style="width:160px">Macro Categoria ✏</th><th>Ref. Tabela 2026</th><th>Preço (R$/kg) ✏</th></tr></thead>
           <tbody id="pc-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Histórico de atividades -->
+    <div class="card">
+      <div class="ctitle" style="margin:0 0 12px 0">Histórico de Atividades</div>
+      <div style="overflow:auto;max-height:280px;border:1px solid var(--border);border-radius:8px">
+        <table class="dt" style="width:100%">
+          <thead><tr><th style="width:140px">Data</th><th style="width:120px">Ação</th><th style="width:90px">Tabela</th><th style="width:110px">Operador</th><th>Detalhe</th></tr></thead>
+          <tbody id="audit-tbody"></tbody>
         </table>
       </div>
     </div>
@@ -570,6 +599,8 @@ input[type=number]{font-family:'DM Mono',monospace}
   <div style="background:#fff;border-radius:14px;padding:32px 36px;width:340px;box-shadow:0 8px 40px rgba(0,0,0,.3);position:relative">
     <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--navy);margin-bottom:4px">Acesso Restrito</div>
     <div style="font-size:12px;color:var(--muted);margin-bottom:20px" id="senha-descricao">Digite a senha para editar este parâmetro.</div>
+    <input type="text" id="senha-operador" placeholder="Seu nome (para o histórico)"
+      style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:7px;font-size:14px;margin-bottom:8px">
     <input type="password" id="senha-input" placeholder="Senha"
       style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:7px;font-size:14px;margin-bottom:8px"
       onkeydown="if(event.key==='Enter')confirmarSenha()">
@@ -637,6 +668,46 @@ input[type=number]{font-family:'DM Mono',monospace}
     <div style="display:flex;gap:10px;margin-top:14px">
       <button class="btn btn-p" style="flex:1" onclick="salvarNovoProduto()">Adicionar</button>
       <button class="btn btn-o" style="flex:1" onclick="fecharAddProduto()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Nova Versão de Tabela -->
+<div id="nova-tabela-overlay" style="display:none;position:fixed;inset:0;background:rgba(13,24,56,.65);z-index:900;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:14px;padding:32px 36px;width:440px;box-shadow:0 8px 40px rgba(0,0,0,.3);position:relative">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--navy);margin-bottom:4px">Nova Versão de Tabela</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:16px">Crie uma nova versão de preços. O histórico mantém as anteriores.</div>
+    <div style="display:grid;gap:10px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <label style="font-size:11px;font-weight:600;color:var(--navy)">Início da vigência *</label>
+          <input type="date" id="nt-inicio" oninput="atualizarPreviewTabela()" style="width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:13px">
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:600;color:var(--navy)">Fim da vigência *</label>
+          <input type="date" id="nt-fim" oninput="atualizarPreviewTabela()" style="width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:13px">
+        </div>
+      </div>
+      <div style="background:var(--smoke);border:1px solid var(--border);border-radius:8px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+        <span style="font-size:11px;color:var(--muted)">Identificador gerado (data + sequência)</span>
+        <span id="nt-id-preview" style="font-family:'DM Mono',monospace;font-size:18px;font-weight:700;color:var(--navy)">—</span>
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--navy)">Rótulo (sugerido pelas datas, editável)</label>
+        <input type="text" id="nt-rotulo" placeholder="Jun/Jul 2026" style="width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:13px">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:600;color:var(--navy)">Preços de partida</label>
+        <select id="nt-base" style="width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:13px"></select>
+      </div>
+      <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--navy);cursor:pointer">
+        <input type="checkbox" id="nt-atual"> Tornar esta a versão vigente agora
+      </label>
+    </div>
+    <div id="nt-erro" style="color:var(--red);font-size:11px;min-height:16px;margin-top:8px"></div>
+    <div style="display:flex;gap:10px;margin-top:14px">
+      <button class="btn btn-p" style="flex:1" onclick="criarVersao()">Criar versão</button>
+      <button class="btn btn-o" style="flex:1" onclick="fecharNovaTabela()">Cancelar</button>
     </div>
   </div>
 </div>
@@ -839,9 +910,12 @@ async function init(){
       macro_categoria: p.macro_categoria || ''
     }));
   }
+  inicializarEditorTabelas();   // define TABELA_EDIT_ID + PRECOS_EDIT (atual)
   buildVGrid();
   buildPriceTable();
   buildTabelaSel();
+  buildCfgTabelaSel();
+  buildAuditLog();
   document.getElementById('sel-mes').value = new Date().getMonth()+1 || 2;
   document.getElementById('pc-tot').textContent = PRODUTOS.length;
 }
@@ -1467,8 +1541,8 @@ async function calcular(){
 
   // Persistir De-Para no config se houve novos mapeamentos
   if (Object.keys(novoDepara).length !== Object.keys(CFG.depara||{}).length) {
-    const cfgAtual = {...CFG, depara: novoDepara};
-    await fetch('/api/config', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(cfgAtual)});
+    // Persistir só o De-Para (não exige senha; campo não sensível)
+    await fetch('/api/config', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({depara: novoDepara})});
     CFG.depara = novoDepara;
     toast('De-Para salvo — '+Object.keys(novoDepara).length+' mapeamentos');
   }
@@ -1683,6 +1757,75 @@ async function exportarXLSX(){
 // ══ CFG: PREÇOS ══════════════════════════════════════════════════════════════
 let PRECO_CANAL_ATIVO = 'PJ';
 
+// ── Editor versionado de tabelas ─────────────────────────────────────────────
+// PRECOS_EDIT é o buffer de edição da versão selecionada (PJ e PF).
+let TABELA_EDIT_ID = null;
+let PRECOS_EDIT = { PJ: {}, PF: {} };
+
+function _idAtual(){
+  return (CFG.tabelas_meta || []).find(t => t.atual)?.id || null;
+}
+
+function inicializarEditorTabelas(){
+  TABELA_EDIT_ID = _idAtual();
+  PRECOS_EDIT = { PJ: {...(CFG.precos_pj||{})}, PF: {...(CFG.precos_pf||{})} };
+}
+
+// Popula o seletor de versão da aba Configurações
+function buildCfgTabelaSel(){
+  const sel = document.getElementById('cfg-sel-tabela');
+  if(!sel) return;
+  const versoes = CFG.tabelas_meta || [];
+  if(!versoes.length){
+    sel.innerHTML = '<option value="">Atual</option>';
+    atualizarBadgeTabela();
+    return;
+  }
+  if(!versoes.some(t=>t.id===TABELA_EDIT_ID)) TABELA_EDIT_ID = _idAtual();
+  sel.innerHTML = versoes.map(t=>{
+    const periodo = (t.inicio && t.fim) ? ` (${t.inicio} a ${t.fim})` : '';
+    return `<option value="${t.id}"${t.id===TABELA_EDIT_ID?' selected':''}>${t.rotulo}${periodo}</option>`;
+  }).join('');
+  atualizarBadgeTabela();
+}
+
+function atualizarBadgeTabela(){
+  const badge = document.getElementById('cfg-tabela-badge');
+  if(!badge) return;
+  const meta = (CFG.tabelas_meta||[]).find(t=>t.id===TABELA_EDIT_ID);
+  badge.innerHTML = (meta && meta.atual)
+    ? `<span style="background:#E8F5EE;color:var(--green);border-radius:10px;padding:3px 10px;font-size:10px;font-weight:700">VIGENTE</span>`
+    : `<span style="background:#F0EDE6;color:#5C4A1E;border-radius:10px;padding:3px 10px;font-size:10px;font-weight:700">ARQUIVADA</span>`;
+}
+
+// Carrega os preços da versão escolhida para o buffer de edição
+async function selecionarTabelaEdit(id){
+  TABELA_EDIT_ID = id;
+  const meta = (CFG.tabelas_meta||[]).find(t=>t.id===id);
+  if(meta && meta.atual){
+    PRECOS_EDIT = { PJ: {...(CFG.precos_pj||{})}, PF: {...(CFG.precos_pf||{})} };
+  } else {
+    try {
+      const r = await fetch('/api/tabelas/'+encodeURIComponent(id));
+      const d = await r.json();
+      PRECOS_EDIT = { PJ: {...(d.precos_pj||{})}, PF: {...(d.precos_pf||{})} };
+    } catch(e){ toast('Erro ao carregar versão'); PRECOS_EDIT={PJ:{},PF:{}}; }
+  }
+  atualizarBadgeTabela();
+  buildPriceTable();
+}
+
+async function recarregarTabelasMeta(){
+  try {
+    const r = await fetch('/api/tabelas');
+    const d = await r.json();
+    CFG.tabelas_meta = d.tabelas || [];
+    CFG.seq_tabelas = d.seq_tabelas || CFG.seq_tabelas || {};
+  } catch(e){}
+  buildTabelaSel();
+  buildCfgTabelaSel();
+}
+
 function switchPrecoCanal(canal) {
   PRECO_CANAL_ATIVO = canal;
   document.getElementById('btn-preco-pj').style.background = canal==='PJ' ? 'var(--navy)' : 'transparent';
@@ -1693,9 +1836,8 @@ function switchPrecoCanal(canal) {
 }
 
 function getPrecosCanalAtivo() {
-  const key = PRECO_CANAL_ATIVO === 'PJ' ? 'precos_pj' : 'precos_pf';
-  if (!CFG[key]) CFG[key] = {};
-  return CFG[key];
+  if (!PRECOS_EDIT[PRECO_CANAL_ATIVO]) PRECOS_EDIT[PRECO_CANAL_ATIVO] = {};
+  return PRECOS_EDIT[PRECO_CANAL_ATIVO];
 }
 
 function buildPriceTable(filtro=''){
@@ -1752,10 +1894,32 @@ function onPI(key,el){
   updatePC();
 }
 
+// Alterar o código (Cód. BP) exige dupla verificação de senha — é a chave de
+// matching que liga o PDF ao preço, logo impacta a comissão.
 function onCodBP(key, val) {
   const p = PRODUTOS.find(p => p.key === key);
-  if (p) p.cod_bp = val.trim();
-  syncProdutosToCfg();
+  if (!p) return;
+  const antigo = (p.cod_bp || '').trim();
+  const novo = (val || '').trim();
+  if (novo === antigo) return;
+  if (novo && !/^\d{5}$/.test(novo)) {
+    toast('Cód. BP deve ter exatamente 5 dígitos');
+    buildPriceTable(document.querySelector('.srch input')?.value || '');
+    return;
+  }
+  solicitarSenhaAcao(
+    `Confirme a senha para alterar o código de "${p.desc}": ${antigo || '—'} → ${novo || '—'}`,
+    async (senha) => {                       // confirmado
+      try {
+        const r = await fetch('/api/produtos/codigo', {method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({senha, operador:OPERADOR, key, codigo:novo})});
+        if (!r.ok) { const e=await r.json().catch(()=>({})); toast('Erro: '+(e.erro||r.status)); }
+        else { p.cod_bp = novo; syncProdutosToCfg(); toast('✓ Código alterado e salvo'); await recarregarLog(); }
+      } catch(e) { toast('Erro: '+e.message); }
+      buildPriceTable(document.querySelector('.srch input')?.value || '');
+    },
+    () => buildPriceTable(document.querySelector('.srch input')?.value || '')  // cancelado: reverte
+  );
 }
 
 function onMacroCat(key, val) {
@@ -1808,12 +1972,13 @@ function salvarNovoProduto() {
   }
 
   PRODUTOS.push({ key, desc, cat, ref: 0, cod_bp: cod, macro_categoria: macro });
-  if (pj > 0) { if (!CFG.precos_pj) CFG.precos_pj = {}; CFG.precos_pj[key] = pj; }
-  if (pf > 0) { if (!CFG.precos_pf) CFG.precos_pf = {}; CFG.precos_pf[key] = pf; }
+  // Preço entra no buffer da versão em edição (persistir com "Salvar tabela")
+  if (pj > 0) PRECOS_EDIT.PJ[key] = pj;
+  if (pf > 0) PRECOS_EDIT.PF[key] = pf;
   syncProdutosToCfg();
   buildPriceTable();
   fecharAddProduto();
-  toast('Produto adicionado — clique Salvar Configurações para persistir');
+  toast('Produto adicionado — Salvar tabela (preço) e Salvar Configurações (catálogo)');
 }
 
 function updatePC(){
@@ -1844,10 +2009,183 @@ function fillRef(){
 
 function clearPrecos(){
   const label = PRECO_CANAL_ATIVO === 'PJ' ? 'PJ' : 'PF';
-  if(!confirm(`Limpar todos os preços vigentes (${label})?`)) return;
-  const key = PRECO_CANAL_ATIVO === 'PJ' ? 'precos_pj' : 'precos_pf';
-  CFG[key]={};
+  if(!confirm(`Limpar todos os preços (${label}) desta versão? Salve para persistir.`)) return;
+  PRECOS_EDIT[PRECO_CANAL_ATIVO] = {};
   buildPriceTable();
+}
+
+// Salva o buffer da versão selecionada (PJ + PF) no servidor
+async function salvarPrecosVersao(){
+  if(!senhaValida()){ solicitarSenha('precos', salvarPrecosVersao); return; }
+  const meta = (CFG.tabelas_meta||[]).find(t=>t.id===TABELA_EDIT_ID);
+  try {
+    const r = await fetch('/api/tabelas/'+encodeURIComponent(TABELA_EDIT_ID)+'/precos',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({senha:SENHA_SESSAO, operador:OPERADOR,
+                            precos_pj:PRECOS_EDIT.PJ, precos_pf:PRECOS_EDIT.PF})
+    });
+    if(r.status===401){ toast('Senha incorreta'); return; }
+    if(!r.ok){ const e=await r.json().catch(()=>({})); toast('Erro: '+(e.erro||r.status)); return; }
+    const d = await r.json();
+    if(d.tabelas_meta) CFG.tabelas_meta = d.tabelas_meta;
+    // Se editou a vigente, sincroniza CFG para o resto do app
+    if(meta && meta.atual){ CFG.precos_pj={...PRECOS_EDIT.PJ}; CFG.precos_pf={...PRECOS_EDIT.PF}; }
+    toast('✓ Preços salvos — '+(meta?meta.rotulo:TABELA_EDIT_ID));
+    await recarregarLog();
+  } catch(e){ toast('Erro ao salvar: '+e.message); }
+}
+
+async function recarregarLog(){
+  try { const r=await fetch('/api/config'); const c=await r.json();
+    CFG.audit_log=c.audit_log||[]; buildAuditLog(); } catch(e){}
+}
+
+// ══ GESTÃO DE VERSÕES ════════════════════════════════════════════════════════
+const MES_ABREV = ['','Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+
+// ID = <sequência no ano><ano> (ex.: 1 de 2026 = 12026, 2 de 2026 = 22026).
+// Monotônico: usa o contador persistido (seq_tabelas) + maior id existente.
+function previewIdTabela(inicio){
+  if(!inicio || inicio.length<4) return '—';
+  const ano = inicio.slice(0,4);
+  let maxseq = parseInt((CFG.seq_tabelas||{})[ano] || 0, 10);
+  (CFG.tabelas_meta||[]).forEach(t=>{
+    const id=String(t.id||'');
+    if(id.endsWith(ano)){ const pre=id.slice(0,-ano.length); if(/^\d+$/.test(pre)) maxseq=Math.max(maxseq,parseInt(pre,10)); }
+  });
+  return `${maxseq+1}${ano}`;
+}
+// Rótulo sugerido a partir dos meses de início e fim (ex.: "Jun/Jul 2026")
+function sugereRotulo(inicio, fim){
+  if(!inicio) return '';
+  const [ai,mi] = inicio.split('-'); const mIni = MES_ABREV[parseInt(mi,10)]||'';
+  if(!fim) return `${mIni} ${ai}`;
+  const [af,mf] = fim.split('-'); const mFim = MES_ABREV[parseInt(mf,10)]||'';
+  return (mIni===mFim && ai===af) ? `${mIni} ${ai}` : `${mIni}/${mFim} ${af||ai}`;
+}
+function atualizarPreviewTabela(){
+  const inicio=document.getElementById('nt-inicio').value;
+  const fim=document.getElementById('nt-fim').value;
+  document.getElementById('nt-id-preview').textContent = previewIdTabela(inicio);
+  // Auto-preenche o rótulo enquanto o usuário não o editou manualmente
+  const rot=document.getElementById('nt-rotulo');
+  if(!rot.dataset.editado) rot.value = sugereRotulo(inicio, fim);
+}
+
+function abrirNovaTabela(){
+  if(!senhaValida()){ solicitarSenha('precos', abrirNovaTabela); return; }
+  const rot=document.getElementById('nt-rotulo');
+  rot.value=''; delete rot.dataset.editado;
+  rot.oninput=()=>{ rot.dataset.editado='1'; };
+  document.getElementById('nt-inicio').value='';
+  document.getElementById('nt-fim').value='';
+  document.getElementById('nt-atual').checked=false;
+  document.getElementById('nt-erro').textContent='';
+  document.getElementById('nt-id-preview').textContent='—';
+  // Preços de partida: default = vigente (ou última); "Em branco" por último
+  const versoes=CFG.tabelas_meta||[];
+  const idAtual=_idAtual();
+  const base=document.getElementById('nt-base');
+  base.innerHTML=versoes.map(t=>`<option value="${t.id}"${t.id===idAtual?' selected':''}>Duplicar: ${t.rotulo}${t.atual?' (vigente)':''}</option>`).join('')+
+    '<option value="vazia">Em branco (preencher do zero)</option>';
+  document.getElementById('nova-tabela-overlay').style.display='flex';
+  setTimeout(()=>document.getElementById('nt-inicio').focus(),80);
+}
+function fecharNovaTabela(){ document.getElementById('nova-tabela-overlay').style.display='none'; }
+
+async function criarVersao(){
+  const inicio=document.getElementById('nt-inicio').value;
+  const fim=document.getElementById('nt-fim').value;
+  let rotulo=document.getElementById('nt-rotulo').value.trim();
+  const base=document.getElementById('nt-base').value;
+  const tornar_atual=document.getElementById('nt-atual').checked;
+  const erro=document.getElementById('nt-erro');
+  if(!inicio || !fim){ erro.textContent='Informe início e fim da vigência.'; return; }
+  if(inicio>fim){ erro.textContent='O início não pode ser depois do fim.'; return; }
+  if(!rotulo) rotulo=sugereRotulo(inicio,fim);
+  try {
+    const r=await fetch('/api/tabelas/criar',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({senha:SENHA_SESSAO,operador:OPERADOR,rotulo,inicio,fim,base,tornar_atual})});
+    if(r.status===401){ erro.textContent='Senha incorreta. Reabra desbloqueando a tabela.'; return; }
+    const d=await r.json();
+    if(!r.ok){ erro.textContent=d.erro||('Erro '+r.status); return; }
+    fecharNovaTabela();
+    // Se virou a vigente, atualiza CFG com os preços promovidos
+    if(tornar_atual){
+      try { const g=await fetch('/api/config'); const c=await g.json();
+        CFG.precos_pj=c.precos_pj; CFG.precos_pf=c.precos_pf; } catch(e){}
+    }
+    await recarregarTabelasMeta();   // atualiza meta + contador de ids
+    await selecionarTabelaEdit(d.id);
+    await recarregarLog();
+    toast('✓ Versão criada: '+rotulo);
+  } catch(e){ erro.textContent='Erro: '+e.message; }
+}
+
+async function definirAtual(){
+  if(!senhaValida()){ solicitarSenha('precos', definirAtual); return; }
+  const meta=(CFG.tabelas_meta||[]).find(t=>t.id===TABELA_EDIT_ID);
+  if(meta && meta.atual){ toast('Esta versão já é a vigente'); return; }
+  if(!confirm(`Tornar "${meta?meta.rotulo:TABELA_EDIT_ID}" a versão vigente?`)) return;
+  try {
+    const r=await fetch('/api/tabelas/'+encodeURIComponent(TABELA_EDIT_ID)+'/atual',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({senha:SENHA_SESSAO,operador:OPERADOR})});
+    if(r.status===401){ toast('Senha incorreta'); return; }
+    const d=await r.json();
+    if(!r.ok){ toast('Erro: '+(d.erro||r.status)); return; }
+    if(d.tabelas_meta) CFG.tabelas_meta=d.tabelas_meta;
+    try { const g=await fetch('/api/config'); const c=await g.json();
+      CFG.precos_pj=c.precos_pj; CFG.precos_pf=c.precos_pf; } catch(e){}
+    buildTabelaSel(); buildCfgTabelaSel();
+    await selecionarTabelaEdit(TABELA_EDIT_ID);
+    await recarregarLog();
+    toast('✓ Versão vigente atualizada');
+  } catch(e){ toast('Erro: '+e.message); }
+}
+
+async function excluirVersao(){
+  if(!senhaValida()){ solicitarSenha('precos', excluirVersao); return; }
+  const meta=(CFG.tabelas_meta||[]).find(t=>t.id===TABELA_EDIT_ID);
+  if(meta && meta.atual){ toast('Não é possível excluir a versão vigente'); return; }
+  if(!confirm(`Excluir a versão "${meta?meta.rotulo:TABELA_EDIT_ID}"? Esta ação não pode ser desfeita.`)) return;
+  try {
+    const r=await fetch('/api/tabelas/'+encodeURIComponent(TABELA_EDIT_ID)+'/excluir',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({senha:SENHA_SESSAO,operador:OPERADOR})});
+    if(r.status===401){ toast('Senha incorreta'); return; }
+    const d=await r.json();
+    if(!r.ok){ toast('Erro: '+(d.erro||r.status)); return; }
+    if(d.tabelas_meta) CFG.tabelas_meta=d.tabelas_meta;
+    TABELA_EDIT_ID=_idAtual();
+    buildTabelaSel(); buildCfgTabelaSel();
+    await selecionarTabelaEdit(TABELA_EDIT_ID);
+    await recarregarLog();
+    toast('✓ Versão excluída');
+  } catch(e){ toast('Erro: '+e.message); }
+}
+
+// ══ HISTÓRICO ════════════════════════════════════════════════════════════════
+const ACAO_LABEL = {
+  criar_tabela:'Criar versão', criar_tabela_atual:'Criar (vigente)',
+  editar_precos:'Editar preços', definir_atual:'Definir vigente',
+  excluir_tabela:'Excluir versão', editar_config:'Editar config'
+};
+function buildAuditLog(){
+  const tb=document.getElementById('audit-tbody');
+  if(!tb) return;
+  const log=(CFG.audit_log||[]).slice().reverse();
+  if(!log.length){ tb.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--muted);font-size:11px;padding:14px">Nenhuma atividade registrada.</td></tr>'; return; }
+  tb.innerHTML=log.map(e=>{
+    const dt=(e.ts||'').replace('T',' ');
+    return `<tr>
+      <td style="font-size:10px;font-family:'DM Mono',monospace">${dt}</td>
+      <td style="font-size:11px">${ACAO_LABEL[e.acao]||e.acao}</td>
+      <td style="font-size:10px;font-family:'DM Mono',monospace">${e.tabela_id||'—'}</td>
+      <td style="font-size:11px">${e.operador||'—'}</td>
+      <td style="font-size:10px;color:var(--muted)">${e.detalhe||''}</td>
+    </tr>`;
+  }).join('');
 }
 
 // ══ CFG: OTE ═════════════════════════════════════════════════════════════════
@@ -2028,14 +2366,25 @@ function showCfg(tab){
 }
 
 async function saveAllCfg(){
+  if(!senhaValida()){ solicitarSenha('precos', saveAllCfg); return; }
+  // Envia campos sensíveis + credencial da sessão (preços são da versão vigente)
+  const payload = {
+    senha: SENHA_SESSAO, operador: OPERADOR,
+    precos_pj: CFG.precos_pj, precos_pf: CFG.precos_pf,
+    vendedores: CFG.vendedores, ote: CFG.ote,
+    mult_table: CFG.mult_table, produtos: CFG.produtos, depara: CFG.depara
+  };
   try {
-    await fetch('/api/config',{
+    const r = await fetch('/api/config',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(CFG)
+      body:JSON.stringify(payload)
     });
+    if(r.status===401){ toast('Senha incorreta'); return; }
+    if(!r.ok){ toast('Erro ao salvar'); return; }
     toast('✓ Configurações salvas');
     buildVGrid();
+    await recarregarLog();
   } catch(e) {
     toast('Erro ao salvar');
   }
@@ -2183,6 +2532,11 @@ let SESSAO_SENHA_OK = false;   // true após senha correta nesta sessão (30 min
 let SESSAO_SENHA_TS = 0;
 let SENHA_CALLBACK  = null;
 let SENHA_SECAO     = null;
+let SENHA_SESSAO    = '';       // senha validada (enviada nas escritas server-side)
+let OPERADOR        = '';       // nome do operador (para o histórico)
+let MODO_SENHA      = 'desbloqueio';  // 'desbloqueio' | 'acao' (dupla verificação)
+let ACAO_OK         = null;
+let ACAO_CANCEL     = null;
 // Seções desbloqueadas individualmente
 const SECOES_DESBLOQUEADAS = {};
 
@@ -2222,12 +2576,43 @@ function solicitarSenhaSeNecessario(secao, callback) {
   // Se bloqueado, apenas renderiza em modo readonly (callback não chamado)
 }
 
-function confirmarSenha() {
+// Confirmação de senha para uma AÇÃO específica (dupla verificação): sempre pede
+// a senha de novo, mesmo com a sessão desbloqueada. Não altera o estado das seções.
+function solicitarSenhaAcao(descricao, onOk, onCancel) {
+  MODO_SENHA  = 'acao';
+  ACAO_OK     = onOk;
+  ACAO_CANCEL = onCancel || null;
+  document.getElementById('senha-descricao').textContent = descricao;
+  document.getElementById('senha-erro').textContent = '';
+  document.getElementById('senha-input').value = '';
+  document.getElementById('senha-overlay').style.display = 'flex';
+  setTimeout(()=>document.getElementById('senha-input').focus(), 80);
+}
+
+async function confirmarSenha() {
   const digitada = document.getElementById('senha-input').value;
-  const correta  = CFG.senha || SENHA_DEFAULT;
-  if (digitada === correta) {
+  const operador = (document.getElementById('senha-operador').value || '').trim();
+  let ok = false;
+  try {
+    const r = await fetch('/api/verificar_senha', {method:'POST',
+      headers:{'Content-Type':'application/json'}, body:JSON.stringify({senha:digitada})});
+    ok = (await r.json()).ok;
+  } catch(e) {
+    // Fallback offline: valida contra a senha padrão se o servidor não responder
+    ok = (digitada === SENHA_DEFAULT);
+  }
+  if (ok) {
     SESSAO_SENHA_OK = true;
     SESSAO_SENHA_TS = Date.now();
+    SENHA_SESSAO    = digitada;
+    if (operador) OPERADOR = operador;
+    if (MODO_SENHA === 'acao') {           // dupla verificação: roda a ação e sai
+      const cb = ACAO_OK;
+      ACAO_OK = null; ACAO_CANCEL = null; MODO_SENHA = 'desbloqueio';
+      fecharModalSenha();
+      if (cb) cb(digitada);
+      return;
+    }
     SECOES_DESBLOQUEADAS[SENHA_SECAO] = true;
     fecharModalSenha();
     desbloquearSecao(SENHA_SECAO);
@@ -2241,6 +2626,11 @@ function confirmarSenha() {
 
 function fecharModalSenha() {
   document.getElementById('senha-overlay').style.display = 'none';
+  if (MODO_SENHA === 'acao') {             // fechou sem confirmar: reverte a ação
+    const cc = ACAO_CANCEL;
+    ACAO_OK = null; ACAO_CANCEL = null; MODO_SENHA = 'desbloqueio';
+    if (cc) cc();
+  }
 }
 
 function desbloquearSecao(secao) {
@@ -2264,17 +2654,24 @@ function desbloquearSecao(secao) {
   }
 }
 
-function trocarSenha() {
+async function trocarSenha() {
   const atual = document.getElementById('senha-atual').value;
   const nova  = document.getElementById('senha-nova').value;
   const conf  = document.getElementById('senha-conf').value;
   const msg   = document.getElementById('senha-troca-msg');
-  const correta = CFG.senha || SENHA_DEFAULT;
-  if (atual !== correta) { msg.style.color='var(--red)'; msg.textContent='Senha atual incorreta.'; return; }
   if (!nova)             { msg.style.color='var(--red)'; msg.textContent='Nova senha não pode ser vazia.'; return; }
   if (nova !== conf)     { msg.style.color='var(--red)'; msg.textContent='Confirmação não coincide.'; return; }
-  CFG.senha = nova;
-  msg.style.color='var(--green)'; msg.textContent='✓ Senha alterada. Clique em Salvar Configurações para persistir.';
+  try {
+    const r = await fetch('/api/config', {method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({senha:atual, senha_nova:nova, operador:OPERADOR})});
+    if (r.status===401) { msg.style.color='var(--red)'; msg.textContent='Senha atual incorreta.'; return; }
+    if (!r.ok)          { msg.style.color='var(--red)'; msg.textContent='Erro ao alterar senha.'; return; }
+    SENHA_SESSAO = nova;  // mantém a sessão válida com a nova senha
+    msg.style.color='var(--green)'; msg.textContent='✓ Senha alterada e salva.';
+    document.getElementById('senha-atual').value='';
+    document.getElementById('senha-nova').value='';
+    document.getElementById('senha-conf').value='';
+  } catch(e) { msg.style.color='var(--red)'; msg.textContent='Erro: '+e.message; }
 }
 
 // ══ CFG: MULTIPLICADORES ═════════════════════════════════════════════════════

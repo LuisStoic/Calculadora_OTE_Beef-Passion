@@ -7,7 +7,9 @@ Stoic Capital · v1.0
 import os
 import json
 import re
+import shutil
 import tempfile
+from datetime import datetime
 from pathlib import Path
 from flask import Flask, request, jsonify, render_template, send_file
 import pdfplumber
@@ -20,8 +22,25 @@ from openpyxl.utils import get_column_letter
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50MB
 
-# ── Arquivo de configuração local ──────────────────────────────────────────────
-CFG_PATH = Path(__file__).parent / "config.json"
+# ── Arquivo de configuração: disco durável em produção, local em dev ────────────
+# DATA_DIR aponta para um disco persistente (ex.: Render Persistent Disk em
+# /var/data). Sem DATA_DIR, usa o diretório do app (execução local já persiste).
+_BASE_DIR = Path(__file__).parent
+_BUNDLED_CFG = _BASE_DIR / "config.json"
+_DATA_DIR = Path(os.environ.get("DATA_DIR", str(_BASE_DIR)))
+try:
+    _DATA_DIR.mkdir(parents=True, exist_ok=True)
+except Exception:
+    _DATA_DIR = _BASE_DIR
+CFG_PATH = _DATA_DIR / "config.json"
+BACKUP_DIR = _DATA_DIR / "backup"
+# Primeiro boot em disco vazio: semeia com o config.json versionado do repo.
+if not CFG_PATH.exists() and _BUNDLED_CFG.exists() and _BUNDLED_CFG.resolve() != CFG_PATH.resolve():
+    try:
+        BACKUP_DIR.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(_BUNDLED_CFG, CFG_PATH)
+    except Exception:
+        pass
 
 PRECOS_TABELA_2026 = {
         "ACEM PESCOCO PECA|CLASSICO": 35.0,
@@ -358,6 +377,12 @@ def load_cfg() -> dict:
                 cfg["tabela_atual"] = dict(DEFAULT_CFG["tabela_atual"])
             if "tabelas" not in cfg or not isinstance(cfg.get("tabelas"), list):
                 cfg["tabelas"] = []
+            # Migration: garantir log de atividades
+            if "audit_log" not in cfg or not isinstance(cfg.get("audit_log"), list):
+                cfg["audit_log"] = []
+            # Migration: contador monotônico de ids de tabela por ano
+            if "seq_tabelas" not in cfg or not isinstance(cfg.get("seq_tabelas"), dict):
+                cfg["seq_tabelas"] = {}
             return cfg
         except Exception:
             pass
@@ -401,6 +426,97 @@ def precos_da_versao(cfg: dict, canal: str, tabela_id: str = None) -> dict:
         if t.get("id") == tabela_id:
             return t.get(key, {}) or cfg.get(key, {})
     return cfg.get(key, {})
+
+
+# ── Gestão de versões: escrita, auth e log ─────────────────────────────────────
+def senha_ok(cfg: dict, data: dict) -> bool:
+    """Valida (server-side) a senha enviada no payload contra a senha do config."""
+    return str(data.get("senha", "")) == str(cfg.get("senha", ""))
+
+
+def registrar_log(cfg: dict, acao: str, tabela_id: str = "",
+                  operador: str = "", detalhe: str = ""):
+    """Acrescenta um evento ao audit_log (mantém os últimos 500)."""
+    log = cfg.setdefault("audit_log", [])
+    log.append({
+        "ts": datetime.now().isoformat(timespec="seconds"),
+        "acao": acao,
+        "tabela_id": tabela_id or "",
+        "operador": (operador or "").strip() or "(não informado)",
+        "detalhe": detalhe or "",
+    })
+    if len(log) > 500:
+        del log[:-500]
+
+
+def snapshot_backup():
+    """Copia o config.json atual para backup/config_<ISO>.json antes de mutar."""
+    if not CFG_PATH.exists():
+        return
+    try:
+        BACKUP_DIR.mkdir(parents=True, exist_ok=True)
+        stamp = datetime.now().strftime("%Y-%m-%d_%H%M%S_%f")
+        shutil.copy2(CFG_PATH, BACKUP_DIR / f"config_{stamp}.json")
+    except Exception:
+        pass
+
+
+def escrever_precos_versao(cfg: dict, tabela_id: str, canal: str, precos: dict) -> bool:
+    """Grava o dict de preços na versão indicada. Atual (ou id vazio) -> topo;
+    arquivada -> entrada de tabelas[]. Retorna False se o id não existe."""
+    key = "precos_pj" if canal == "PJ" else "precos_pf"
+    atual_id = (cfg.get("tabela_atual", {}) or {}).get("id")
+    if not tabela_id or tabela_id == atual_id:
+        cfg[key] = precos
+        return True
+    for t in cfg.get("tabelas", []):
+        if t.get("id") == tabela_id:
+            t[key] = precos
+            return True
+    return False
+
+
+def promover_versao(cfg: dict, tabela_id: str) -> bool:
+    """Torna `tabela_id` a versão vigente: arquiva a atual em tabelas[] (com seus
+    preços do topo) e promove a escolhida (preços p/ topo + metadados).
+    Idempotente se já for a atual. Retorna False se o id não existe."""
+    atual_meta = cfg.get("tabela_atual", {}) or {}
+    if not tabela_id or tabela_id == atual_meta.get("id"):
+        return True
+    alvo = next((t for t in cfg.get("tabelas", []) if t.get("id") == tabela_id), None)
+    if alvo is None:
+        return False
+    # Arquiva a atual: metadados + cópia dos preços do topo
+    arquivada = dict(atual_meta)
+    arquivada["precos_pj"] = dict(cfg.get("precos_pj", {}))
+    arquivada["precos_pf"] = dict(cfg.get("precos_pf", {}))
+    # Remove a alvo do arquivo e injeta a atual arquivada à frente
+    cfg["tabelas"] = [t for t in cfg.get("tabelas", []) if t.get("id") != tabela_id]
+    cfg["tabelas"].insert(0, arquivada)
+    # Promove a alvo: preços p/ topo + metadados (sem os blocos de preço)
+    cfg["precos_pj"] = dict(alvo.get("precos_pj", {}))
+    cfg["precos_pf"] = dict(alvo.get("precos_pf", {}))
+    cfg["tabela_atual"] = {k: alvo[k] for k in
+                           ("id", "rotulo", "inicio", "fim", "fonte", "criado_em")
+                           if k in alvo}
+    return True
+
+
+def _novo_id_tabela(cfg: dict, ano: str) -> str:
+    """Gera um id MONOTÔNICO no padrão <seq><ano> (1 de 2026 = 12026, ...).
+    Usa um contador persistido por ano (`seq_tabelas`) que nunca regride, então
+    excluir uma versão não libera o id para reuso."""
+    contadores = cfg.setdefault("seq_tabelas", {})
+    maxseq = int(contadores.get(ano, 0))
+    for tid in [(cfg.get("tabela_atual", {}) or {}).get("id")] + \
+               [t.get("id") for t in cfg.get("tabelas", [])]:
+        if tid and tid.endswith(ano):
+            pre = tid[:-len(ano)]
+            if pre.isdigit():
+                maxseq = max(maxseq, int(pre))
+    seq = maxseq + 1
+    contadores[ano] = seq
+    return f"{seq}{ano}"
 
 
 # ── PDF Extraction ─────────────────────────────────────────────────────────────
@@ -1292,21 +1408,178 @@ def get_config():
     # Versionamento: enviar só metadados das versões (não os preços arquivados)
     cfg["tabelas_meta"] = listar_tabelas(cfg)
     cfg.pop("tabelas", None)
+    # Segurança: não vazar a senha em texto plano (validação é server-side agora)
+    cfg["senha_definida"] = bool(cfg.get("senha"))
+    cfg.pop("senha", None)
     return jsonify(cfg)
 
 
 @app.route("/api/tabelas", methods=["GET"])
 def get_tabelas():
-    """Lista de versões de tabela (metadados) para o seletor."""
-    return jsonify({"tabelas": listar_tabelas(load_cfg())})
+    """Lista de versões de tabela (metadados) + contador de ids para o seletor."""
+    cfg = load_cfg()
+    return jsonify({"tabelas": listar_tabelas(cfg), "seq_tabelas": cfg.get("seq_tabelas", {})})
+
+
+@app.route("/api/tabelas/<tid>", methods=["GET"])
+def get_tabela(tid):
+    """Preços de uma versão específica (atual = topo; arquivada = tabelas[])."""
+    cfg = load_cfg()
+    atual = cfg.get("tabela_atual", {}) or {}
+    if tid == atual.get("id"):
+        return jsonify({"id": tid, "atual": True,
+                        "precos_pj": cfg.get("precos_pj", {}),
+                        "precos_pf": cfg.get("precos_pf", {})})
+    for t in cfg.get("tabelas", []):
+        if t.get("id") == tid:
+            return jsonify({"id": tid, "atual": False,
+                            "precos_pj": t.get("precos_pj", {}),
+                            "precos_pf": t.get("precos_pf", {})})
+    return jsonify({"erro": "Versão não encontrada."}), 404
+
+
+@app.route("/api/verificar_senha", methods=["POST"])
+def verificar_senha():
+    """Valida a senha no servidor (para o desbloqueio da UI)."""
+    cfg = load_cfg()
+    return jsonify({"ok": senha_ok(cfg, request.get_json() or {})})
+
+
+@app.route("/api/tabelas/criar", methods=["POST"])
+def criar_tabela():
+    """Cria uma nova versão (em branco ou duplicando outra). Protegido por senha."""
+    data = request.get_json() or {}
+    cfg = load_cfg()
+    if not senha_ok(cfg, data):
+        return jsonify({"erro": "Senha incorreta."}), 401
+    rotulo = (data.get("rotulo") or "").strip()
+    if not rotulo:
+        return jsonify({"erro": "Rótulo obrigatório."}), 400
+    inicio = (data.get("inicio") or "").strip()
+    fim = (data.get("fim") or "").strip()
+    if not inicio or not fim:
+        return jsonify({"erro": "Datas de início e fim são obrigatórias."}), 400
+    # ID derivado da vigência: ano do início + sequência (1 de 2026 = 12026, ...)
+    ano = inicio[:4] if len(inicio) >= 4 and inicio[:4].isdigit() else datetime.now().strftime("%Y")
+    ids = {(cfg.get("tabela_atual", {}) or {}).get("id")}
+    ids |= {t.get("id") for t in cfg.get("tabelas", [])}
+    novo_id = (data.get("id") or "").strip() or _novo_id_tabela(cfg, ano)
+    if novo_id in ids:
+        return jsonify({"erro": f"Já existe uma versão com id {novo_id}."}), 400
+    base = (data.get("base") or "vazia").strip()
+    if base and base != "vazia":
+        precos_pj = dict(precos_da_versao(cfg, "PJ", base))
+        precos_pf = dict(precos_da_versao(cfg, "PF", base))
+    else:
+        precos_pj, precos_pf = {}, {}
+    nova = {
+        "id": novo_id, "rotulo": rotulo, "inicio": inicio, "fim": fim,
+        "fonte": (data.get("fonte") or "").strip()
+                 or (f"app/dup:{base}" if base != "vazia" else "app/nova"),
+        "criado_em": datetime.now().strftime("%Y-%m-%d"),
+        "precos_pj": precos_pj, "precos_pf": precos_pf,
+    }
+    snapshot_backup()
+    global _MATCH_INDEX
+    _MATCH_INDEX = {}
+    cfg.setdefault("tabelas", []).insert(0, nova)
+    operador = data.get("operador", "")
+    if data.get("tornar_atual"):
+        promover_versao(cfg, novo_id)
+        registrar_log(cfg, "criar_tabela_atual", novo_id, operador,
+                      f"rótulo={rotulo}; base={base}; vigente")
+    else:
+        registrar_log(cfg, "criar_tabela", novo_id, operador,
+                      f"rótulo={rotulo}; base={base}")
+    save_cfg(cfg)
+    return jsonify({"ok": True, "id": novo_id, "tabelas_meta": listar_tabelas(cfg)})
+
+
+@app.route("/api/tabelas/<tid>/precos", methods=["POST"])
+def editar_precos_tabela(tid):
+    """Edita os preços (PJ e/ou PF) de uma versão. Protegido por senha."""
+    data = request.get_json() or {}
+    cfg = load_cfg()
+    if not senha_ok(cfg, data):
+        return jsonify({"erro": "Senha incorreta."}), 401
+    # Aceita {precos_pj, precos_pf} (ambos) ou {canal, precos} (um só)
+    blocos = {}
+    if isinstance(data.get("precos_pj"), dict):
+        blocos["PJ"] = data["precos_pj"]
+    if isinstance(data.get("precos_pf"), dict):
+        blocos["PF"] = data["precos_pf"]
+    if not blocos and isinstance(data.get("precos"), dict):
+        blocos[data.get("canal", "PJ")] = data["precos"]
+    if not blocos:
+        return jsonify({"erro": "Payload de preços inválido."}), 400
+    snapshot_backup()
+    global _MATCH_INDEX
+    _MATCH_INDEX = {}
+    partes = []
+    for canal, precos in blocos.items():
+        antes = dict(precos_da_versao(cfg, canal, tid))
+        if not escrever_precos_versao(cfg, tid, canal, precos):
+            return jsonify({"erro": f"Versão {tid} não encontrada."}), 404
+        alterados = sum(1 for k, v in precos.items() if antes.get(k) != v)
+        novos = sum(1 for k in precos if k not in antes)
+        removidos = sum(1 for k in antes if k not in precos)
+        partes.append(f"{canal}: {alterados} alt/{novos} novos/{removidos} rem")
+    registrar_log(cfg, "editar_precos", tid, data.get("operador", ""), "; ".join(partes))
+    save_cfg(cfg)
+    return jsonify({"ok": True, "tabelas_meta": listar_tabelas(cfg)})
+
+
+@app.route("/api/tabelas/<tid>/atual", methods=["POST"])
+def definir_tabela_atual(tid):
+    """Define uma versão existente como vigente. Protegido por senha."""
+    data = request.get_json() or {}
+    cfg = load_cfg()
+    if not senha_ok(cfg, data):
+        return jsonify({"erro": "Senha incorreta."}), 401
+    snapshot_backup()
+    global _MATCH_INDEX
+    _MATCH_INDEX = {}
+    if not promover_versao(cfg, tid):
+        return jsonify({"erro": f"Versão {tid} não encontrada."}), 404
+    registrar_log(cfg, "definir_atual", tid, data.get("operador", ""), "")
+    save_cfg(cfg)
+    return jsonify({"ok": True, "tabelas_meta": listar_tabelas(cfg)})
+
+
+@app.route("/api/tabelas/<tid>/excluir", methods=["POST"])
+def excluir_tabela(tid):
+    """Exclui uma versão ARQUIVADA (nunca a vigente). Protegido por senha."""
+    data = request.get_json() or {}
+    cfg = load_cfg()
+    if not senha_ok(cfg, data):
+        return jsonify({"erro": "Senha incorreta."}), 401
+    if tid == (cfg.get("tabela_atual", {}) or {}).get("id"):
+        return jsonify({"erro": "Não é possível excluir a versão vigente."}), 400
+    antes = len(cfg.get("tabelas", []))
+    cfg["tabelas"] = [t for t in cfg.get("tabelas", []) if t.get("id") != tid]
+    if len(cfg["tabelas"]) == antes:
+        return jsonify({"erro": f"Versão {tid} não encontrada."}), 404
+    snapshot_backup()
+    registrar_log(cfg, "excluir_tabela", tid, data.get("operador", ""), "")
+    save_cfg(cfg)
+    return jsonify({"ok": True, "tabelas_meta": listar_tabelas(cfg)})
 
 
 @app.route("/api/config", methods=["POST"])
 def post_config():
-    data = request.get_json()
+    data = request.get_json() or {}
     cfg = load_cfg()
+    # Campos sensíveis exigem senha (server-side). `senha` é só credencial;
+    # a troca de senha usa `senha_nova`. `depara`/`produtos` seguem sem gate
+    # (o auto-save do De-Para roda durante o cálculo, sem desbloqueio).
+    SENSIVEIS = ("precos_pj", "precos_pf", "ote", "vendedores", "mult_table", "produtos", "senha_nova")
+    toca_sensivel = any(k in data for k in SENSIVEIS)
+    if toca_sensivel and not senha_ok(cfg, data):
+        return jsonify({"erro": "Senha incorreta."}), 401
     global _MATCH_INDEX
     _MATCH_INDEX = {}  # Invalida cache de matching ao atualizar preços
+    if toca_sensivel:
+        snapshot_backup()
     if "precos_pj" in data:
         cfg["precos_pj"] = data["precos_pj"]
     if "precos_pf" in data:
@@ -1325,8 +1598,38 @@ def post_config():
         cfg["produtos"] = list(existing.values())
     if "mult_table" in data:
         cfg["mult_table"] = data["mult_table"]
-    if "senha" in data:
-        cfg["senha"] = data["senha"]
+    if "senha_nova" in data and data["senha_nova"]:
+        cfg["senha"] = data["senha_nova"]
+    if toca_sensivel:
+        campos = ", ".join(k for k in SENSIVEIS if k in data)
+        registrar_log(cfg, "editar_config", "", data.get("operador", ""), f"campos: {campos}")
+    save_cfg(cfg)
+    return jsonify({"ok": True})
+
+
+@app.route("/api/produtos/codigo", methods=["POST"])
+def alterar_codigo_produto():
+    """Altera o Cód. BP de um produto (dupla verificação de senha). Log dedicado."""
+    data = request.get_json() or {}
+    cfg = load_cfg()
+    if not senha_ok(cfg, data):
+        return jsonify({"erro": "Senha incorreta."}), 401
+    key = data.get("key")
+    codigo = (data.get("codigo") or "").strip()
+    if codigo and not re.fullmatch(r"\d{5}", codigo):
+        return jsonify({"erro": "Cód. BP deve ter exatamente 5 dígitos."}), 400
+    prod = next((p for p in cfg.get("produtos", []) if p.get("key") == key), None)
+    if prod is None:
+        return jsonify({"erro": "Produto não encontrado."}), 404
+    antigo = (prod.get("cod_bp") or "")
+    if antigo == codigo:
+        return jsonify({"ok": True})
+    snapshot_backup()
+    global _MATCH_INDEX
+    _MATCH_INDEX = {}
+    prod["cod_bp"] = codigo
+    registrar_log(cfg, "alterar_codigo", "", data.get("operador", ""),
+                  f'{prod.get("desc", key)}: {antigo or "—"} → {codigo or "—"}')
     save_cfg(cfg)
     return jsonify({"ok": True})
 

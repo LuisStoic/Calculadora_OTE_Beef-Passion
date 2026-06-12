@@ -1,0 +1,21 @@
+# Render Blueprint — Calculadora OTE Beef Passion
+# Persistência: o disco em /var/data sobrevive a redeploys (sem ele, as edições
+# de tabela e o audit_log somem). DATA_DIR aponta o app para esse disco; no
+# primeiro boot o config.json versionado é copiado para lá (seed) e a partir daí
+# o disco passa a ser a fonte de verdade dos preços.
+# Obs.: Persistent Disk exige plano pago (Starter+) e mantém 1 instância.
+services:
+  - type: web
+    name: calculadora-ote-beef-passion
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    # worker único: serializa as gravações de config.json (1-3 usuários)
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120
+    envVars:
+      - key: DATA_DIR
+        value: /var/data
+    disk:
+      name: ote-data
+      mountPath: /var/data
+      sizeGB: 1
