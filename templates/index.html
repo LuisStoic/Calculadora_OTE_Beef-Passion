@@ -187,6 +187,8 @@ input[type=number]{font-family:'DM Mono',monospace}
 
 <main>
 
+<div id="persist-banner" class="no-print" style="display:none;background:#FEE2E2;border:1px solid var(--red);color:#7F1D1D;border-radius:8px;padding:10px 14px;font-size:12px;margin-bottom:14px"></div>
+
 <!-- ══ TAB 1 ══ -->
 <div id="p1" class="panel active">
   <div class="ptitle">Vendedor & Período</div>
@@ -1059,6 +1061,7 @@ async function uploadPDF(input){
     }
 
     ITENS = data.itens || [];
+    RESULTADO_CTX = null; ITENS_CALC = null;  // novo PDF invalida cálculo anterior
     document.getElementById('prog-card').style.display='none';
     renderExtPreview(data);
     document.getElementById('ext-card').style.display='block';
@@ -1550,8 +1553,10 @@ function verificarPodeCalcular() {
 
 // ══ CALCULAR ═════════════════════════════════════════════════════════════════
 
-// Itens da última revisão enviados ao cálculo (reusados na exportação Excel,
-// para o xlsx refletir exatamente as decisões da revisão e não os itens crus).
+// Contexto congelado do último cálculo (itens enriquecidos + versão/canal/nível/
+// período). A exportação Excel usa SÓ isto, garantindo que o xlsx === a tela.
+let RESULTADO_CTX = null;
+// Itens da última revisão enviados ao cálculo (mantido por compat).
 let ITENS_CALC = null;
 
 // Aplica as decisões da revisão (REV_STATE) aos itens: exclusões (intragrupo,
@@ -1563,6 +1568,11 @@ function enriquecerItens(){
     const st = REV_STATE[idx] || {};
     if (st.motivo === 'intragrupo') {
       return {...it, _excluir: true, _motivo: 'intragrupo'};
+    }
+    // Intragrupo com "considerar" ligado: conta como venda normal, mas marca
+    // para rastreabilidade (o backend não exclui; o Excel mostra a origem).
+    if (st.acao === 'intragrupo_incluido') {
+      return {...it, _intragrupo_considerado: true};
     }
     if (st.motivo === 'fora_competencia') {
       return {...it, _excluir: true, _motivo: 'fora_competencia'};
@@ -1610,6 +1620,7 @@ async function calcular(){
     toast('De-Para salvo — '+Object.keys(novoDepara).length+' mapeamentos');
   }
 
+  const tabelaIdCalc = (document.getElementById('sel-tabela')||{}).value || null;
   try {
     const resp = await fetch('/api/calcular',{
       method:'POST',
@@ -1619,10 +1630,18 @@ async function calcular(){
         canal: VEND_ATIVO.canal,
         nivel, mes, ano,
         vendedor: VEND_ATIVO.nome,
-        tabela_id: (document.getElementById('sel-tabela')||{}).value || null
+        tabela_id: tabelaIdCalc
       })
     });
     RESULTADO = await resp.json();
+    // Congela o CONTEXTO exato do cálculo. A exportação Excel usa SÓ isto, para
+    // o xlsx refletir exatamente o resultado da tela (mesmos itens/versão/nível),
+    // mesmo que o usuário mude o seletor ou a revisão depois sem recalcular.
+    RESULTADO_CTX = {
+      itens: itensEnriquecidos,
+      canal: VEND_ATIVO.canal, nivel, mes, ano, vendedor: VEND_ATIVO.nome,
+      tabela_id: (RESULTADO && RESULTADO.tabela_id) || tabelaIdCalc
+    };
     renderResultado(RESULTADO);
     goTab(4);
   } catch(e) {
@@ -1797,18 +1816,15 @@ function renderResultado(res){
 }
 
 async function exportarXLSX(){
-  if(!RESULTADO||!VEND_ATIVO) return;
-  const nivel = parseInt(document.getElementById('sel-nivel').value);
-  const mes   = parseInt(document.getElementById('sel-mes').value);
-  const ano   = parseInt(document.getElementById('inp-ano').value);
-
-  // Usa os MESMOS itens enriquecidos do cálculo (com exclusões/vínculos da revisão).
-  // Fallback: reconstrói a partir do REV_STATE atual se ainda não houve cálculo.
-  const itensExport = ITENS_CALC || enriquecerItens().itens;
+  // Exporta EXATAMENTE o que foi calculado (contexto congelado). Sem isso, ler
+  // itens/versão/nível do DOM no momento da exportação poderia gerar um Excel
+  // divergente do resultado mostrado (preços, faixas e comissão diferentes).
+  if(!RESULTADO_CTX){ alert('Calcule o OTE antes de exportar (o Excel reflete o cálculo).'); return; }
+  const ctx = RESULTADO_CTX;
   const resp = await fetch('/api/exportar_xlsx',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({itens:itensExport,canal:VEND_ATIVO.canal,nivel,mes,ano,vendedor:VEND_ATIVO.nome,tabela_id:(document.getElementById('sel-tabela')||{}).value||null})
+    body:JSON.stringify({itens:ctx.itens,canal:ctx.canal,nivel:ctx.nivel,mes:ctx.mes,ano:ctx.ano,vendedor:ctx.vendedor,tabela_id:ctx.tabela_id})
   });
   if(!resp.ok){alert('Erro ao gerar Excel.');return;}
   const blob = await resp.blob();
@@ -2110,17 +2126,36 @@ async function recarregarLog(){
   } catch(e){}
 }
 
-// Indicador de persistência (modo local / GitHub e saúde do último commit)
+// Indicador de persistência (modo local / GitHub e saúde do último commit).
+// Em servidor sem token, alerta que as edições NÃO persistem (disco efêmero).
+function ehLocalhost(){
+  return ['localhost','127.0.0.1','',null].includes(location.hostname);
+}
 function renderPersistencia(){
   const el=document.getElementById('persist-status');
-  if(!el) return;
+  const banner=document.getElementById('persist-banner');
   const p=CFG.persistencia||{modo:'local',ok:true};
-  if(p.modo!=='github'){
-    el.innerHTML='<span style="color:var(--muted)">💾 Local (disco)</span>';
-  } else if(p.ok){
-    el.innerHTML=`<span style="color:var(--green)">☁ Sincronizado com GitHub${p.detalhe?' · '+p.detalhe:''}</span>`;
-  } else {
-    el.innerHTML=`<span style="color:var(--red)">⚠ Falha ao sincronizar com GitHub${p.detalhe?' · '+p.detalhe:''}</span>`;
+  const efemero = (p.modo!=='github') && !ehLocalhost();  // servidor sem token
+  if(el){
+    if(efemero){
+      el.innerHTML='<span style="color:var(--red);font-weight:700">⚠ NÃO persiste no redeploy</span>';
+    } else if(p.modo!=='github'){
+      el.innerHTML='<span style="color:var(--muted)">💾 Local (disco)</span>';
+    } else if(p.ok){
+      el.innerHTML=`<span style="color:var(--green)">☁ Sincronizado com GitHub${p.detalhe?' · '+p.detalhe:''}</span>`;
+    } else {
+      el.innerHTML=`<span style="color:var(--red)">⚠ Falha ao sincronizar com GitHub${p.detalhe?' · '+p.detalhe:''}</span>`;
+    }
+  }
+  if(banner){
+    if(efemero || (p.modo==='github' && p.ok===false)){
+      banner.style.display='block';
+      banner.innerHTML = efemero
+        ? '⚠ <strong>As alterações não estão sendo salvas de forma permanente.</strong> Configure a variável <code>GITHUB_TOKEN</code> no Render para que edições de tabela/intragrupo/config sobrevivam ao redeploy.'
+        : `⚠ <strong>Falha ao gravar no GitHub.</strong> ${p.detalhe||''} — verifique o token (permissão Contents: Read/Write).`;
+    } else {
+      banner.style.display='none';
+    }
   }
 }
 

@@ -2349,5 +2349,12 @@
   },
   "senha": "beefpassion",
   "mult_table": {},
-  "depara": {}
+  "depara": {},
+  "intragrupo_considerar": false,
+  "intragrupo_termos": [
+    {
+      "texto": "BEEF PASSION",
+      "modo": "contem"
+    }
+  ]
 }
