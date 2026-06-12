@@ -1821,7 +1821,7 @@ function renderResultado(res){
 
     <div class="brow no-print" style="margin-top:18px">
       <button class="btn btn-o" onclick="goTab(2)">← Voltar</button>
-      <button class="btn btn-g" onclick="exportarXLSX()">⬇ Exportar Excel</button>
+      <button class="btn btn-g" id="btn-export" onclick="exportarXLSX()">⬇ Exportar Excel</button>
       <button class="btn btn-p" onclick="window.print()">🖨 Imprimir / PDF</button>
     </div>`;
 }
@@ -1832,19 +1832,37 @@ async function exportarXLSX(){
   // divergente do resultado mostrado (preços, faixas e comissão diferentes).
   if(!RESULTADO_CTX){ alert('Calcule o OTE antes de exportar (o Excel reflete o cálculo).'); return; }
   const ctx = RESULTADO_CTX;
-  const resp = await fetch('/api/exportar_xlsx',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({itens:ctx.itens,canal:ctx.canal,nivel:ctx.nivel,mes:ctx.mes,ano:ctx.ano,vendedor:ctx.vendedor,tabela_id:ctx.tabela_id})
-  });
-  if(!resp.ok){alert('Erro ao gerar Excel.');return;}
-  const blob = await resp.blob();
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href = url;
-  a.download = `OTE_${VEND_ATIVO.nome}_${String(mes).padStart(2,'0')}_${ano}.xlsx`;
-  a.click();
-  URL.revokeObjectURL(url);
+  const btn = document.getElementById('btn-export');
+  const txtOrig = btn ? btn.innerHTML : '';
+  if(btn){ btn.disabled = true; btn.innerHTML = '<div class="spin"></div> Gerando Excel...'; }
+  try {
+    const resp = await fetch('/api/exportar_xlsx',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({itens:ctx.itens,canal:ctx.canal,nivel:ctx.nivel,mes:ctx.mes,ano:ctx.ano,vendedor:ctx.vendedor,tabela_id:ctx.tabela_id})
+    });
+    if(!resp.ok){
+      let detalhe = 'HTTP '+resp.status;
+      try { const j = await resp.json(); if(j && j.erro) detalhe = j.erro; } catch(e){}
+      alert('Erro ao gerar o Excel: '+detalhe);
+      return;
+    }
+    const blob = await resp.blob();
+    if(!blob || blob.size===0){ alert('O Excel veio vazio. Recalcule e tente de novo.'); return; }
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url;
+    a.download = `OTE_${ctx.vendedor}_${String(ctx.mes).padStart(2,'0')}_${ctx.ano}.xlsx`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    toast('✓ Excel exportado');
+  } catch(e){
+    alert('Falha ao exportar o Excel: '+(e && e.message ? e.message : e));
+  } finally {
+    if(btn){ btn.disabled = false; btn.innerHTML = txtOrig; }
+  }
 }
 
 // ══ CFG: PREÇOS ══════════════════════════════════════════════════════════════
