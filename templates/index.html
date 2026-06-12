@@ -187,8 +187,6 @@ input[type=number]{font-family:'DM Mono',monospace}
 
 <main>
 
-<div id="persist-banner" class="no-print" style="display:none;background:#FEE2E2;border:1px solid var(--red);color:#7F1D1D;border-radius:8px;padding:10px 14px;font-size:12px;margin-bottom:14px"></div>
-
 <!-- ══ TAB 1 ══ -->
 <div id="p1" class="panel active">
   <div class="ptitle">Vendedor & Período</div>
@@ -637,6 +635,8 @@ input[type=number]{font-family:'DM Mono',monospace}
     <button class="btn btn-o" onclick="goTab(1)">← Voltar ao Início</button>
   </div>
 </div>
+
+<div id="persist-footnote" class="no-print" style="display:none;text-align:center;color:var(--muted);font-size:10px;margin-top:28px;padding-top:10px;border-top:1px solid var(--border)"></div>
 
 </main>
 <div id="toast">✓ Salvo</div>
@@ -2144,28 +2144,28 @@ function ehLocalhost(){
 }
 function renderPersistencia(){
   const el=document.getElementById('persist-status');
-  const banner=document.getElementById('persist-banner');
+  const foot=document.getElementById('persist-footnote');
   const p=CFG.persistencia||{modo:'local',ok:true};
   const efemero = (p.modo!=='github') && !ehLocalhost();  // servidor sem token
   if(el){
-    if(efemero){
-      el.innerHTML='<span style="color:var(--red);font-weight:700">⚠ NÃO persiste no redeploy</span>';
-    } else if(p.modo!=='github'){
-      el.innerHTML='<span style="color:var(--muted)">💾 Local (disco)</span>';
-    } else if(p.ok){
+    if(p.modo==='github' && p.ok){
       el.innerHTML=`<span style="color:var(--green)">☁ Sincronizado com GitHub${p.detalhe?' · '+p.detalhe:''}</span>`;
+    } else if(p.modo==='github' && p.ok===false){
+      el.innerHTML=`<span style="color:var(--muted)">Falha ao sincronizar${p.detalhe?' · '+p.detalhe:''}</span>`;
     } else {
-      el.innerHTML=`<span style="color:var(--red)">⚠ Falha ao sincronizar com GitHub${p.detalhe?' · '+p.detalhe:''}</span>`;
+      el.innerHTML='<span style="color:var(--muted)">💾 Local</span>';
     }
   }
-  if(banner){
-    if(efemero || (p.modo==='github' && p.ok===false)){
-      banner.style.display='block';
-      banner.innerHTML = efemero
-        ? '⚠ <strong>As alterações não estão sendo salvas de forma permanente.</strong> Configure a variável <code>GITHUB_TOKEN</code> no Render para que edições de tabela/intragrupo/config sobrevivam ao redeploy.'
-        : `⚠ <strong>Falha ao gravar no GitHub.</strong> ${p.detalhe||''} — verifique o token (permissão Contents: Read/Write).`;
+  // Nota de rodapé discreta (cinza, sem destaque), só quando relevante.
+  if(foot){
+    if(efemero){
+      foot.style.display='block';
+      foot.textContent='Edições feitas nesta tela não persistem após redeploy enquanto a variável GITHUB_TOKEN não estiver configurada no Render.';
+    } else if(p.modo==='github' && p.ok===false){
+      foot.style.display='block';
+      foot.textContent='Falha ao gravar no GitHub'+(p.detalhe?' ('+p.detalhe+')':'')+' — verifique o token (Contents: Read/Write).';
     } else {
-      banner.style.display='none';
+      foot.style.display='none';
     }
   }
 }
