@@ -381,7 +381,7 @@ input[type=number]{font-family:'DM Mono',monospace}
 
   <!-- GRUPO D: intragrupo (transferências internas Beef Passion) -->
   <div class="card" id="rev-gd-card" style="display:none">
-    <div class="ctitle" style="color:#6B4C9A">⇄ Intragrupo — Transferências Internas <span id="gd-badge" style="margin-left:6px;background:#6B4C9A;color:#fff;border-radius:8px;padding:1px 8px;font-size:10px;font-weight:700"></span> <span style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted)">— vendas para Beef Passion, não entram no cálculo do variável</span></div>
+    <div class="ctitle" style="color:#6B4C9A">⇄ Intragrupo — Transferências Internas <span id="gd-badge" style="margin-left:6px;background:#6B4C9A;color:#fff;border-radius:8px;padding:1px 8px;font-size:10px;font-weight:700"></span> <span id="gd-nota" style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted)">— vendas para Beef Passion, não entram no cálculo do variável</span></div>
     <div class="twrap" style="max-height:220px">
       <table class="dt" id="rev-gd-table">
         <thead><tr>
@@ -420,6 +420,7 @@ input[type=number]{font-family:'DM Mono',monospace}
     <div class="ctab" onclick="showCfg('ote')">Parâmetros OTE</div>
     <div class="ctab" onclick="showCfg('mult')">Multiplicadores</div>
     <div class="ctab" onclick="showCfg('vendedores')">Vendedores</div>
+    <div class="ctab" onclick="showCfg('intragrupo')">Intragrupo</div>
     <div class="ctab" onclick="showCfg('seguranca')">Segurança</div>
   </div>
 
@@ -552,6 +553,47 @@ input[type=number]{font-family:'DM Mono',monospace}
       <div id="vend-wrap"></div>
       <div id="vend-add-row" style="display:none;margin-top:12px">
         <button class="btn btn-o btn-sm" onclick="adicionarVendedor()">+ Adicionar Vendedor</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTRAGRUPO -->
+  <div id="cfg-intragrupo" style="display:none">
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px">
+        <div class="ctitle" style="margin:0">Intragrupo — Transferências Internas</div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:11px;color:var(--muted)" id="intra-lock-status">🔒 Bloqueado para edição</span>
+          <button class="btn btn-o btn-sm" onclick="solicitarSenha('intragrupo', buildIntragrupoCfg)">Desbloquear</button>
+        </div>
+      </div>
+      <div class="al al-w" style="margin-bottom:16px"><span>⚠</span>
+        <span>Vendas para a própria Beef Passion são <strong>transferências internas</strong> (para a loja), não vendas reais.
+        São detectadas pelo nome do cliente. Por padrão <strong>não entram no cálculo do variável</strong>.</span>
+      </div>
+
+      <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--navy);cursor:pointer;margin-bottom:6px">
+        <input type="checkbox" id="intra-considerar" onchange="markIntraDirty()" disabled style="width:16px;height:16px">
+        <strong>Considerar transferências intragrupo no cálculo do variável</strong>
+      </label>
+      <div style="font-size:11px;color:var(--muted);margin:0 0 18px 26px">
+        Desmarcado (padrão): as linhas detectadas ficam de fora do variável. Marcado: contam como venda normal.
+      </div>
+
+      <div class="ctitle" style="font-size:14px;margin-bottom:8px">Termos que identificam um cliente intragrupo</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:10px">
+        <strong>Contém</strong>: o nome do cliente em qualquer parte (ex.: "BEEF PASSION" pega "BEEF PASSION IND COM…" e "PARRILA BEEF PASSION").
+        <strong>Exatamente igual</strong>: só quando o nome do cliente é idêntico ao termo.
+      </div>
+      <div class="ptwrap" style="max-height:280px">
+        <table class="pt">
+          <thead><tr><th>Termo (nome do cliente)</th><th style="width:170px">Modo de match</th><th style="width:70px"></th></tr></thead>
+          <tbody id="intra-tbody"></tbody>
+        </table>
+      </div>
+      <div style="display:flex;gap:9px;margin-top:12px;flex-wrap:wrap">
+        <button class="btn btn-o btn-sm" onclick="addTermoIntra()" id="intra-add-btn" disabled>+ Adicionar termo</button>
+        <button class="btn btn-p btn-sm" onclick="salvarIntragrupo()" id="intra-save-btn" disabled>💾 Salvar intragrupo</button>
       </div>
     </div>
   </div>
@@ -1140,11 +1182,15 @@ function abrirRevisao() {
   const GA=[], GB=[], GC=[], GD=[];
 
   ITENS.forEach((it, idx) => {
-    // Grupo D — Intragrupo: cliente é a própria Beef Passion (transferência interna)
-    const clienteUp = String(it.cliente || '').toUpperCase();
-    if (clienteUp.includes('BEEF PASSION')) {
+    // Grupo D — Intragrupo (transferência interna): detecção configurável.
+    // Default: exclui do variável. Se "considerar" estiver ligado, conta como venda normal.
+    if (clienteEhIntragrupo(it.cliente)) {
       GD.push({...it, idx});
-      REV_STATE[idx] = {acao:'intragrupo', motivo:'intragrupo', confirmado:true, usado:false};
+      if (CFG.intragrupo_considerar) {
+        REV_STATE[idx] = {acao:'intragrupo_incluido', confirmado:true, usado:true};
+      } else {
+        REV_STATE[idx] = {acao:'intragrupo', motivo:'intragrupo', confirmado:true, usado:false};
+      }
       return;
     }
     const {mes:mIt, ano:aIt} = parseMesItem(it.data);
@@ -1179,6 +1225,10 @@ function abrirRevisao() {
   document.getElementById('gb-badge').textContent = GB.length;
   document.getElementById('gc-badge').textContent = GC.length;
   const gdBadge = document.getElementById('gd-badge'); if (gdBadge) gdBadge.textContent = GD.length;
+  const gdNota = document.getElementById('gd-nota');
+  if (gdNota) gdNota.textContent = CFG.intragrupo_considerar
+    ? '— CONSIDERADAS no cálculo (configuração ativa em Configurações → Intragrupo)'
+    : '— vendas para Beef Passion, não entram no cálculo do variável';
 
   renderGrupoA(GA);
   renderGrupoB(GB);
@@ -2188,6 +2238,94 @@ function buildAuditLog(){
   }).join('');
 }
 
+// ══ CFG: INTRAGRUPO ══════════════════════════════════════════════════════════
+let INTRA_TERMOS = [];      // buffer de edição [{texto, modo}]
+let INTRA_DESBLOQUEADO = false;
+
+// Regra compartilhada com a Revisão: um cliente é intragrupo?
+function clienteEhIntragrupo(cliente){
+  const c = String(cliente||'').toUpperCase().trim();
+  if(!c) return false;
+  const termos = CFG.intragrupo_termos || [{texto:'BEEF PASSION',modo:'contem'}];
+  return termos.some(t=>{
+    const termo = String((t&&t.texto)||'').toUpperCase().trim();
+    if(!termo) return false;
+    return (t.modo==='exato') ? (c===termo) : c.includes(termo);
+  });
+}
+
+function buildIntragrupoCfg(){
+  // Carrega buffer a partir do CFG
+  INTRA_TERMOS = (CFG.intragrupo_termos||[]).map(t=>({texto:t.texto||'', modo:t.modo==='exato'?'exato':'contem'}));
+  if(!INTRA_TERMOS.length) INTRA_TERMOS=[{texto:'BEEF PASSION',modo:'contem'}];
+  const chk=document.getElementById('intra-considerar');
+  chk.checked = !!CFG.intragrupo_considerar;
+  chk.disabled = !INTRA_DESBLOQUEADO;
+  document.getElementById('intra-add-btn').disabled = !INTRA_DESBLOQUEADO;
+  document.getElementById('intra-save-btn').disabled = !INTRA_DESBLOQUEADO;
+  const st=document.getElementById('intra-lock-status');
+  if(st) st.textContent = INTRA_DESBLOQUEADO ? '🔓 Desbloqueado' : '🔒 Bloqueado para edição';
+  renderTermosIntra();
+}
+
+function renderTermosIntra(){
+  const tb=document.getElementById('intra-tbody');
+  if(!tb) return;
+  if(!INTRA_TERMOS.length){
+    tb.innerHTML='<tr><td colspan="3" style="text-align:center;color:var(--muted);font-size:11px;padding:12px">Nenhum termo. Adicione ao menos um.</td></tr>';
+    return;
+  }
+  const dis = INTRA_DESBLOQUEADO ? '' : 'disabled';
+  tb.innerHTML=INTRA_TERMOS.map((t,i)=>`
+    <tr>
+      <td><input type="text" class="pinp" ${dis} value="${(t.texto||'').replace(/"/g,'&quot;')}"
+        placeholder="Ex.: BEEF PASSION" style="width:100%;text-transform:uppercase"
+        oninput="INTRA_TERMOS[${i}].texto=this.value; markIntraDirty()"></td>
+      <td>
+        <select ${dis} onchange="INTRA_TERMOS[${i}].modo=this.value; markIntraDirty()"
+          style="width:100%;padding:5px 8px;border:1.5px solid var(--border);border-radius:5px;font-size:11px;background:#fff">
+          <option value="contem" ${t.modo!=='exato'?'selected':''}>Contém</option>
+          <option value="exato" ${t.modo==='exato'?'selected':''}>Exatamente igual</option>
+        </select>
+      </td>
+      <td style="text-align:center">
+        <button class="btn btn-o btn-sm" ${dis} onclick="removeTermoIntra(${i})"
+          style="color:var(--red);border-color:var(--red);padding:3px 9px">✕</button>
+      </td>
+    </tr>`).join('');
+}
+
+function addTermoIntra(){
+  if(!INTRA_DESBLOQUEADO) return;
+  INTRA_TERMOS.push({texto:'', modo:'contem'});
+  renderTermosIntra(); markIntraDirty();
+}
+function removeTermoIntra(i){
+  INTRA_TERMOS.splice(i,1);
+  renderTermosIntra(); markIntraDirty();
+}
+function markIntraDirty(){ /* hook p/ feedback futuro; mantém simples por ora */ }
+
+async function salvarIntragrupo(){
+  if(!senhaValida()){ solicitarSenha('intragrupo', salvarIntragrupo); return; }
+  const considerar = document.getElementById('intra-considerar').checked;
+  const termos = INTRA_TERMOS
+    .map(t=>({texto:(t.texto||'').trim(), modo:t.modo==='exato'?'exato':'contem'}))
+    .filter(t=>t.texto);
+  if(!termos.length){ toast('Adicione ao menos um termo'); return; }
+  try {
+    const r=await fetch('/api/config',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({senha:SENHA_SESSAO, operador:OPERADOR,
+                           intragrupo_considerar:considerar, intragrupo_termos:termos})});
+    if(r.status===401){ toast('Senha incorreta'); return; }
+    if(!r.ok){ toast('Erro ao salvar'); return; }
+    CFG.intragrupo_considerar = considerar;
+    CFG.intragrupo_termos = termos;
+    toast('✓ Regra de intragrupo salva');
+    await recarregarLog();
+  } catch(e){ toast('Erro: '+e.message); }
+}
+
 // ══ CFG: OTE ═════════════════════════════════════════════════════════════════
 // ── helpers OTE ──────────────────────────────────────────────────────────────
 function oteReadonly(canal, ni, field, value){
@@ -2352,17 +2490,19 @@ function removerVendedor(i){
 }
 
 function showCfg(tab){
-  ['precos','ote','mult','vendedores','seguranca'].forEach(t=>{
+  const TABS=['precos','ote','mult','vendedores','intragrupo','seguranca'];
+  TABS.forEach(t=>{
     const el=document.getElementById('cfg-'+t);
     if(el) el.style.display=t===tab?'block':'none';
   });
   document.querySelectorAll('.ctab').forEach((el,i)=>{
-    el.classList.toggle('active',['precos','ote','mult','vendedores','seguranca'][i]===tab);
+    el.classList.toggle('active',TABS[i]===tab);
   });
   if(tab==='ote')        { solicitarSenhaSeNecessario('ote',  buildOTECfg);  }
   if(tab==='mult')       { buildMultTable(); solicitarSenhaSeNecessario('mult', ()=>{}); }
   if(tab==='vendedores') { buildVendCfg();   solicitarSenhaSeNecessario('vendedores', ()=>{}); }
   if(tab==='precos')     { solicitarSenhaSeNecessario('precos', ()=>{}); }
+  if(tab==='intragrupo') { buildIntragrupoCfg(); solicitarSenhaSeNecessario('intragrupo', buildIntragrupoCfg); }
 }
 
 async function saveAllCfg(){
@@ -2651,6 +2791,10 @@ function desbloquearSecao(secao) {
   if (secao === 'precos') {
     PRECOS_DESBLOQUEADO = true;
     buildPriceTable();
+  }
+  if (secao === 'intragrupo') {
+    INTRA_DESBLOQUEADO = true;
+    buildIntragrupoCfg();
   }
 }
 

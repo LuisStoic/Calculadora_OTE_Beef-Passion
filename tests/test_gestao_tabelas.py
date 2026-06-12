@@ -121,7 +121,35 @@ check("código persistido",
 check("log dedicado alterar_codigo",
       any(e["acao"] == "alterar_codigo" for e in cfg.get("audit_log", [])))
 
-# 12. Backups pré-escrita criados
+# 12. Intragrupo: default, gate de senha, normalização e filtro de termos
+g = c.get("/api/config").get_json()
+check("intragrupo_considerar default = False", g.get("intragrupo_considerar") is False)
+check("intragrupo_termos default = BEEF PASSION/contem",
+      g.get("intragrupo_termos") == [{"texto": "BEEF PASSION", "modo": "contem"}])
+check("salvar intragrupo sem senha → 401",
+      c.post("/api/config", json={"intragrupo_considerar": True}).status_code == 401)
+r = c.post("/api/config", json={"senha": SENHA, "operador": "LF",
+           "intragrupo_considerar": True,
+           "intragrupo_termos": [{"texto": "beef passion", "modo": "contem"},
+                                 {"texto": "PARRILA BEEF PASSION LTDA", "modo": "exato"},
+                                 {"texto": "", "modo": "contem"}]})
+check("salvar intragrupo com senha → 200", r.status_code == 200)
+cfg = app.load_cfg()
+check("intragrupo persistido (considerar + 2 termos, vazio filtrado)",
+      cfg["intragrupo_considerar"] is True and len(cfg["intragrupo_termos"]) == 2
+      and cfg["intragrupo_termos"][1] == {"texto": "PARRILA BEEF PASSION LTDA", "modo": "exato"})
+
+# 12b. Migração: formato antigo (lista de strings) vira [{texto, modo:"contem"}]
+import json as _json
+raw = _json.loads(open(app.CFG_PATH, encoding="utf-8").read())
+raw["intragrupo_termos"] = ["BEEF PASSION", "OUTRA EMPRESA"]
+open(app.CFG_PATH, "w", encoding="utf-8").write(_json.dumps(raw, ensure_ascii=False))
+cfg = app.load_cfg()
+check("migração string-list → objetos",
+      cfg["intragrupo_termos"] == [{"texto": "BEEF PASSION", "modo": "contem"},
+                                   {"texto": "OUTRA EMPRESA", "modo": "contem"}])
+
+# 13. Backups pré-escrita criados
 n_bk = len(list((app.BACKUP_DIR).glob("config_*.json"))) if app.BACKUP_DIR.exists() else 0
 check("snapshots de backup criados", n_bk >= 4, f"n={n_bk}")
 

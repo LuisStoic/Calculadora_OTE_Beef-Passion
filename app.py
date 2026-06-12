@@ -266,7 +266,12 @@ DEFAULT_CFG = {
         "inicio": "2026-05-01", "fim": "2026-06-30",
         "fonte": "default", "criado_em": "2026-06-02",
     },
-    "tabelas": []
+    "tabelas": [],
+    # Intragrupo: vendas para a própria Beef Passion (transferência interna).
+    # Detectadas pelo nome do cliente. Por padrão NÃO entram no cálculo do variável.
+    # Cada termo tem modo "contem" (substring) ou "exato" (nome idêntico).
+    "intragrupo_considerar": False,
+    "intragrupo_termos": [{"texto": "BEEF PASSION", "modo": "contem"}],
 }
 
 # Tabela de multiplicadores exata
@@ -383,6 +388,18 @@ def load_cfg() -> dict:
             # Migration: contador monotônico de ids de tabela por ano
             if "seq_tabelas" not in cfg or not isinstance(cfg.get("seq_tabelas"), dict):
                 cfg["seq_tabelas"] = {}
+            # Migration: config de intragrupo (default + termos com modo de match)
+            if "intragrupo_considerar" not in cfg:
+                cfg["intragrupo_considerar"] = False
+            termos = cfg.get("intragrupo_termos")
+            if not isinstance(termos, list) or not termos:
+                cfg["intragrupo_termos"] = [{"texto": "BEEF PASSION", "modo": "contem"}]
+            else:
+                # Normaliza formato antigo (lista de strings) -> objetos {texto, modo}
+                cfg["intragrupo_termos"] = [
+                    t if isinstance(t, dict) else {"texto": str(t), "modo": "contem"}
+                    for t in termos
+                ]
             return cfg
         except Exception:
             pass
@@ -1234,7 +1251,8 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
         "Azul: Tabela Ideal (≤3% desc.) | "
         "Laranja: 3–10% Desconto | "
         "Vermelho: Abaixo 10% | "
-        "Cinza: Sem Referência (NÃO entra no cálculo)"
+        "Cinza: Sem Referência (NÃO entra no cálculo) | "
+        "Lilás: Intragrupo / transferência (NÃO entra no cálculo)"
     )
     ws2["A3"].font = _font(color="555555", size=8, italic=True)
     ws2["A3"].alignment = Alignment(horizontal="left", vertical="center")
@@ -1572,7 +1590,8 @@ def post_config():
     # Campos sensíveis exigem senha (server-side). `senha` é só credencial;
     # a troca de senha usa `senha_nova`. `depara`/`produtos` seguem sem gate
     # (o auto-save do De-Para roda durante o cálculo, sem desbloqueio).
-    SENSIVEIS = ("precos_pj", "precos_pf", "ote", "vendedores", "mult_table", "produtos", "senha_nova")
+    SENSIVEIS = ("precos_pj", "precos_pf", "ote", "vendedores", "mult_table", "produtos",
+                 "intragrupo_considerar", "intragrupo_termos", "senha_nova")
     toca_sensivel = any(k in data for k in SENSIVEIS)
     if toca_sensivel and not senha_ok(cfg, data):
         return jsonify({"erro": "Senha incorreta."}), 401
@@ -1598,6 +1617,14 @@ def post_config():
         cfg["produtos"] = list(existing.values())
     if "mult_table" in data:
         cfg["mult_table"] = data["mult_table"]
+    if "intragrupo_considerar" in data:
+        cfg["intragrupo_considerar"] = bool(data["intragrupo_considerar"])
+    if "intragrupo_termos" in data and isinstance(data["intragrupo_termos"], list):
+        cfg["intragrupo_termos"] = [
+            {"texto": str((t or {}).get("texto", "")).strip(),
+             "modo": "exato" if (t or {}).get("modo") == "exato" else "contem"}
+            for t in data["intragrupo_termos"] if str((t or {}).get("texto", "")).strip()
+        ]
     if "senha_nova" in data and data["senha_nova"]:
         cfg["senha"] = data["senha_nova"]
     if toca_sensivel:
