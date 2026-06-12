@@ -1550,28 +1550,23 @@ function verificarPodeCalcular() {
 
 // ══ CALCULAR ═════════════════════════════════════════════════════════════════
 
-async function calcular(){
-  if(!VEND_ATIVO||!ITENS.length) return;
-  const nivel = parseInt(document.getElementById('sel-nivel').value);
-  const mes   = parseInt(document.getElementById('sel-mes').value);
-  const ano   = parseInt(document.getElementById('inp-ano').value);
+// Itens da última revisão enviados ao cálculo (reusados na exportação Excel,
+// para o xlsx refletir exatamente as decisões da revisão e não os itens crus).
+let ITENS_CALC = null;
 
-  document.getElementById('btn-calc').disabled=true;
-  document.getElementById('btn-calc').innerHTML='<div class="spin"></div> Calculando...';
-
-  // Construir itens enriquecidos com dados do REV_STATE + persistir De-Para
+// Aplica as decisões da revisão (REV_STATE) aos itens: exclusões (intragrupo,
+// fora-competência, operador), vínculos manuais e preços avulsos.
+// Retorna {itens, novoDepara}. É a MESMA fonte para /api/calcular e /api/exportar_xlsx.
+function enriquecerItens(){
   const novoDepara = {...(CFG.depara||{})};
-  const itensEnriquecidos = ITENS.map((it, idx) => {
+  const itens = ITENS.map((it, idx) => {
     const st = REV_STATE[idx] || {};
-    // Itens intragrupo (cliente Beef Passion): marcar para exclusão
     if (st.motivo === 'intragrupo') {
       return {...it, _excluir: true, _motivo: 'intragrupo'};
     }
-    // Itens fora da competência: marcar para exclusão
     if (st.motivo === 'fora_competencia') {
       return {...it, _excluir: true, _motivo: 'fora_competencia'};
     }
-    // Itens do Grupo B com vínculo → persistir no De-Para
     if (st.acao === 'vincular' && st.vinculo_key && st.vinculo_key !== 'AVULSO') {
       const prod = PRODUTOS.find(p=>p.key===st.vinculo_key);
       const precoReal = precoRealPorKey(st.vinculo_key);
@@ -1586,12 +1581,26 @@ async function calcular(){
     if (st.acao === 'excluir') {
       return {...it, _excluir: true, _motivo: 'excluido_operador'};
     }
-    // Grupo A com match confirmado ou não — passa o vinculo_key se disponível
     if (st.vinculo_key) {
       return {...it, _match_key: st.vinculo_key, _preco_ref_override: st.preco_ref};
     }
     return it;
   });
+  return {itens, novoDepara};
+}
+
+async function calcular(){
+  if(!VEND_ATIVO||!ITENS.length) return;
+  const nivel = parseInt(document.getElementById('sel-nivel').value);
+  const mes   = parseInt(document.getElementById('sel-mes').value);
+  const ano   = parseInt(document.getElementById('inp-ano').value);
+
+  document.getElementById('btn-calc').disabled=true;
+  document.getElementById('btn-calc').innerHTML='<div class="spin"></div> Calculando...';
+
+  // Construir itens enriquecidos com as decisões da revisão (REV_STATE)
+  const {itens: itensEnriquecidos, novoDepara} = enriquecerItens();
+  ITENS_CALC = itensEnriquecidos;   // reusado na exportação p/ refletir a revisão
 
   // Persistir De-Para no config se houve novos mapeamentos
   if (Object.keys(novoDepara).length !== Object.keys(CFG.depara||{}).length) {
@@ -1793,10 +1802,13 @@ async function exportarXLSX(){
   const mes   = parseInt(document.getElementById('sel-mes').value);
   const ano   = parseInt(document.getElementById('inp-ano').value);
 
+  // Usa os MESMOS itens enriquecidos do cálculo (com exclusões/vínculos da revisão).
+  // Fallback: reconstrói a partir do REV_STATE atual se ainda não houve cálculo.
+  const itensExport = ITENS_CALC || enriquecerItens().itens;
   const resp = await fetch('/api/exportar_xlsx',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({itens:ITENS,canal:VEND_ATIVO.canal,nivel,mes,ano,vendedor:VEND_ATIVO.nome,tabela_id:(document.getElementById('sel-tabela')||{}).value||null})
+    body:JSON.stringify({itens:itensExport,canal:VEND_ATIVO.canal,nivel,mes,ano,vendedor:VEND_ATIVO.nome,tabela_id:(document.getElementById('sel-tabela')||{}).value||null})
   });
   if(!resp.ok){alert('Erro ao gerar Excel.');return;}
   const blob = await resp.blob();
