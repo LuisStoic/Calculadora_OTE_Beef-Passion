@@ -1164,6 +1164,48 @@ FMT_PCT  = '0.0%'
 FMT_NUM  = '#,##0.000'
 
 
+def _origem_classificacao(it: dict) -> tuple:
+    """Identifica COMO o corte foi classificado, para rastreabilidade/auditoria.
+
+    Lê os flags que o frontend grava na revisão (preservados no item via {**item}):
+      _excluir + _motivo='excluido_operador'  → desconsiderado manualmente (sai do cálculo)
+      _excluir + _motivo='fora_competencia'   → fora da competência
+      _excluir + _motivo='intragrupo'         → transferência intragrupo
+      _match_key='AVULSO' + _preco_ref_override→ preço avulso digitado na mão
+      _match_key=<chave real>                 → match manual (vínculo a produto da tabela)
+      _intragrupo_considerado                 → intragrupo incluído como venda normal
+      (nenhum)                                → match automático
+    Retorna (codigo, rotulo).
+    """
+    if it.get("_excluir"):
+        m = it.get("_motivo", "excluido_operador")
+        if m == "fora_competencia":
+            return ("fora_comp", "Fora da competência")
+        if m == "intragrupo":
+            return ("intragrupo", "Intragrupo")
+        return ("manual_excluido", "Desconsiderado (manual)")
+    mk = (it.get("_match_key") or "").strip()
+    if mk == "AVULSO" or (it.get("_preco_ref_override") and not mk):
+        return ("manual_avulso", "Preço avulso (manual)")
+    if mk:
+        return ("manual_match", "Match manual")
+    if it.get("_intragrupo_considerado"):
+        return ("intra_incluido", "Intragrupo (considerado)")
+    return ("auto", "Automático")
+
+
+# Cor por origem — usada na coluna "Classificação" e na aba de auditoria
+ORIGEM_COR = {
+    "manual_match":   "6B4C9A",   # roxo
+    "manual_avulso":  "D4620A",   # laranja
+    "manual_excluido":"C0392B",   # vermelho
+    "fora_comp":      "8A6D1B",   # mostarda
+    "intragrupo":     "6B4C9A",   # roxo
+    "intra_incluido": "1F4E79",   # azul
+    "auto":           "999999",   # cinza
+}
+
+
 def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) -> str:
     """Gera arquivo Excel e retorna o caminho temporário."""
     wb = openpyxl.Workbook()
@@ -1338,7 +1380,7 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
     ws2.sheet_view.showGridLines = False
 
     # ── Linha 1: título ─────────────────────────────────────────────────────
-    n_cols = 18  # total de colunas — atualizar se cols mudar
+    n_cols = 19  # total de colunas — atualizar se cols mudar
     ws2.merge_cells(f"A1:{get_column_letter(n_cols)}1")
     ws2["A1"] = f"BD VENDAS CLASSIFICADAS — {vendedor['nome']} — {MESES[mes]}/{ano} — Nível {nivel}"
     ws2["A1"].fill = _fill(NAVY); ws2["A1"].font = _font(bold=True, color=GOLD, size=12)
@@ -1383,6 +1425,7 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
         "Categoria",
         "Macro Categoria",
         "Match Tabela (Chave)",
+        "Classificação",
         "Peso (kg)",
         "Preço Praticado (R$/kg)",
         "Preço Ref. Tabela (R$/kg)",
@@ -1392,7 +1435,7 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
         "Motivo Exclusão",
         "Total (R$)",
     ]
-    widths = [8, 16, 12, 10, 32, 12, 42, 12, 22, 36, 10, 22, 22, 10, 20, 18, 26, 14]
+    widths = [8, 16, 12, 10, 32, 12, 42, 12, 22, 36, 22, 10, 22, 22, 10, 20, 18, 26, 14]
 
     for col, (h, w) in enumerate(zip(cols, widths), 1):
         c = ws2.cell(row=4, column=col, value=h)
@@ -1436,6 +1479,7 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
         chave_match = it.get("preco_key") or "— sem match —"
 
         motivo_str = MOTIVO_LABEL.get(faixa, "") if not usado else ""
+        origem_cod, origem_lbl = _origem_classificacao(it)
         row_data = [
             f"VND-{i+1:04d}",                        # A  ID
             it.get("data", ""),                       # B  Data Competência
@@ -1447,20 +1491,21 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
             it.get("categoria", "—"),                 # H  Categoria
             it.get("macro_categoria", "") or "—",     # I  Macro Categoria
             chave_match,                              # J  Match Tabela
-            it.get("peso", 0.0),                      # K  Peso kg
-            it.get("preco", 0.0),                     # L  Preço Praticado
-            it.get("preco_ref") or "",                # M  Preço Ref. Tabela
-            desvio_str,                               # N  Desvio %
-            FAIXA_LABELS.get(faixa, faixa),           # O  Faixa
-            usado_str,                                # P  Usado no Cálculo
-            motivo_str,                               # Q  Motivo Exclusão
-            it.get("total", 0.0),                     # R  Total R$
+            origem_lbl,                               # K  Classificação (Auto/Manual)
+            it.get("peso", 0.0),                      # L  Peso kg
+            it.get("preco", 0.0),                     # M  Preço Praticado
+            it.get("preco_ref") or "",                # N  Preço Ref. Tabela
+            desvio_str,                               # O  Desvio %
+            FAIXA_LABELS.get(faixa, faixa),           # P  Faixa
+            usado_str,                                # Q  Usado no Cálculo
+            motivo_str,                               # R  Motivo Exclusão
+            it.get("total", 0.0),                     # S  Total R$
         ]
         fmts_row = [
             None, None, None, None, None, None, None, None, None, None,
-            FMT_NUM, FMT_BRL, FMT_BRL, None, None, None, None, FMT_BRL
+            None, FMT_NUM, FMT_BRL, FMT_BRL, None, None, None, None, FMT_BRL
         ]
-        aligns_right = {11, 12, 13, 18}  # colunas com alinhamento à direita (1-based)
+        aligns_right = {12, 13, 14, 19}  # colunas com alinhamento à direita (1-based)
 
         for col, (val, fmt) in enumerate(zip(row_data, fmts_row), 1):
             c = ws2.cell(row=rr, column=col, value=val)
@@ -1468,11 +1513,17 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
             c.border = _border_thin()
             c.fill   = _fill(bg if usado else "F4F4F4")
             # Fonte: sem_ref fica acinzentada para indicar exclusão visualmente
-            font_color = "999999" if not usado else (fc if col == 15 else "000000")
-            c.font = _font(size=9, color=font_color, bold=(col == 15 and usado))
+            font_color = "999999" if not usado else (fc if col == 16 else "000000")
+            c.font = _font(size=9, color=font_color, bold=(col == 16 and usado))
             if col in aligns_right: c.alignment = _right()
+            # Coluna "Classificação": manual destacado em cor/negrito, auto em cinza
+            if col == 11:
+                manual = origem_cod not in ("auto",)
+                c.font = _font(size=9, bold=manual,
+                               color=ORIGEM_COR.get(origem_cod, "000000"))
+                c.alignment = _center()
             # Coluna "Usado no Cálculo": destaque extra
-            if col == 16:
+            if col == 17:
                 c.font = _font(
                     size=9, bold=True,
                     color=("1A6B3C" if usado else "C0392B")
@@ -1499,6 +1550,194 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
     ws2[f"A{rr_rodape}"].font = _font(size=8, color="DCC697", italic=True)
     ws2[f"A{rr_rodape}"].alignment = Alignment(horizontal="left", vertical="center")
     ws2.row_dimensions[rr_rodape].height = 18
+
+    # ── Aba 3: Pedidos Desconsiderados (Fora da Competência + Intragrupo) ───────
+    # Lista simples para conferência rápida dos lançamentos que aparecem no
+    # extrato mas NÃO entram no cálculo do variável, por estarem fora do mês de
+    # competência ou serem transferências intragrupo. Espelha as duas seções da tela.
+    ws3 = wb.create_sheet("DESCONSIDERADOS")
+    ws3.sheet_view.showGridLines = False
+
+    cols3   = ["Data", "Pedido", "NF", "Cliente", "Cód. Produto",
+               "Descrição (PDF)", "Preço Praticado (R$/kg)", "Total (R$)"]
+    widths3 = [14, 14, 12, 34, 13, 44, 22, 16]
+    n3 = len(cols3)
+
+    ws3.merge_cells(f"A1:{get_column_letter(n3)}1")
+    ws3["A1"] = f"PEDIDOS DESCONSIDERADOS — {vendedor['nome']} — {MESES[mes]}/{ano} — Nível {nivel}"
+    ws3["A1"].fill = _fill(NAVY); ws3["A1"].font = _font(bold=True, color=GOLD, size=12)
+    ws3["A1"].alignment = _center(); ws3.row_dimensions[1].height = 28
+
+    ws3.merge_cells(f"A2:{get_column_letter(n3)}2")
+    ws3["A2"] = ("Lançamentos visíveis no extrato que NÃO entram no cálculo do variável "
+                 "(fora da competência ou transferência intragrupo). Lista para conferência.")
+    ws3["A2"].font = _font(color="888888", size=9, italic=True)
+    ws3["A2"].alignment = Alignment(horizontal="left", vertical="center")
+    ws3.row_dimensions[2].height = 16
+
+    for col, w in enumerate(widths3, 1):
+        ws3.column_dimensions[get_column_letter(col)].width = w
+
+    GRUPOS_DESC = [
+        ("fora_comp",  "FORA DA COMPETÊNCIA", "EFEFEF"),
+        ("intragrupo", "INTRAGRUPO — TRANSFERÊNCIAS INTERNAS", "E8E0F0"),
+    ]
+
+    rr = 4
+    for faixa_key, titulo, bg_grp in GRUPOS_DESC:
+        itens_grp = [it for it in resultado["classified"] if it["faixa"] == faixa_key]
+
+        ws3.merge_cells(f"A{rr}:{get_column_letter(n3)}{rr}")
+        cab = ws3.cell(row=rr, column=1, value=f"{titulo}  ·  {len(itens_grp)} pedido(s)")
+        cab.fill = _fill(BLUE3); cab.font = _font(bold=True, color=WHITE, size=10)
+        cab.alignment = Alignment(horizontal="left", vertical="center")
+        ws3.row_dimensions[rr].height = 20
+        rr += 1
+
+        for col, h in enumerate(cols3, 1):
+            c = ws3.cell(row=rr, column=col, value=h)
+            c.fill = _fill(NAVY); c.font = _font(bold=True, color=GOLD, size=9)
+            c.alignment = _center(); c.border = _border_thin()
+        ws3.row_dimensions[rr].height = 24
+        rr += 1
+
+        if not itens_grp:
+            ws3.merge_cells(f"A{rr}:{get_column_letter(n3)}{rr}")
+            vazio = ws3.cell(row=rr, column=1, value="(nenhum pedido nesta categoria)")
+            vazio.font = _font(size=9, italic=True, color="999999")
+            vazio.alignment = Alignment(horizontal="left", vertical="center")
+            rr += 2
+            continue
+
+        subtotal = 0.0
+        for i, it in enumerate(itens_grp):
+            total = it.get("total", 0.0) or 0.0
+            subtotal += total
+            row_data = [
+                it.get("data", ""), it.get("pedido", ""), it.get("nf", ""),
+                it.get("cliente", ""), it.get("cod", ""), it.get("desc", ""),
+                it.get("preco", 0.0), total,
+            ]
+            fmts = [None, None, None, None, None, None, FMT_BRL, FMT_BRL]
+            bg = bg_grp if i % 2 == 0 else WHITE
+            for col, (val, fmt) in enumerate(zip(row_data, fmts), 1):
+                c = ws3.cell(row=rr, column=col, value=val)
+                if fmt: c.number_format = fmt
+                c.border = _border_thin(); c.fill = _fill(bg)
+                c.font = _font(size=9, color="333333")
+                if col in (7, 8): c.alignment = _right()
+            ws3.row_dimensions[rr].height = 15
+            rr += 1
+
+        lbl = ws3.cell(row=rr, column=6, value="Subtotal")
+        lbl.font = _font(bold=True, size=9); lbl.alignment = _right()
+        sc = ws3.cell(row=rr, column=8, value=subtotal)
+        sc.number_format = FMT_BRL; sc.font = _font(bold=True, size=9); sc.alignment = _right()
+        for col in range(1, n3 + 1):
+            ws3.cell(row=rr, column=col).fill = _fill(SMOKE)
+        rr += 2
+
+    ws3.freeze_panes = "A4"
+
+    # ── Aba 4: Auditoria de Classificação Manual ────────────────────────────────
+    # Só os cortes que o sistema NÃO casou sozinho e foram tratados na revisão
+    # (match manual, preço avulso ou desconsiderados pelo operador). Serve para o
+    # auditor checar se o corte realmente não consta nas tabelas de precificação.
+    ws4 = wb.create_sheet("AUDITORIA_MANUAL")
+    ws4.sheet_view.showGridLines = False
+
+    cols4 = ["Data", "Pedido", "NF", "Cliente", "Cód. Produto", "Descrição (PDF)",
+             "Chave / Vínculo usado", "Preço Praticado (R$/kg)",
+             "Preço Ref. Aplicado (R$/kg)", "Usado no Cálculo", "Total (R$)"]
+    widths4 = [14, 14, 12, 30, 13, 42, 34, 20, 22, 16, 16]
+    n4 = len(cols4)
+
+    ws4.merge_cells(f"A1:{get_column_letter(n4)}1")
+    ws4["A1"] = f"AUDITORIA DE CLASSIFICAÇÃO MANUAL · {vendedor['nome']} · {MESES[mes]}/{ano} · Nível {nivel}"
+    ws4["A1"].fill = _fill(NAVY); ws4["A1"].font = _font(bold=True, color=GOLD, size=12)
+    ws4["A1"].alignment = _center(); ws4.row_dimensions[1].height = 28
+
+    ws4.merge_cells(f"A2:{get_column_letter(n4)}2")
+    ws4["A2"] = ("Cortes que o sistema NÃO identificou automaticamente e foram tratados na revisão. "
+                 "Confira se o corte realmente não consta nas tabelas de precificação (Configurações).")
+    ws4["A2"].font = _font(color="888888", size=9, italic=True)
+    ws4["A2"].alignment = Alignment(horizontal="left", vertical="center")
+    ws4.row_dimensions[2].height = 16
+
+    for col, w in enumerate(widths4, 1):
+        ws4.column_dimensions[get_column_letter(col)].width = w
+
+    GRUPOS_MANUAL = [
+        ("manual_match",    "MATCH MANUAL (vínculo a produto da tabela)",        "F4EFF7"),
+        ("manual_avulso",   "PREÇO AVULSO (preço digitado manualmente)",         "FEF3E8"),
+        ("manual_excluido", "DESCONSIDERADO (excluído do cálculo pelo operador)","FFE8E8"),
+    ]
+
+    rr = 4
+    total_manual = 0
+    for cod_grp, titulo, base_bg in GRUPOS_MANUAL:
+        itens_grp = [it for it in resultado["classified"]
+                     if _origem_classificacao(it)[0] == cod_grp]
+        total_manual += len(itens_grp)
+
+        ws4.merge_cells(f"A{rr}:{get_column_letter(n4)}{rr}")
+        cab = ws4.cell(row=rr, column=1, value=f"{titulo}  ·  {len(itens_grp)} corte(s)")
+        cab.fill = _fill(ORIGEM_COR.get(cod_grp, "1F4E79"))
+        cab.font = _font(bold=True, color=WHITE, size=10)
+        cab.alignment = Alignment(horizontal="left", vertical="center")
+        ws4.row_dimensions[rr].height = 20
+        rr += 1
+
+        for col, h in enumerate(cols4, 1):
+            c = ws4.cell(row=rr, column=col, value=h)
+            c.fill = _fill(NAVY); c.font = _font(bold=True, color=GOLD, size=9)
+            c.alignment = _center(); c.border = _border_thin()
+        ws4.row_dimensions[rr].height = 24
+        rr += 1
+
+        if not itens_grp:
+            ws4.merge_cells(f"A{rr}:{get_column_letter(n4)}{rr}")
+            vazio = ws4.cell(row=rr, column=1, value="(nenhum corte nesta categoria)")
+            vazio.font = _font(size=9, italic=True, color="999999")
+            vazio.alignment = Alignment(horizontal="left", vertical="center")
+            rr += 2
+            continue
+
+        for i, it in enumerate(itens_grp):
+            faixa = it["faixa"]
+            usado = faixa not in ("sem_ref", "excluido", "fora_comp", "intragrupo")
+            chave = it.get("preco_key") or it.get("_match_key") or "—"
+            row_data = [
+                it.get("data", ""), it.get("pedido", ""), it.get("nf", ""),
+                it.get("cliente", ""), it.get("cod", ""), it.get("desc", ""),
+                chave, it.get("preco", 0.0), it.get("preco_ref") or "—",
+                "SIM" if usado else "NÃO", it.get("total", 0.0) or 0.0,
+            ]
+            fmts = [None, None, None, None, None, None, None,
+                    FMT_BRL, FMT_BRL, None, FMT_BRL]
+            bg = base_bg if i % 2 == 0 else WHITE
+            for col, (val, fmt) in enumerate(zip(row_data, fmts), 1):
+                c = ws4.cell(row=rr, column=col, value=val)
+                if fmt and isinstance(val, (int, float)): c.number_format = fmt
+                c.border = _border_thin(); c.fill = _fill(bg)
+                c.font = _font(size=9, color="333333")
+                if col in (8, 9, 11): c.alignment = _right()
+                if col == 10:
+                    c.alignment = _center()
+                    c.font = _font(size=9, bold=True,
+                                   color=("1A6B3C" if usado else "C0392B"))
+            ws4.row_dimensions[rr].height = 15
+            rr += 1
+        rr += 1   # espaço entre grupos
+
+    if total_manual == 0:
+        ws4.merge_cells(f"A{rr}:{get_column_letter(n4)}{rr}")
+        nada = ws4.cell(row=rr, column=1, value=("Nenhuma classificação manual nesta apuração: "
+                        "todos os cortes foram identificados automaticamente pelo sistema."))
+        nada.font = _font(size=10, italic=True, color="1A6B3C")
+        nada.alignment = Alignment(horizontal="left", vertical="center")
+
+    ws4.freeze_panes = "A4"
 
     # ── Salvar ─────────────────────────────────────────────────────────────────
     tmp = tempfile.NamedTemporaryFile(
