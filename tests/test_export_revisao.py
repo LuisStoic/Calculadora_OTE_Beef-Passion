@@ -45,14 +45,14 @@ r = c.post("/api/exportar_xlsx", json=payload)
 check("exportar_xlsx → 200", r.status_code == 200)
 wb = openpyxl.load_workbook(io.BytesIO(r.data), data_only=True)
 ws = wb["BD_VENDAS_CLASSIFICADAS"]
-# Cabeçalho na linha 4: ... Faixa(15) Usado(16) Motivo(17)
+# Cabeçalho na linha 4: ... Classificação(11) ... Faixa(16) Usado(17) Motivo(18)
 linhas = {}
 for rr in range(5, ws.max_row + 1):
     desc = str(ws.cell(rr, 7).value or "")
     if desc:
-        linhas[desc.upper()] = {"faixa": ws.cell(rr, 15).value,
-                                 "usado": ws.cell(rr, 16).value,
-                                 "motivo": ws.cell(rr, 17).value}
+        linhas[desc.upper()] = {"faixa": ws.cell(rr, 16).value,
+                                 "usado": ws.cell(rr, 17).value,
+                                 "motivo": ws.cell(rr, 18).value}
 pic = next((v for k, v in linhas.items() if "PICANHA" in k), None)
 tom = next((v for k, v in linhas.items() if "TOMAHAWK" in k), None)
 check("export: PICANHA (intragrupo) presente", pic is not None)

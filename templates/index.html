@@ -1124,13 +1124,9 @@ function precoRealPorKey(key) {
 // casa com WAGYU, desempate pela "cabeça" do nome. O que não casa com confiança
 // vai para a verificação manual (Grupo B), não é adivinhado.
 function matchFrontend(descPdf, threshold=0.60, codPdf='') {
-  // Prioridade 1: match exato por código Omega (cod_bp)
-  if (codPdf) {
-    const byCode = PRODUTOS.find(p => p.cod_bp && p.cod_bp === codPdf);
-    if (byCode) return {p: byCode, score: 1.0, cat: byCode.cat};
-  }
-
-  // Prioridade 2: fuzzy match por tokens
+  // Prioridade 1 (por código) vem após os helpers de token abaixo, pois o
+  // código precisa ser corroborado pelo NOME antes de ser aceito.
+  // Helpers de tokenização (fuzzy):
   const STOP = new Set(["CONG","CG","PASSION","B","S","SOB","ENCOMENDA",
     "FATIADO","PICADO","CLASSICO","E","DA","DE","DO","DAS","DOS","EM","A"]);
   const toksLista = s =>
@@ -1149,6 +1145,31 @@ function matchFrontend(descPdf, threshold=0.60, codPdf='') {
   const cabeca = lPdf[0] || null;            // "cabeça" do nome do corte
   const pdfWagyu = tPdf.has("WAGYU");
   const catInf = inferCat(descPdf);
+
+  // Prioridade 1: código do produto (cod_bp) normalizado, COM redundância de nome.
+  // O PDF manda o código com zeros à esquerda (00059) e a tabela sem (59); por
+  // isso normalizamos. O código NÃO decide sozinho: o nome precisa corroborar
+  // (cobertura de tokens >= 0.5). Isso evita código trocado, desempata
+  // Clássico×Reserva pela categoria e mantém WAGYU fora do automático.
+  const normCod = c => String(c||'').split('.')[0].replace(/\D/g,'').replace(/^0+/,'');
+  const codN = normCod(codPdf);
+  if (codN) {
+    let melhorCod = null;
+    for (const p of PRODUTOS) {
+      if (normCod(p.cod_bp) !== codN) continue;
+      if (!(precoRealPorKey(p.key) > 0)) continue;
+      const tTab = toks(p.desc);
+      if (tTab.has("WAGYU") !== pdfWagyu) continue;       // WAGYU só casa com WAGYU
+      const inter = [...tPdf].filter(t=>tTab.has(t)).length;
+      if (!inter) continue;
+      const cob = inter / Math.max(1, Math.min(tPdf.size, tTab.size));
+      if (cob < 0.5) continue;                             // nome não corrobora o código
+      const sc = cob + (p.cat === catInf ? 0.15 : 0);      // desempate por categoria
+      if (!melhorCod || sc > melhorCod.sc) melhorCod = {sc, p};
+    }
+    if (melhorCod) return {p: melhorCod.p, score: 1.0, cat: melhorCod.p.cat};
+  }
+
   let best = null, bestScore = 0;
   const catsValidas = CFG.categorias_validas || ["CLASSICO","RESERVA","SUPREME","BP","DIVERSOS"];
   const catOrder = [catInf, ...catsValidas.filter(c=>c!==catInf)];

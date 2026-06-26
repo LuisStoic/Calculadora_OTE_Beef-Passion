@@ -896,6 +896,15 @@ def _inferir_categoria(desc: str) -> str:
         return "RESERVA"
     return "CLASSICO"
 
+def _norm_cod(c) -> str:
+    """Normaliza código do produto: só dígitos, sem zeros à esquerda.
+    O PDF do ERP manda o código com zeros à esquerda (ex.: 00059) e a tabela
+    guarda sem padding (59). Sem normalizar, o match exato por código nunca
+    dispara ("00059" != "59") e tudo desaba para o fuzzy."""
+    s = re.sub(r"\D", "", str(c or "").split(".")[0])
+    return s.lstrip("0")
+
+
 def _match_preco(desc_pdf: str, precos: dict, canal: str = "PJ",
                  cod_pdf: str = "", produtos: list = None, cache_key: str = None):
     """
@@ -903,19 +912,42 @@ def _match_preco(desc_pdf: str, precos: dict, canal: str = "PJ",
     Retorna (preco_ref, chave_match, categoria, score) ou (None, None, None, 0).
     Prioridade: (1) cod_bp exato, (2) fuzzy por tokens (threshold=0.45).
     """
-    # Prioridade 1: match exato pelo código Omega (cod_bp)
-    # Se o cod_bp identifica o produto mas ele não tem preço no canal ativo
-    # (null / chave ausente), retorna "sem match" — produto não vendido
-    # neste canal. NÃO faz fallback fuzzy pois cod_bp é identificador confiável.
-    if cod_pdf and produtos:
+    # Prioridade 1: match pelo código do produto (cod_bp), COM redundância de nome.
+    # O PDF manda o código com zeros à esquerda (00059) e a tabela sem (59); por
+    # isso comparamos normalizado. O código NÃO decide sozinho: o nome do produto
+    # precisa corroborar a descrição do PDF. Isso (a) evita código trocado,
+    # (b) desempata os códigos compartilhados entre Clássico e Reserva pela
+    # categoria/nome e (c) mantém WAGYU fora do automático (vai para a revisão).
+    # Sem corroboração de nome, NÃO retorna aqui: cai no fuzzy (Prioridade 2).
+    cod_n = _norm_cod(cod_pdf)
+    if cod_n and produtos:
+        tks_pdf_c = _tokens(desc_pdf)
+        cat_inf_c = _inferir_categoria(desc_pdf)
+        melhor_cod = None  # (score_nome, preco, chave, cat)
         for prod in produtos:
-            if prod.get("cod_bp") and prod["cod_bp"] == cod_pdf:
-                chave = prod["key"]
-                preco = precos.get(chave)
-                if preco and preco > 0:
-                    return preco, chave, prod["cat"], 1.0
-                # cod_bp bateu mas produto sem preço no canal → respeita null
-                return None, None, None, 0
+            if _norm_cod(prod.get("cod_bp")) != cod_n:
+                continue
+            chave = prod["key"]
+            preco = precos.get(chave)
+            if not (preco and preco > 0):
+                continue
+            desc_tab = chave.rsplit("|", 1)[0]
+            tks_tab = _tokens(desc_tab)
+            # WAGYU casa só com WAGYU (mantém WAGYU na revisão manual)
+            if ("WAGYU" in tks_pdf_c) != ("WAGYU" in tks_tab):
+                continue
+            inter = tks_pdf_c & tks_tab
+            if not inter:
+                continue
+            cob = len(inter) / max(1, min(len(tks_pdf_c), len(tks_tab)))
+            if cob < 0.5:            # nome não corrobora o código → ignora candidato
+                continue
+            cat_bonus = 0.15 if prod.get("cat") == cat_inf_c else 0.0
+            sc = cob + cat_bonus
+            if melhor_cod is None or sc > melhor_cod[0]:
+                melhor_cod = (sc, preco, chave, prod.get("cat"))
+        if melhor_cod:
+            return melhor_cod[1], melhor_cod[2], melhor_cod[3], 1.0
 
     # Prioridade 2: fuzzy match por tokens de descrição
     # Cache keyed por (canal + versão) para não devolver preço de outra tabela.
