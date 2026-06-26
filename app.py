@@ -1204,7 +1204,8 @@ def _origem_classificacao(it: dict) -> tuple:
       _excluir + _motivo='fora_competencia'   → fora da competência
       _excluir + _motivo='intragrupo'         → transferência intragrupo
       _match_key='AVULSO' + _preco_ref_override→ preço avulso digitado na mão
-      _match_key=<chave real>                 → match manual (vínculo a produto da tabela)
+      _match_key=<chave real> + _auto_match    → reconhecido automaticamente (Grupo A)
+      _match_key=<chave real> (sem _auto_match)→ match manual (vínculo na mão)
       _intragrupo_considerado                 → intragrupo incluído como venda normal
       (nenhum)                                → match automático
     Retorna (codigo, rotulo).
@@ -1220,6 +1221,10 @@ def _origem_classificacao(it: dict) -> tuple:
     if mk == "AVULSO" or (it.get("_preco_ref_override") and not mk):
         return ("manual_avulso", "Preço avulso (manual)")
     if mk:
+        # Vínculo reconhecido automaticamente (Grupo A: matcher/De-Para) NÃO é
+        # trabalho manual — só vínculo escolhido na mão pelo operador conta.
+        if it.get("_auto_match"):
+            return ("auto", "Automático")
         return ("manual_match", "Match manual")
     if it.get("_intragrupo_considerado"):
         return ("intra_incluido", "Intragrupo (considerado)")

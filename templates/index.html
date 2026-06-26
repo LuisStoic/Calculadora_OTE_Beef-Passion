@@ -1407,7 +1407,8 @@ function alterarMatchA(idx, key) {
   const prod = PRODUTOS.find(p=>p.key===key);
   if (!prod) return;
   const precoReal = precoRealPorKey(key);
-  REV_STATE[idx] = {...(REV_STATE[idx]||{}), vinculo_key:key, preco_ref:precoReal, categoria:prod.cat, confirmado:false};
+  // Operador trocou o produto sugerido pelo sistema: passa a ser vínculo MANUAL.
+  REV_STATE[idx] = {...(REV_STATE[idx]||{}), acao:'vincular', vinculo_key:key, preco_ref:precoReal, categoria:prod.cat, confirmado:false};
   const refEl = document.getElementById('ref-a-'+idx);
   const catEl = document.getElementById('cat-a-'+idx);
   if (refEl) refEl.textContent = R(precoReal);
@@ -1624,7 +1625,10 @@ function enriquecerItens(){
       return {...it, _excluir: true, _motivo: 'excluido_operador'};
     }
     if (st.vinculo_key) {
-      return {...it, _match_key: st.vinculo_key, _preco_ref_override: st.preco_ref};
+      // Reconhecido automaticamente (Grupo A: matcher ou De-Para). Carrega o
+      // vínculo para o cálculo refletir a tela, mas marca _auto_match para a
+      // auditoria NÃO contar como classificação manual.
+      return {...it, _match_key: st.vinculo_key, _preco_ref_override: st.preco_ref, _auto_match: true};
     }
     return it;
   });
