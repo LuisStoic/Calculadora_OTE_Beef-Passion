@@ -281,11 +281,13 @@ DEFAULT_CFG = {
         "fonte": "default", "criado_em": "2026-06-02",
     },
     "tabelas": [],
-    # Intragrupo: vendas para a própria Beef Passion (transferência interna).
+    # Intragrupo: vendas para a própria Beef Passion Ind. (transferência interna).
     # Detectadas pelo nome do cliente. Por padrão NÃO entram no cálculo do variável.
     # Cada termo tem modo "contem" (substring) ou "exato" (nome idêntico).
+    # OBS: o termo é "BEEF PASSION IND" (a fábrica), NÃO "BEEF PASSION" solto,
+    # senão pega tambem o cliente "PARRILA BEEF PASSION" (restaurante, venda real).
     "intragrupo_considerar": False,
-    "intragrupo_termos": [{"texto": "BEEF PASSION", "modo": "contem"}],
+    "intragrupo_termos": [{"texto": "BEEF PASSION IND", "modo": "contem"}],
 }
 
 # Tabela de multiplicadores exata
@@ -407,7 +409,7 @@ def load_cfg() -> dict:
                 cfg["intragrupo_considerar"] = False
             termos = cfg.get("intragrupo_termos")
             if not isinstance(termos, list) or not termos:
-                cfg["intragrupo_termos"] = [{"texto": "BEEF PASSION", "modo": "contem"}]
+                cfg["intragrupo_termos"] = [{"texto": "BEEF PASSION IND", "modo": "contem"}]
             else:
                 # Normaliza formato antigo (lista de strings) -> objetos {texto, modo}
                 cfg["intragrupo_termos"] = [

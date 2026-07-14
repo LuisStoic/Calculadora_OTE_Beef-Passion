@@ -124,8 +124,8 @@ check("log dedicado alterar_codigo",
 # 12. Intragrupo: default, gate de senha, normalização e filtro de termos
 g = c.get("/api/config").get_json()
 check("intragrupo_considerar default = False", g.get("intragrupo_considerar") is False)
-check("intragrupo_termos default = BEEF PASSION/contem",
-      g.get("intragrupo_termos") == [{"texto": "BEEF PASSION", "modo": "contem"}])
+check("intragrupo_termos default = BEEF PASSION IND/contem",
+      g.get("intragrupo_termos") == [{"texto": "BEEF PASSION IND", "modo": "contem"}])
 check("salvar intragrupo sem senha → 401",
       c.post("/api/config", json={"intragrupo_considerar": True}).status_code == 401)
 r = c.post("/api/config", json={"senha": SENHA, "operador": "LF",

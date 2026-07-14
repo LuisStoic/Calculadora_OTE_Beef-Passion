@@ -2369,7 +2369,7 @@ let INTRA_DESBLOQUEADO = false;
 function clienteEhIntragrupo(cliente){
   const c = String(cliente||'').toUpperCase().trim();
   if(!c) return false;
-  const termos = CFG.intragrupo_termos || [{texto:'BEEF PASSION',modo:'contem'}];
+  const termos = CFG.intragrupo_termos || [{texto:'BEEF PASSION IND',modo:'contem'}];
   return termos.some(t=>{
     const termo = String((t&&t.texto)||'').toUpperCase().trim();
     if(!termo) return false;
@@ -2380,7 +2380,7 @@ function clienteEhIntragrupo(cliente){
 function buildIntragrupoCfg(){
   // Carrega buffer a partir do CFG
   INTRA_TERMOS = (CFG.intragrupo_termos||[]).map(t=>({texto:t.texto||'', modo:t.modo==='exato'?'exato':'contem'}));
-  if(!INTRA_TERMOS.length) INTRA_TERMOS=[{texto:'BEEF PASSION',modo:'contem'}];
+  if(!INTRA_TERMOS.length) INTRA_TERMOS=[{texto:'BEEF PASSION IND',modo:'contem'}];
   const chk=document.getElementById('intra-considerar');
   chk.checked = !!CFG.intragrupo_considerar;
   chk.disabled = !INTRA_DESBLOQUEADO;
