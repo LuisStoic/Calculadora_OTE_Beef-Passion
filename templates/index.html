@@ -324,6 +324,10 @@ input[type=number]{font-family:'DM Mono',monospace}
         <div style="width:10px;height:10px;border-radius:50%;background:#6B4C9A"></div>
         <span style="font-size:12px"><strong id="rc-intra">0</strong> intragrupo</span>
       </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:10px;height:10px;border-radius:50%;background:#8A6D1B"></div>
+        <span style="font-size:12px"><strong id="rc-semnf">0</strong> sem nota fiscal</span>
+      </div>
       <div style="margin-left:auto">
         <button class="btn btn-o btn-sm" onclick="confirmarTodosA()">✓ Confirmar Todos Reconhecidos</button>
       </div>
@@ -390,6 +394,21 @@ input[type=number]{font-family:'DM Mono',monospace}
           <th class="tr">Praticado</th><th class="tr">Total</th><th>Motivo</th>
         </tr></thead>
         <tbody id="rev-gd-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- GRUPO E: sem nota fiscal (não faturados, fora do consolidado) -->
+  <div class="card" id="rev-ge-card" style="display:none">
+    <div class="ctitle" style="color:#8A6D1B">⊘ Sem Nota Fiscal <span id="ge-badge" style="margin-left:6px;background:#8A6D1B;color:#fff;border-radius:8px;padding:1px 8px;font-size:10px;font-weight:700"></span> <span id="ge-nota" style="font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted)">— lançamentos sem NF não entram no consolidado do sistema, logo ficam fora do cálculo</span></div>
+    <div class="twrap" style="max-height:220px">
+      <table class="dt" id="rev-ge-table">
+        <thead><tr>
+          <th>Data</th><th>Pedido</th><th>NF</th><th>Cliente</th>
+          <th>Cód.</th><th>Descrição PDF</th>
+          <th class="tr">Praticado</th><th class="tr">Total</th><th>Motivo</th>
+        </tr></thead>
+        <tbody id="rev-ge-tbody"></tbody>
       </table>
     </div>
   </div>
@@ -581,6 +600,14 @@ input[type=number]{font-family:'DM Mono',monospace}
       </label>
       <div style="font-size:11px;color:var(--muted);margin:0 0 18px 26px">
         Desmarcado (padrão): as linhas detectadas ficam de fora do variável. Marcado: contam como venda normal.
+      </div>
+
+      <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--navy);cursor:pointer;margin-bottom:6px">
+        <input type="checkbox" id="semnf-considerar" onchange="markIntraDirty()" disabled style="width:16px;height:16px">
+        <strong>Considerar lançamentos sem nota fiscal no cálculo do variável</strong>
+      </label>
+      <div style="font-size:11px;color:var(--muted);margin:0 0 18px 26px">
+        Desmarcado (padrão): lançamentos sem NF ficam de fora, igual ao consolidado do sistema (que é por Cupom/NF-e). Marcado: entram no cálculo.
       </div>
 
       <div class="ctitle" style="font-size:14px;margin-bottom:8px">Termos que identificam um cliente intragrupo</div>
@@ -1218,11 +1245,12 @@ function abrirRevisao() {
   const ano = parseInt(document.getElementById('inp-ano').value);
   DEPARA    = (CFG.depara || {});
   REV_STATE = {};
-  const GA=[], GB=[], GC=[], GD=[];
+  const GA=[], GB=[], GC=[], GD=[], GE=[];
 
   ITENS.forEach((it, idx) => {
     // Grupo D — Intragrupo (transferência interna): detecção configurável.
     // Default: exclui do variável. Se "considerar" estiver ligado, conta como venda normal.
+    // Precedência sobre "sem NF" (intragrupo também não tem NF, mas o motivo é mais específico).
     if (clienteEhIntragrupo(it.cliente)) {
       GD.push({...it, idx});
       if (CFG.intragrupo_considerar) {
@@ -1230,6 +1258,13 @@ function abrirRevisao() {
       } else {
         REV_STATE[idx] = {acao:'intragrupo', motivo:'intragrupo', confirmado:true, usado:false};
       }
+      return;
+    }
+    // Grupo E — Sem Nota Fiscal: lançamento não faturado (sem NF) não entra no
+    // consolidado do sistema. Default: exclui. Se "considerar" ligado, segue o fluxo normal.
+    if (!String(it.nf || '').trim() && !CFG.sem_nf_considerar) {
+      GE.push({...it, idx});
+      REV_STATE[idx] = {acao:'sem_nf', motivo:'sem_nf', confirmado:true, usado:false};
       return;
     }
     const {mes:mIt, ano:aIt} = parseMesItem(it.data);
@@ -1260,6 +1295,7 @@ function abrirRevisao() {
   document.getElementById('rc-pend').textContent  = GB.length;
   document.getElementById('rc-fora').textContent  = GC.length;
   const rcIntra = document.getElementById('rc-intra'); if (rcIntra) rcIntra.textContent = GD.length;
+  const rcSemNf = document.getElementById('rc-semnf'); if (rcSemNf) rcSemNf.textContent = GE.length;
   document.getElementById('ga-badge').textContent = GA.length;
   document.getElementById('gb-badge').textContent = GB.length;
   document.getElementById('gc-badge').textContent = GC.length;
@@ -1268,19 +1304,23 @@ function abrirRevisao() {
   if (gdNota) gdNota.textContent = CFG.intragrupo_considerar
     ? '— CONSIDERADAS no cálculo (configuração ativa em Configurações → Intragrupo)'
     : '— vendas para Beef Passion, não entram no cálculo do variável';
+  const geBadge = document.getElementById('ge-badge'); if (geBadge) geBadge.textContent = GE.length;
 
   renderGrupoA(GA);
   renderGrupoB(GB);
   renderGrupoC(GC, mes, ano);
   renderGrupoD(GD);
+  renderGrupoE(GE);
 
   document.getElementById('rev-gb-card').style.display = GB.length ? 'block' : 'none';
   document.getElementById('rev-gc-card').style.display = GC.length ? 'block' : 'none';
   const gdCard = document.getElementById('rev-gd-card');
   if (gdCard) gdCard.style.display = GD.length ? 'block' : 'none';
+  const geCard = document.getElementById('rev-ge-card');
+  if (geCard) geCard.style.display = GE.length ? 'block' : 'none';
 
   // S1: Alerta de competência divergente
-  const totalItens = GA.length + GB.length + GC.length + GD.length;
+  const totalItens = GA.length + GB.length + GC.length + GD.length + GE.length;
   const alertComp = document.getElementById('alerta-competencia');
   if (alertComp) {
     if (GC.length > 0 && GC.length > GA.length + GB.length) {
@@ -1571,6 +1611,26 @@ function renderGrupoD(GD) {
     </tr>`).join('');
 }
 
+// ── GRUPO E — SEM NOTA FISCAL (NÃO ENTRAM NO CONSOLIDADO) ────────────────────
+function renderGrupoE(GE) {
+  const tbody = document.getElementById('rev-ge-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = GE.map(it => `
+    <tr style="opacity:0.75;background:#F7F3E8">
+      <td class="mono" style="font-size:10px">${it.data}</td>
+      <td class="mono">${it.pedido}</td>
+      <td class="mono" style="color:#C0392B">— sem NF —</td>
+      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px" title="${it.cliente}">${it.cliente}</td>
+      <td><span class="cod">${it.cod}</span></td>
+      <td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${it.desc}">${it.desc}</td>
+      <td class="mono tr">${R(it.preco)}</td>
+      <td class="mono tr"><strong>${R(it.total)}</strong></td>
+      <td><span style="background:#EFE7CE;color:#8A6D1B;border-radius:6px;padding:2px 8px;font-size:10px;font-weight:600">
+        ⊘ Sem NF
+      </span></td>
+    </tr>`).join('');
+}
+
 // ── CONTROLE GERAL ───────────────────────────────────────────────────────────
 function verificarPodeCalcular() {
   const pendentes = Object.values(REV_STATE).filter(st => !st.acao).length;
@@ -1606,6 +1666,9 @@ function enriquecerItens(){
     // para rastreabilidade (o backend não exclui; o Excel mostra a origem).
     if (st.acao === 'intragrupo_incluido') {
       return {...it, _intragrupo_considerado: true};
+    }
+    if (st.motivo === 'sem_nf') {
+      return {...it, _excluir: true, _motivo: 'sem_nf'};
     }
     if (st.motivo === 'fora_competencia') {
       return {...it, _excluir: true, _motivo: 'fora_competencia'};
@@ -1707,9 +1770,12 @@ function renderResultado(res){
   const FB = {abaixo:'b1',desconto:'b2',ideal:'b3',acima:'b4',sem_ref:'b0'};
   const FL = {abaixo:'Abaixo 10%',desconto:'3-10% Desc.',ideal:'Tabela Ideal',acima:'Acima Tabela',sem_ref:'Sem Ref.'};
 
+  const MOTIVOS_EXCL = {sem_ref:'Sem referência de preço', intragrupo:'Intragrupo (transferência)',
+                        fora_comp:'Fora da competência', excluido:'Excluído pelo operador',
+                        sem_nf:'Sem nota fiscal (fora do consolidado)'};
   const linhas = classified.map((it,i)=>{
     const ref  = it.preco_ref;
-    const used = it.faixa !== 'sem_ref';
+    const used = ['abaixo','desconto','ideal','acima'].includes(it.faixa);
     const dv   = it.desvio!=null?((it.desvio>=0?'+':'')+P(it.desvio)):'—';
     const dc   = it.faixa==='acima'?'cg':it.faixa==='abaixo'?'cr':it.faixa==='desconto'?'co':'';
 
@@ -1732,7 +1798,7 @@ function renderResultado(res){
       : `<span style="background:#FFF0F0;color:#C0392B;border-radius:8px;padding:2px 9px;font-size:10px;font-weight:700;border:1px solid #F5C6C6">✗ Não</span>`;
 
     // Motivo da exclusão (tooltip implícito no badge Faixa)
-    const motivo = !used ? '<span style="font-size:9px;color:#aaa;display:block;margin-top:1px">Sem referência de preço</span>' : '';
+    const motivo = !used ? `<span style="font-size:9px;color:#aaa;display:block;margin-top:1px">${MOTIVOS_EXCL[it.faixa]||'Excluído'}</span>` : '';
 
     return`<tr style="background:${rowBg};opacity:${used?'1':'0.72'}">
       <td class="mono" style="font-size:10px;font-weight:${used?'400':'400'};color:${used?'inherit':'#999'}">${it.data}</td>
@@ -2384,6 +2450,8 @@ function buildIntragrupoCfg(){
   const chk=document.getElementById('intra-considerar');
   chk.checked = !!CFG.intragrupo_considerar;
   chk.disabled = !INTRA_DESBLOQUEADO;
+  const chkNf=document.getElementById('semnf-considerar');
+  if(chkNf){ chkNf.checked = !!CFG.sem_nf_considerar; chkNf.disabled = !INTRA_DESBLOQUEADO; }
   document.getElementById('intra-add-btn').disabled = !INTRA_DESBLOQUEADO;
   document.getElementById('intra-save-btn').disabled = !INTRA_DESBLOQUEADO;
   const st=document.getElementById('intra-lock-status');
@@ -2432,6 +2500,7 @@ function markIntraDirty(){ /* hook p/ feedback futuro; mantém simples por ora *
 async function salvarIntragrupo(){
   if(!senhaValida()){ solicitarSenha('intragrupo', salvarIntragrupo); return; }
   const considerar = document.getElementById('intra-considerar').checked;
+  const semNfConsiderar = (document.getElementById('semnf-considerar')||{}).checked || false;
   const termos = INTRA_TERMOS
     .map(t=>({texto:(t.texto||'').trim(), modo:t.modo==='exato'?'exato':'contem'}))
     .filter(t=>t.texto);
@@ -2439,12 +2508,14 @@ async function salvarIntragrupo(){
   try {
     const r=await fetch('/api/config',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({senha:SENHA_SESSAO, operador:OPERADOR,
-                           intragrupo_considerar:considerar, intragrupo_termos:termos})});
+                           intragrupo_considerar:considerar, intragrupo_termos:termos,
+                           sem_nf_considerar:semNfConsiderar})});
     if(r.status===401){ toast('Senha incorreta'); return; }
     if(!r.ok){ toast('Erro ao salvar'); return; }
     CFG.intragrupo_considerar = considerar;
     CFG.intragrupo_termos = termos;
-    toast('✓ Regra de intragrupo salva');
+    CFG.sem_nf_considerar = semNfConsiderar;
+    toast('✓ Regras de intragrupo e sem NF salvas');
     await recarregarLog();
   } catch(e){ toast('Erro: '+e.message); }
 }
@@ -2740,7 +2811,8 @@ function renderTop3Faixas(classified) {
   for (const it of (classified||[])) {
     if (!it.usado_no_calculo) continue;
     const faixa = it.faixa;
-    if (!faixa || faixa==='sem_ref' || faixa==='fora_comp' || faixa==='excluido') continue;
+    if (!faixa || faixa==='sem_ref' || faixa==='fora_comp' || faixa==='excluido'
+        || faixa==='intragrupo' || faixa==='sem_nf') continue;
     const chave = it.preco_key || it.desc;        // preco_key = "PICANHA PASSION|RESERVA"
     const label = chave ? chave.split('|')[0] : it.desc;  // só o nome, sem categoria
     if (!grupos[faixa]) grupos[faixa] = {};

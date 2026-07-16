@@ -41,8 +41,8 @@ check("id inexistente cai na atual (fallback)",
 
 # 3. Diff-zero: helper default == comportamento antigo (topo direto)
 ITENS = [
-    {"desc": "TOMAHAWK", "cod": "", "peso": 1.0, "preco": 250.0, "total": 250.0},
-    {"desc": "PICANHA",  "cod": "", "peso": 2.0, "preco": 300.0, "total": 600.0},
+    {"desc": "TOMAHAWK", "cod": "", "peso": 1.0, "preco": 250.0, "total": 250.0, "nf": "026901"},
+    {"desc": "PICANHA",  "cod": "", "peso": 2.0, "preco": 300.0, "total": 600.0, "nf": "026902"},
 ]
 ote_row = next(r for r in cfg["ote"]["PJ"] if r["n"] == 3)
 produtos = cfg["produtos"]
@@ -55,7 +55,7 @@ check("diff-zero: default == caminho antigo", iguais,
       f'helper rem={res_helper["rem_total"]} legado rem={res_legado["rem_total"]}')
 
 # 4. Versão muda o preço de referência e a faixa (TOMAHAWK CG: 250 atual vs 210 em 12026)
-item = {"desc": "TOMAHAWK", "cod": "", "peso": 1.0, "preco": 250.0, "total": 250.0}
+item = {"desc": "TOMAHAWK", "cod": "", "peso": 1.0, "preco": 250.0, "total": 250.0, "nf": "026901"}
 c_atual = app.classificar_item(item, pj_atual, "PJ", produtos, "PJ:atual")
 c_12    = app.classificar_item(item, pj_12,    "PJ", produtos, "PJ:12026")
 check("TOMAHAWK ref atual = 250", c_atual["preco_ref"] == 250.0, f'{c_atual["preco_ref"]}')

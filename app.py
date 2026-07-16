@@ -288,6 +288,11 @@ DEFAULT_CFG = {
     # senão pega tambem o cliente "PARRILA BEEF PASSION" (restaurante, venda real).
     "intragrupo_considerar": False,
     "intragrupo_termos": [{"texto": "BEEF PASSION IND", "modo": "contem"}],
+    # Sem nota fiscal: lançamentos do analítico que não têm NF (ex.: transferência
+    # sem emissão fiscal, bonificação, amostra). O consolidado do sistema é por
+    # Cupom/NF-e, então lançamentos sem NF NÃO entram nele. Por padrão também não
+    # entram no cálculo do variável, para a ferramenta bater com o consolidado.
+    "sem_nf_considerar": False,
 }
 
 # Tabela de multiplicadores exata
@@ -416,6 +421,9 @@ def load_cfg() -> dict:
                     t if isinstance(t, dict) else {"texto": str(t), "modo": "contem"}
                     for t in termos
                 ]
+            # Migration: config de "sem nota fiscal"
+            if "sem_nf_considerar" not in cfg:
+                cfg["sem_nf_considerar"] = False
             return cfg
         except Exception:
             pass
@@ -801,16 +809,30 @@ def _parse_words(words: list, num_pag: int, ctx: dict = None) -> list:
         if dm:
             ctx["data"] = dm.group(1)
 
-        # Capturar pedido + cliente
-        pm = re.search(r"Pedido[:\s]+([\w\-]+)\s+Cliente[:\s]+\d+\s*[-–]\s*(.+?)(?:Nota|NF|$)", linha)
+        # Capturar pedido + cliente. Novo pedido → zera a NF (senão a NF de um
+        # pedido anterior "vaza" para um pedido sem nota, ex.: transferência interna).
+        # O layout às vezes cola "Nota fiscal: NNN" na mesma linha do cliente e o
+        # extrator quebra "Nota" em "N ota" (ex.: "...LTDAN ota fiscal: 027665"),
+        # por isso os matches abaixo são tolerantes a esse "N?\s*ota".
+        pm = re.search(r"Pedido[:\s]+([\w\-]+)\s+Cliente[:\s]+\d+\s*[-–]\s*(.+)$", linha)
         if pm:
             ctx["pedido"] = pm.group(1).strip()
-            ctx["cliente"] = pm.group(2).strip()[:60]
+            resto = pm.group(2)
+            # NF eventualmente embutida na mesma linha do cliente
+            nfm = re.search(r"N?\s*ota\s*fiscal[:\s]*(\d+)", resto, re.IGNORECASE)
+            ctx["nf"] = nfm.group(1) if nfm else ""
+            # cliente = tudo antes do marcador "Nota fiscal"; se colou, remove o "N" solto
+            partes = re.split(r"\s*N?\s*ota\s*fiscal", resto, maxsplit=1, flags=re.IGNORECASE)
+            cli = partes[0]
+            if len(partes) > 1:
+                cli = re.sub(r"\s*N$", "", cli)
+            ctx["cliente"] = cli.strip()[:60]
 
-        # Capturar NF
-        nfm = re.search(r"Nota\s*fiscal[:\s]+(\d+)", linha, re.IGNORECASE)
-        if nfm:
-            ctx["nf"] = nfm.group(1)
+        # Linha "Nota fiscal:" separada (tolerante a "N ota fiscal"). Se vier sem
+        # número, a NF fica vazia (não gerou documento fiscal → fora do consolidado).
+        elif re.search(r"N?\s*ota\s*fiscal", linha, re.IGNORECASE):
+            nfm = re.search(r"N?\s*ota\s*fiscal[:\s]*(\d+)", linha, re.IGNORECASE)
+            ctx["nf"] = nfm.group(1) if nfm else ""
 
         # Linha de item de produto
         if txts and cod_re.match(txts[0]):
@@ -845,6 +867,7 @@ FAIXA_LABELS = {
     "acima":   "Acima da Tabela",
     "sem_ref": "Sem Referência",
     "intragrupo": "Intragrupo (transferência)",
+    "sem_nf": "Sem Nota Fiscal",
 }
 
 # ── Stopwords para matching de descrições do PDF ────────────────────────────────
@@ -1012,28 +1035,44 @@ def _macro_por_key(produtos: list, key: str) -> str:
 
 
 def classificar_item(item: dict, precos: dict, canal: str = "PJ",
-                     produtos: list = None, cache_key: str = None) -> dict:
+                     produtos: list = None, cache_key: str = None,
+                     sem_nf_considerar: bool = False) -> dict:
     """
     Classifica um item por faixa de preço.
     Respeita overrides vindos do frontend (revisão manual):
       _excluir          → faixa "excluido" (não entra no cálculo)
-      _motivo           → motivo da exclusão: 'fora_competencia' | 'excluido_operador'
+      _motivo           → motivo da exclusão: 'fora_competencia' | 'excluido_operador' | 'intragrupo' | 'sem_nf'
       _preco_ref_override → usa este preço como referência em vez do match automático
       _match_key        → chave explícita da tabela escolhida pelo operador
+    sem_nf_considerar: se True, lançamentos sem nota fiscal entram no cálculo
+      (default False → excluídos, para bater com o consolidado por Cupom/NF-e).
     """
-    # ── Exclusões explícitas do operador / competência / intragrupo ──────────
+    # ── Exclusões explícitas do operador / competência / intragrupo / sem NF ──
     if item.get("_excluir"):
         motivo = item.get("_motivo", "excluido_operador")
         if motivo == "fora_competencia":
             faixa = "fora_comp"
         elif motivo == "intragrupo":
             faixa = "intragrupo"
+        elif motivo == "sem_nf":
+            faixa = "sem_nf"
         else:
             faixa = "excluido"
         macro = _macro_por_key(produtos, item.get("_match_key", ""))
         return {**item, "faixa": faixa, "desvio": None, "preco_ref": None,
                 "preco_key": None, "categoria": _inferir_categoria(item.get("desc","")),
                 "match_score": 0.0, "_motivo": motivo, "macro_categoria": macro}
+
+    # ── Sem nota fiscal → não gerou documento fiscal, logo fica fora do ───────
+    # consolidado do sistema. Regra automática (independe da revisão), exceto se
+    # o operador optou por considerar (sem_nf_considerar) ou se é intragrupo já
+    # marcado para considerar (_intragrupo_considerado tem precedência).
+    if not sem_nf_considerar and not item.get("_intragrupo_considerado"):
+        nf = str(item.get("nf") or "").strip()
+        if not nf:
+            return {**item, "faixa": "sem_nf", "desvio": None, "preco_ref": None,
+                    "preco_key": None, "categoria": _inferir_categoria(item.get("desc","")),
+                    "match_score": 0.0, "_motivo": "sem_nf", "macro_categoria": ""}
 
     # ── Override manual de preço de referência (vincular / avulso) ───────────
     ref_override  = item.get("_preco_ref_override")
@@ -1089,13 +1128,15 @@ def classificar_item(item: dict, precos: dict, canal: str = "PJ",
 
 
 def calcular_ote(itens: list, ote_row: dict, precos: dict, canal: str = "PJ",
-                 produtos: list = None, cache_key: str = None) -> dict:
-    classified = [classificar_item(it, precos, canal, produtos, cache_key) for it in itens]
+                 produtos: list = None, cache_key: str = None,
+                 sem_nf_considerar: bool = False) -> dict:
+    classified = [classificar_item(it, precos, canal, produtos, cache_key,
+                                   sem_nf_considerar) for it in itens]
 
     # Faixas que entram no cálculo do variável
     FAIXAS_COMP = ["abaixo", "desconto", "ideal", "acima"]
     # Faixas excluídas — aparecem no extrato mas não contam
-    FAIXAS_EXCL = ["sem_ref", "excluido", "fora_comp", "intragrupo"]
+    FAIXAS_EXCL = ["sem_ref", "excluido", "fora_comp", "intragrupo", "sem_nf"]
 
     fx = {f: {"fat": 0.0, "itens": []} for f in FAIXAS_COMP + FAIXAS_EXCL}
     for it in classified:
@@ -1127,6 +1168,7 @@ def calcular_ote(itens: list, ote_row: dict, precos: dict, canal: str = "PJ",
     r["excluido"]   = {"fat": fx["excluido"]["fat"],   "pct": 0.0, "var_fx": 0.0, "mult": 0.0}
     r["fora_comp"]  = {"fat": fx["fora_comp"]["fat"],  "pct": 0.0, "var_fx": 0.0, "mult": 0.0}
     r["intragrupo"] = {"fat": fx["intragrupo"]["fat"], "pct": 0.0, "var_fx": 0.0, "mult": 0.0}
+    r["sem_nf"]     = {"fat": fx["sem_nf"]["fat"],     "pct": 0.0, "var_fx": 0.0, "mult": 0.0}
 
     var_total  = sum(r[f]["var_fx"] for f in FAIXAS_COMP)
     var_final  = max(var_total, 0.0)
@@ -1139,6 +1181,7 @@ def calcular_ote(itens: list, ote_row: dict, precos: dict, canal: str = "PJ",
     n_op    = sum(1 for it in classified if it["faixa"] == "excluido")
     n_semref= sum(1 for it in classified if it["faixa"] == "sem_ref")
     n_intra = sum(1 for it in classified if it["faixa"] == "intragrupo")
+    n_semnf = sum(1 for it in classified if it["faixa"] == "sem_nf")
 
     return {
         "classified":   classified,
@@ -1161,6 +1204,7 @@ def calcular_ote(itens: list, ote_row: dict, precos: dict, canal: str = "PJ",
             "excl_operador":n_op,
             "sem_ref":      n_semref,
             "intragrupo":   n_intra,
+            "sem_nf":       n_semnf,
         }
     }
 
@@ -1212,12 +1256,17 @@ def _origem_classificacao(it: dict) -> tuple:
       (nenhum)                                → match automático
     Retorna (codigo, rotulo).
     """
+    # Sem NF é detectado automaticamente (pode não ter _excluir marcado).
+    if it.get("faixa") == "sem_nf" or it.get("_motivo") == "sem_nf":
+        return ("sem_nf", "Sem Nota Fiscal")
     if it.get("_excluir"):
         m = it.get("_motivo", "excluido_operador")
         if m == "fora_competencia":
             return ("fora_comp", "Fora da competência")
         if m == "intragrupo":
             return ("intragrupo", "Intragrupo")
+        if m == "sem_nf":
+            return ("sem_nf", "Sem Nota Fiscal")
         return ("manual_excluido", "Desconsiderado (manual)")
     mk = (it.get("_match_key") or "").strip()
     if mk == "AVULSO" or (it.get("_preco_ref_override") and not mk):
@@ -1241,6 +1290,7 @@ ORIGEM_COR = {
     "fora_comp":      "8A6D1B",   # mostarda
     "intragrupo":     "6B4C9A",   # roxo
     "intra_incluido": "1F4E79",   # azul
+    "sem_nf":         "8A6D1B",   # mostarda
     "auto":           "999999",   # cinza
 }
 
@@ -1339,6 +1389,7 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
         ("fora_comp","⊘ Fora da Competência","AAAAAA"),
         ("excluido", "✗ Excluído pelo Operador","AAAAAA"),
         ("intragrupo","⇄ Intragrupo (transferência)","888888"),
+        ("sem_nf",   "⊘ Sem Nota Fiscal",       "888888"),
     ]
     for i, (faixa, label, cor) in enumerate(FAIXA_DISPLAY):
         rr = row_fx + 1 + i
@@ -1500,6 +1551,7 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
         "excluido":   "Excluído pelo operador",
         "fora_comp":  "Fora da competência",
         "intragrupo": "Venda intragrupo (transferência)",
+        "sem_nf":     "Sem nota fiscal (fora do consolidado)",
     }
 
     n_usado = 0
@@ -1984,7 +2036,7 @@ def post_config():
     # a troca de senha usa `senha_nova`. `depara`/`produtos` seguem sem gate
     # (o auto-save do De-Para roda durante o cálculo, sem desbloqueio).
     SENSIVEIS = ("precos_pj", "precos_pf", "ote", "vendedores", "mult_table", "produtos",
-                 "intragrupo_considerar", "intragrupo_termos", "senha_nova")
+                 "intragrupo_considerar", "intragrupo_termos", "sem_nf_considerar", "senha_nova")
     toca_sensivel = any(k in data for k in SENSIVEIS)
     if toca_sensivel and not senha_ok(cfg, data):
         return jsonify({"erro": "Senha incorreta."}), 401
@@ -2018,6 +2070,8 @@ def post_config():
              "modo": "exato" if (t or {}).get("modo") == "exato" else "contem"}
             for t in data["intragrupo_termos"] if str((t or {}).get("texto", "")).strip()
         ]
+    if "sem_nf_considerar" in data:
+        cfg["sem_nf_considerar"] = bool(data["sem_nf_considerar"])
     if "senha_nova" in data and data["senha_nova"]:
         cfg["senha"] = data["senha_nova"]
     if toca_sensivel:
@@ -2104,7 +2158,8 @@ def calcular_route():
     produtos = cfg.get("produtos", [])
     cache_key = f"{canal}:{tabela_id or 'atual'}"
 
-    resultado = calcular_ote(itens, ote_row, precos_canal, canal, produtos, cache_key)
+    resultado = calcular_ote(itens, ote_row, precos_canal, canal, produtos, cache_key,
+                             bool(cfg.get("sem_nf_considerar", False)))
     resultado["ote_row"] = ote_row
     resultado["vendedor"] = vendedor
     resultado["mes"] = mes
@@ -2149,7 +2204,8 @@ def exportar_xlsx():
     produtos = cfg.get("produtos", [])
     cache_key = f"{canal}:{tabela_id or 'atual'}"
 
-    resultado = calcular_ote(itens, ote_row, precos_canal, canal, produtos, cache_key)
+    resultado = calcular_ote(itens, ote_row, precos_canal, canal, produtos, cache_key,
+                             bool(cfg.get("sem_nf_considerar", False)))
     resultado["ote_row"] = ote_row
 
     xlsx_path = gerar_xlsx(resultado, vendedor, nivel, mes, ano)

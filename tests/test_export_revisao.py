@@ -27,7 +27,7 @@ c = app.app.test_client()
 # Item normal (entra) + item intragrupo marcado para exclusão (não entra)
 ITENS = [
     {"desc": "TOMAHAWK", "cod": "", "peso": 1.0, "preco": 250.0, "total": 250.0,
-     "cliente": "RESTAURANTE EXTERNO LTDA"},
+     "nf": "026999", "cliente": "RESTAURANTE EXTERNO LTDA"},
     {"desc": "PICANHA", "cod": "", "peso": 2.0, "preco": 300.0, "total": 600.0,
      "cliente": "BEEF PASSION IND COM. DE ALIMENTOS LTDA EPP",
      "_excluir": True, "_motivo": "intragrupo"},
