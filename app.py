@@ -1661,7 +1661,8 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
 
     ws3.merge_cells(f"A2:{get_column_letter(n3)}2")
     ws3["A2"] = ("Lançamentos visíveis no extrato que NÃO entram no cálculo do variável "
-                 "(fora da competência ou transferência intragrupo). Lista para conferência.")
+                 "(fora da competência, transferência intragrupo ou sem nota fiscal). "
+                 "Lista para conferência.")
     ws3["A2"].font = _font(color="888888", size=9, italic=True)
     ws3["A2"].alignment = Alignment(horizontal="left", vertical="center")
     ws3.row_dimensions[2].height = 16
@@ -1672,6 +1673,7 @@ def gerar_xlsx(resultado: dict, vendedor: dict, nivel: int, mes: int, ano: int) 
     GRUPOS_DESC = [
         ("fora_comp",  "FORA DA COMPETÊNCIA", "EFEFEF"),
         ("intragrupo", "INTRAGRUPO — TRANSFERÊNCIAS INTERNAS", "E8E0F0"),
+        ("sem_nf",     "SEM NOTA FISCAL — FORA DO CONSOLIDADO", "EFE7CE"),
     ]
 
     rr = 4
